@@ -1,0 +1,128 @@
+<template>
+  <section v-if="printRead">
+    {{ getTreeText(defaultValue, officeTreeData) }}
+  </section>
+  <section v-else>
+    <el-tree-select
+      value-key="id"
+      :props="{
+        label: 'name', // 显示名称
+        children: 'children', // 子级字段名
+      }"
+      check-strictly
+      :data="officeTreeData"
+      style="width: 100%"
+      :readonly="readonly"
+      :clearable="clearable"
+      :disabled="disabled"
+      v-model="defaultValue"
+    >
+      <template #default="{ node, data }">
+        <span class="custom-tree-node el-tree-node__label">
+          <span class="label">
+            <span>
+              <i
+                v-if="data.type === '1'"
+                :style="{
+                  color:
+                    $TOOL.data.get('IS_PRIMARY_TENANT') &&
+                    data.tenantDTO &&
+                    $utils.getTenantColorById(data.tenantDTO.id),
+                }"
+                class="iconfont icon-qiye"
+              ></i>
+              <i
+                v-else
+                :style="{
+                  color:
+                    $TOOL.data.get('IS_PRIMARY_TENANT') &&
+                    data.tenantDTO &&
+                    $utils.getTenantColorById(data.tenantDTO.id),
+                }"
+                class="iconfont icon-bumen"
+              ></i>
+              {{ node.label }}
+            </span>
+          </span>
+        </span>
+      </template>
+    </el-tree-select>
+  </section>
+</template>
+
+<script>
+import officeService from '@/api/sys/officeService'
+export default {
+  props: {
+    modelValue: { type: String, default: '' },
+    printRead: {
+      type: Boolean,
+      default: () => {
+        return false
+      },
+    },
+    clearable: {
+      type: Boolean,
+      default: () => {
+        return true
+      },
+    },
+    type: { type: String, default: '2' },
+    readonly: {
+      type: Boolean,
+      default: () => {
+        return false
+      },
+    },
+    disabled: {
+      type: Boolean,
+      default: () => {
+        return false
+      },
+    },
+  },
+  data() {
+    return {
+      defaultValue: '',
+      dialogVisible: false,
+      officeTreeData: [],
+    }
+  },
+  watch: {
+    modelValue(val) {
+      this.defaultValue = val
+    },
+    defaultValue(val) {
+      this.$emit('update:modelValue', val)
+    },
+  },
+  mounted() {
+    officeService.treeData({ type: this.type }).then((data) => {
+      this.officeTreeData = data
+    })
+  },
+  methods: {
+    getTreeText(value, options) {
+      for (let i = 0; i < options.length; i++) {
+        let currentOpt = options[i]
+
+        if (currentOpt.id == value) {
+          return currentOpt.name
+        }
+
+        if (currentOpt.children && currentOpt.children.length > 0) {
+          let res = this.getTreeText(value, currentOpt.children)
+
+          if (res == '-') {
+            continue
+          } else {
+            return res
+          }
+        }
+      }
+
+      return '-'
+    },
+  },
+}
+</script>

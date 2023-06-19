@@ -1,0 +1,28 @@
+@import "_normalize.scss";
+@import "_base.scss";
+@import "variable.scss";
+@import "form.scss";
+@import "editor.scss";
+@import "cover.scss";
+@import "app.scss";
+@import 'fix.scss';
+
+html, body {
+  height: 100%;
+  font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.15;
+
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+*, :after, :before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+li {
+  list-style-type: none;
+}

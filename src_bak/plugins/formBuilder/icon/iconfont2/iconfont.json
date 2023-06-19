@@ -1,0 +1,37 @@
+{
+  "id": "3447606",
+  "name": "test",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "356196",
+      "name": "用户",
+      "font_class": "yonghu",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "6255763",
+      "name": "区域",
+      "font_class": "quyu",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "9809609",
+      "name": "数据字典",
+      "font_class": "shujuzidian",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "10086329",
+      "name": "部门管理 ",
+      "font_class": "bumenguanli",
+      "unicode": "e65b",
+      "unicode_decimal": 58971
+    }
+  ]
+}

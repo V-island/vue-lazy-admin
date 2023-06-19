@@ -1,0 +1,20 @@
+@import "mixins/mixins";
+@import "common/var";
+
+@include b(header) {
+  padding: $--header-padding;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  background-color: $--color-primary;
+
+  display: flex;
+  align-items: center;
+
+  >h2{
+    flex: 1 0 0;
+    padding-left: 12px;
+    font-size: 20px;
+    font-weight: bold;
+    color: $--color-white;
+  }
+}

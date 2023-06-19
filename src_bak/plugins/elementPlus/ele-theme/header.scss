@@ -1,0 +1,25 @@
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(header) {
+  @include set-component-css-var('header', $header);
+
+  padding: getCssVar('header-padding');
+  box-sizing: border-box;
+  flex-shrink: 0;
+  height: getCssVar('header-height');
+  background-color: getCssVar('header-bg-color');
+
+  display: flex;
+  align-items: center;
+
+  >h2{
+    flex: 1 0 0;
+    padding-left: 12px;
+    font-size: 20px;
+    font-weight: bold;
+    color: getCssVar('header-text-color');
+
+  }
+}

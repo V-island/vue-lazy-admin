@@ -29,7 +29,7 @@ import { toLoginPage } from 'utils';
 export default {
   data() {
     return {
-      documentTitle: import.meta.env.VUE_APP_DOCUMENT_TITLE,
+      documentTitle: import.meta.env.VITE_APP_DOCUMENT_TITLE,
     }
   },
   components: {

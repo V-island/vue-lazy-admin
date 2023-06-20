@@ -69,7 +69,7 @@ export function isArrayRepeat(array) {
 
 // 获取文档标题
 export function getDocumentTitle(pageTitle) {
-  const documentTitle = import.meta.env.VUE_APP_DOCUMENT_TITLE;
+  const documentTitle = import.meta.env.VITE_APP_DOCUMENT_TITLE;
   if (pageTitle) {
     return `${pageTitle} - ${documentTitle}`;
   }

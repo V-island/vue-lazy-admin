@@ -1,5 +1,5 @@
 /* =================== API请求配置 ================ */
-export const BASE_API = import.meta.env.NODE_ENV === 'production' ? import.meta.env.VUE_APP_BASE_API : '';
+export const BASE_API = import.meta.env.NODE_ENV === 'production' ? import.meta.env.VITE_APP_BASE_API : '';
 export const API_SERVICE = `${BASE_API}`;
 export const ISC__SERVICE = `${BASE_API}/ocloud/auth/oauth`;
 export const CONFIG_SERVICE = `${BASE_API}/cnpdg`;

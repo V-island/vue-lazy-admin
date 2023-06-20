@@ -32,7 +32,7 @@ class HttpRequest {
             // 截取ID
             const modelId = url.split('/').pop();
             // 转发请求地址
-            config.url = `${import.meta.env.VUE_APP_BASE_API}/cnpdg/zhgyl/saveModel/${modelId}`;
+            config.url = `${import.meta.env.VITE_APP_BASE_API}/cnpdg/zhgyl/saveModel/${modelId}`;
             config.headers['Content-Type'] = 'application/json; charset=utf-8';
           } else {
             const { url, responseType: dataType, method: type } = config;
@@ -42,9 +42,9 @@ class HttpRequest {
               url,
               params: config.params || config.data,
             };
-            const request1 = `${import.meta.env.VUE_APP_BASE_API}/cnpdg/zhgyl/request`;
-            const request2 = `${import.meta.env.VUE_APP_BASE_API}/cnpdg/zhgyl/requestPodOne`;
-            const request3 = `${import.meta.env.VUE_APP_BASE_API}/cnpdg/zhgyl/requestPodTwo`;
+            const request1 = `${import.meta.env.VITE_APP_BASE_API}/cnpdg/zhgyl/request`;
+            const request2 = `${import.meta.env.VITE_APP_BASE_API}/cnpdg/zhgyl/requestPodOne`;
+            const request3 = `${import.meta.env.VITE_APP_BASE_API}/cnpdg/zhgyl/requestPodTwo`;
             const requestList = [request1, request2, request3];
             const index = Math.floor(Math.random() * requestList.length);
             // 转发请求地址
@@ -62,7 +62,7 @@ class HttpRequest {
         if (/^application\/x-www-form-urlencoded/.test(config.headers['content-type'])) {
           config.data = qs.stringify(config.data);
         }
-        if (import.meta.env.VUE_APP_DATA_ENCRYPT === 'true' && config.isEncryption !== false) {
+        if (import.meta.env.VITE_APP_DATA_ENCRYPT === 'true' && config.isEncryption !== false) {
           if (utilFn._isNotEmpty(config.data)) {
             config.data = {
               encryptStr: encrypt(JSON.stringify(config.data), this.key),
@@ -82,7 +82,7 @@ class HttpRequest {
         ) {
           return config;
         } else {
-          config.url = `${import.meta.env.VUE_APP_WEB_SITE}${config.url}`;
+          config.url = `${import.meta.env.VITE_VITE_APP_WEB_SITE}${config.url}`;
           return config;
         }
       },
@@ -98,14 +98,14 @@ class HttpRequest {
         // 获取后端返回的错误码
         const { code } = response.data;
         // 执行自定义的错误处理函数
-        if (code && import.meta.env.VUE_APP_DATA_ENCRYPT !== 'true') {
+        if (code && import.meta.env.VITE_APP_DATA_ENCRYPT !== 'true') {
           const errorHandler = this.errorHandlers[code];
 
           if (code == 500) return Promise.reject(response.data.msg);
           else typeof errorHandler === 'function' && errorHandler();
         }
         // 解密
-        if (import.meta.env.VUE_APP_DATA_ENCRYPT === 'true' && response.config.isEncryption !== false) {
+        if (import.meta.env.VITE_APP_DATA_ENCRYPT === 'true' && response.config.isEncryption !== false) {
           if (typeof response.data.data !== 'string') {
             // return Promise.resolve(response.data);
           } else {

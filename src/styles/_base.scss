@@ -45,56 +45,11 @@
 }
 
 /*
-*px2rem计算
-*/
-$pixelBase: 14; //默认字体
-
-/*
-* 是否转换
- */
-$rem-only: false;
-
-@function parseInt($n) {
-  @return $n / ($n * 0 + 1);
-}
-
-@function p2r($values) {
-
-  $list: ();
-
-  @each $value in $values {
-
-    @if (type-of($value) == "number") and ($value != 0) {
-
-      $unit: unit($value);
-      $val: parseInt($value);
-
-      @if ($rem-only) and ($unit == 'px') {
-        $list: append($list, ($val / $pixelBase) + rem);
-      } @else if ($unit == 'px') or ($unit == 'rem') {
-        $list: append($list, $value);
-      } @else if ($unit == '%') {
-        $list: append($list, $value);
-      } @else {
-        @warn 'There is no unit conversion for "#{$unit}"';
-      }
-
-    } @else {
-      $list: append($list, $value);
-    }
-
-  }
-
-  @return $list ();
-
-}
-
-/*
 * 宽高
  */
 @mixin wh($width, $height) {
-  width: p2r($width);
-  height: p2r($height);
+  width: $width;
+  height: $height;
 }
 
 /*
@@ -134,9 +89,3 @@ $rem-only: false;
   background-repeat: no-repeat;
   background-position: $position;
 }
-
-$z12: p2r(12px);
-$z14: p2r(14px);
-$z16: p2r(16px);
-$z18: p2r(18px);
-$z20: p2r(20px);

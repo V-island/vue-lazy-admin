@@ -43,7 +43,7 @@ export default {
       this.loadData();
     } else {
       const url = window.locationRef.search.substr(1);
-      const href = process.env.VUE_APP_ISC_LOGIN_ADDRESS + process.env.VUE_APP_DEPLOYMENT_ADDRESS;
+      const href = import.meta.env.VUE_APP_ISC_LOGIN_ADDRESS + import.meta.env.VUE_APP_DEPLOYMENT_ADDRESS;
       window.locationRef.href = url ? `${href}?${url}` : href;
     }
   },
@@ -65,7 +65,7 @@ export default {
     // 重新登录
     handleBackLogin() {
       window.locationRef.href =
-        process.env.VUE_APP_ISC_LOGOUT_ADDRESS + process.env.VUE_APP_DEPLOYMENT_ADDRESS;
+        import.meta.env.VUE_APP_ISC_LOGOUT_ADDRESS + import.meta.env.VUE_APP_DEPLOYMENT_ADDRESS;
     },
     // 访问默认第一级权限菜单
     getRouterReplace() {

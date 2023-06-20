@@ -14,7 +14,7 @@ export const ERROR_HANDLERS = {
       closeOnClickModal: false,
     }).then(() => {
       //退出登录
-      const { VUE_APP_ISC_LOGOUT_ADDRESS, VUE_APP_LOGOUT_ADDRESS } = process.env;
+      const { VUE_APP_ISC_LOGOUT_ADDRESS, VUE_APP_LOGOUT_ADDRESS } = import.meta.env;
       toLoginPage(`${VUE_APP_ISC_LOGOUT_ADDRESS}${VUE_APP_LOGOUT_ADDRESS}`);
     });
   },

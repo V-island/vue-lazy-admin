@@ -6,5 +6,4 @@ export async function beforeHook(to, from, next) {
 }
 
 export function afterHook() {
-  console.log("afterHook");
 }

@@ -30,7 +30,7 @@ export default {
     // 登录
     async loadData() {
       this._showPageLoading();
-      const username = process.env.VUE_APP_LOGIN_USERNAME;
+      const username = import.meta.env.VUE_APP_LOGIN_USERNAME;
       // 登录获取用户信息、角色、菜单等数据
       let [error, login] = await this._awaitWrap(
         this.$store.dispatch('user/userLoginByUserName', username),

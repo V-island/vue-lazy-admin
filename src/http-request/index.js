@@ -19,20 +19,20 @@ class HttpRequest {
     this.axios.interceptors.request.use(
       async (config) => {
         // 登录逻辑判断
-        if (process.env.VUE_APP_OPEN_PUBLIC_AGENT === 'true' && config.isUseToken !== false) {
-          if (process.env.NODE_ENV === 'production')
+        if (import.meta.env.VUE_APP_OPEN_PUBLIC_AGENT === 'true' && config.isUseToken !== false) {
+          if (import.meta.env.NODE_ENV === 'production')
             config.headers['Authorization'] = `Bearer ${store.state.user.token}` || '';
           else config.headers['token'] = `${store.state.user.token}` || '';
         }
 
         // 公共请求方法封装
-        if (process.env.VUE_APP_OPEN_PUBLIC_AGENT === 'true' && config.isPublicAgent !== false) {
+        if (import.meta.env.VUE_APP_OPEN_PUBLIC_AGENT === 'true' && config.isPublicAgent !== false) {
           if (config.url.indexOf('/flowable/model/saveModel') > 0 ) {
             const { url } = config;
             // 截取ID
             const modelId = url.split('/').pop();
             // 转发请求地址
-            config.url = `${process.env.VUE_APP_BASE_API}/cnpdg/zhgyl/saveModel/${modelId}`;
+            config.url = `${import.meta.env.VUE_APP_BASE_API}/cnpdg/zhgyl/saveModel/${modelId}`;
             config.headers['Content-Type'] = 'application/json; charset=utf-8';
           } else {
             const { url, responseType: dataType, method: type } = config;
@@ -42,9 +42,9 @@ class HttpRequest {
               url,
               params: config.params || config.data,
             };
-            const request1 = `${process.env.VUE_APP_BASE_API}/cnpdg/zhgyl/request`;
-            const request2 = `${process.env.VUE_APP_BASE_API}/cnpdg/zhgyl/requestPodOne`;
-            const request3 = `${process.env.VUE_APP_BASE_API}/cnpdg/zhgyl/requestPodTwo`;
+            const request1 = `${import.meta.env.VUE_APP_BASE_API}/cnpdg/zhgyl/request`;
+            const request2 = `${import.meta.env.VUE_APP_BASE_API}/cnpdg/zhgyl/requestPodOne`;
+            const request3 = `${import.meta.env.VUE_APP_BASE_API}/cnpdg/zhgyl/requestPodTwo`;
             const requestList = [request1, request2, request3];
             const index = Math.floor(Math.random() * requestList.length);
             // 转发请求地址
@@ -62,7 +62,7 @@ class HttpRequest {
         if (/^application\/x-www-form-urlencoded/.test(config.headers['content-type'])) {
           config.data = qs.stringify(config.data);
         }
-        if (process.env.VUE_APP_DATA_ENCRYPT === 'true' && config.isEncryption !== false) {
+        if (import.meta.env.VUE_APP_DATA_ENCRYPT === 'true' && config.isEncryption !== false) {
           if (utilFn._isNotEmpty(config.data)) {
             config.data = {
               encryptStr: encrypt(JSON.stringify(config.data), this.key),
@@ -78,11 +78,11 @@ class HttpRequest {
           config.url.startsWith('http://') ||
           config.url.startsWith('https://') ||
           config.url.startsWith('www') ||
-          process.env.NODE_ENV !== 'production'
+          import.meta.env.NODE_ENV !== 'production'
         ) {
           return config;
         } else {
-          config.url = `${process.env.VUE_APP_WEB_SITE}${config.url}`;
+          config.url = `${import.meta.env.VUE_APP_WEB_SITE}${config.url}`;
           return config;
         }
       },
@@ -98,14 +98,14 @@ class HttpRequest {
         // 获取后端返回的错误码
         const { code } = response.data;
         // 执行自定义的错误处理函数
-        if (code && process.env.VUE_APP_DATA_ENCRYPT !== 'true') {
+        if (code && import.meta.env.VUE_APP_DATA_ENCRYPT !== 'true') {
           const errorHandler = this.errorHandlers[code];
 
           if (code == 500) return Promise.reject(response.data.msg);
           else typeof errorHandler === 'function' && errorHandler();
         }
         // 解密
-        if (process.env.VUE_APP_DATA_ENCRYPT === 'true' && response.config.isEncryption !== false) {
+        if (import.meta.env.VUE_APP_DATA_ENCRYPT === 'true' && response.config.isEncryption !== false) {
           if (typeof response.data.data !== 'string') {
             // return Promise.resolve(response.data);
           } else {
@@ -119,7 +119,7 @@ class HttpRequest {
 
         // 公共请求方法封装
         if (
-          process.env.VUE_APP_OPEN_PUBLIC_AGENT === 'true' &&
+          import.meta.env.VUE_APP_OPEN_PUBLIC_AGENT === 'true' &&
           response.config.isPublicAgent !== false
         ) {
           const data = response.data.data;

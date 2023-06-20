@@ -12,7 +12,7 @@ export default {
     // 重新登录
     handleBackLogin() {
       window.locationRef.href =
-        process.env.VUE_APP_ISC_LOGOUT_ADDRESS + process.env.VUE_APP_DEPLOYMENT_ADDRESS;
+        import.meta.env.VUE_APP_ISC_LOGOUT_ADDRESS + import.meta.env.VUE_APP_DEPLOYMENT_ADDRESS;
     },
   },
 };

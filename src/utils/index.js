@@ -1,13 +1,13 @@
 import { createApp } from 'vue';
 import xeUtils from 'xe-utils';
-import store from 'store';
+import { pageLoadingStore } from 'store/common';
 import { resetRoutes } from 'router';
 
 /* =================== 基础方法 ================ */
-// 重置store的所有state为初始状态
-export function resetStore() {
-  store.dispatch('resetState');
-}
+// // 重置store的所有state为初始状态
+// export function resetStore() {
+//   store.dispatch('resetState');
+// }
 
 // 重置router，将会清除所有异步路由，只保留常量路由
 export function resetRouter() {
@@ -16,7 +16,7 @@ export function resetRouter() {
 
 // 退出登陆时清除store和router
 export function clearAppState() {
-  resetStore();
+  // resetStore();
   resetRoutes();
 }
 
@@ -69,7 +69,7 @@ export function isArrayRepeat(array) {
 
 // 获取文档标题
 export function getDocumentTitle(pageTitle) {
-  const documentTitle = process.env.VUE_APP_DOCUMENT_TITLE;
+  const documentTitle = import.meta.env.VUE_APP_DOCUMENT_TITLE;
   if (pageTitle) {
     return `${pageTitle} - ${documentTitle}`;
   }
@@ -441,10 +441,10 @@ export function refresh(Url) {
  * @param rotate 文字旋转角度
  * @param color 文字颜色(支持RGBA)
  *
- * 示例：createWatermark('国家电网公司', '.watermark', -20, 'rgba(144,147,153,0.3)');
+ * 示例：createWatermark('XXX公司', '.watermark', -20, 'rgba(144,147,153,0.3)');
  */
 export function createWatermark(text, selectors, rotate, color) {
-  text = text || '国家电网公司';
+  text = text || 'XXX公司';
   selectors = selectors || 'body';
   rotate = rotate || -20;
   color = color || 'rgba(144,147,153,0.3)';
@@ -500,13 +500,16 @@ export const EventBus = createApp();
 
 // 显示全局加载组件
 export function showPageLoading(loadingText = '数据加载中，请稍后...') {
-  store.commit('common/SET_LOADING_TEXT', loadingText);
-  store.commit('common/SET_LOADING_STATUS', true);
+  const store = pageLoadingStore();
+  store.setLoadingTip(loadingText);
+  store.setLoadingStatus(true);
 }
 
 // 隐藏全局加载组件
 export function hidePageLoading() {
-  store.commit('common/SET_LOADING_STATUS', false);
+  const store = pageLoadingStore();
+  store.setLoadingTip(loadingText);
+  store.setLoadingStatus(false);
 }
 
 // 是否具有按钮权限

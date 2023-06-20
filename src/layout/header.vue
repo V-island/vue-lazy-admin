@@ -29,7 +29,7 @@ import { toLoginPage } from 'utils';
 export default {
   data() {
     return {
-      documentTitle: process.env.VUE_APP_DOCUMENT_TITLE,
+      documentTitle: import.meta.env.VUE_APP_DOCUMENT_TITLE,
     }
   },
   components: {
@@ -57,10 +57,10 @@ export default {
         .then(() => {
           //退出登录
           // this.$api.user.getLogout().then(() => {
-          //   const { VUE_APP_ISC_LOGOUT_ADDRESS, VUE_APP_LOGOUT_ADDRESS } = process.env;
+          //   const { VUE_APP_ISC_LOGOUT_ADDRESS, VUE_APP_LOGOUT_ADDRESS } = import.meta.env;
           //   toLoginPage(`${VUE_APP_ISC_LOGOUT_ADDRESS}${VUE_APP_LOGOUT_ADDRESS}`);
           // });
-          const { VUE_APP_ISC_LOGOUT_ADDRESS, VUE_APP_LOGOUT_ADDRESS } = process.env;
+          const { VUE_APP_ISC_LOGOUT_ADDRESS, VUE_APP_LOGOUT_ADDRESS } = import.meta.env;
           toLoginPage(`${VUE_APP_ISC_LOGOUT_ADDRESS}${VUE_APP_LOGOUT_ADDRESS}`);
         })
         // .catch((e) => {

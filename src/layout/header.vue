@@ -7,19 +7,45 @@
       </div>
     </div>
     <div class="main">
-      <a-avatar :size="64">
-        <template #icon><UserOutlined /></template>
-      </a-avatar>
+      <a-dropdown>
+        <span class="ant-dropdown-link" @click.prevent>
+          <a-avatar :size="32">
+            <template #icon><UserOutlined /></template>
+          </a-avatar>
+          {{ user.username }}
+          <DownOutlined />
+        </span>
+        <template #overlay>
+          <a-menu @click="onClickEvent">
+            <a-menu-item key="quit"> 退出 </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
     </div>
   </section>
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { UserOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
+import {
+  UserOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  DownOutlined,
+} from '@ant-design/icons-vue';
+import { useRouter } from 'vue-router';
 import { commonStore } from 'store/common';
+import { userStore } from 'store/auth';
 
+const router = useRouter();
 const common = commonStore();
+const user = userStore();
+
+const onClickEvent = ({ key }) => {
+  if (key == 'quit')
+    router.push({
+      name: 'login',
+    });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -29,6 +55,7 @@ const common = commonStore();
 
   .main {
     @include flexbox();
+    padding: 0 24px;
   }
 }
 .trigger {

@@ -35,6 +35,11 @@ export const userStore = defineStore('user', {
       userInfo: {},
     }
   },
+  getters: {
+    username(state) {
+      return state.userInfo.realName
+    },
+  },
   actions: {
     setUserInfo(user) {
       this.userInfo = user || UserInfo;

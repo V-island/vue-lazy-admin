@@ -6,7 +6,7 @@ const routes = [
   {
     path: '/',
     redirect: {
-      name: 'layout',
+      name: 'login',
     },
   },
   {

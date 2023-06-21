@@ -76,7 +76,7 @@ export default defineConfig({
   // 开发服务,build后的生产模式还需nginx代理
   server: {
     host: 'localhost', // 指定服务器主机名
-    port: 8000, // 指定服务器端口
+    port: 8080, // 指定服务器端口
     open: false, // 在服务器启动时自动打开默认浏览器
     https: false, // 是否开启HTTPS
     // proxy: {

@@ -1,5 +1,19 @@
 import { defineStore } from 'pinia'
 
+// 通用配置
+export const commonStore  = defineStore('common', {
+  state: () => {
+    return {
+      collapsed: false,
+    }
+  },
+  actions: {
+    onCollapsed() {
+      this.collapsed = !this.collapsed;
+    },
+  },
+});
+
 // 全局加载
 export const pageLoadingStore  = defineStore('pageLoading', {
   state: () => {
@@ -16,4 +30,4 @@ export const pageLoadingStore  = defineStore('pageLoading', {
       this.tip = tip;
     },
   },
-})
+});

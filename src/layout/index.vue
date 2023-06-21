@@ -1,15 +1,19 @@
 <template>
   <a-spin :spinning="pageLoading.spinning" :tip="pageLoading.tip">
     <a-layout class="layout">
-      <a-layout-sider class="layout-sider">
-        <div class="logo" />
+      <a-layout-sider
+        class="layout-sider"
+        v-model:collapsed="common.collapsed"
+        :trigger="null"
+        collapsible
+      >
+        <div class="logo">logo</div>
         <!-- <MainSider /> -->
       </a-layout-sider>
 
       <a-layout>
         <a-layout-header class="layout-header">
-          123
-          <!-- <MainHead /> -->
+          <MainHead />
         </a-layout-header>
 
         <a-layout-content class="layout-main">
@@ -22,9 +26,11 @@
 
 <script setup>
 import { computed } from 'vue';
-import { pageLoadingStore } from 'store/common';
+import { commonStore, pageLoadingStore } from 'store/common';
+import MainHead from './header.vue';
 
-const pageLoading = computed(() => pageLoadingStore());
+const common = commonStore();
+const pageLoading = pageLoadingStore();
 </script>
 
 <style lang="scss" scoped>
@@ -36,6 +42,7 @@ const pageLoading = computed(() => pageLoadingStore());
 }
 .layout-header {
   background: #fff;
+  padding: 0;
 }
 .layout-main {
   position: relative;
@@ -46,6 +53,13 @@ const pageLoading = computed(() => pageLoadingStore());
     background-color: $--color-white;
     padding: 15px 20px;
   }
+}
+.logo {
+  @include flexbox();
+  height: 64px;
+  background-color: #fefefe;
+  text-align: center;
+  font-size: 16px;
 }
 .watermark {
   position: absolute;

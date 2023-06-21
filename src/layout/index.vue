@@ -1,5 +1,4 @@
 <template>
-  <a-spin :spinning="pageLoading.spinning" :tip="pageLoading.tip">
     <a-layout class="layout">
       <a-layout-sider
         class="layout-sider"
@@ -21,16 +20,13 @@
         </a-layout-content>
       </a-layout>
     </a-layout>
-  </a-spin>
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { commonStore, pageLoadingStore } from 'store/common';
+import { commonStore } from 'store/common';
 import MainHead from './header.vue';
 
 const common = commonStore();
-const pageLoading = pageLoadingStore();
 </script>
 
 <style lang="scss" scoped>

@@ -77,14 +77,6 @@ export function getDocumentTitle(pageTitle) {
 }
 
 /**
- * 获取系统主题颜色
- * @param opacity 透明度 0~1
- */
-export function getThemeColor(opacity = 1) {
-  return hexToRGBA('#1BBDAB', opacity);
-}
-
-/**
  * 十六进制颜色值转为带透明度的颜色
  * @param _color 十六进制颜色
  * @param _opacity 透明度
@@ -121,30 +113,6 @@ export function getUUID(prefixStr = '') {
 // 生成随机数
 export function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-// 截取地址传参ticket
-export function getTicketByLocation() {
-  let url = location.search;
-  let theRequest = {};
-  if (url.indexOf('?') !== -1) {
-    let str = url.substr(1);
-    let strs = str.split('&');
-    for (let i = 0; i < strs.length; i++) {
-      theRequest[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1]);
-    }
-  }
-  return theRequest;
-}
-
-// 截取地址@拼接传参
-export function getParamByLocation() {
-  const search = location.search.substr(1).split('&')[0].split('@');
-  let theRequest = {};
-  for (let i = 0; i < search.length; i++) {
-    theRequest[search[i].split('=')[0]] = unescape(search[i].split('=')[1]);
-  }
-  return theRequest;
 }
 
 /**
@@ -508,83 +476,12 @@ export function showPageLoading(loadingText = '数据加载中，请稍后...') 
 // 隐藏全局加载组件
 export function hidePageLoading() {
   const store = pageLoadingStore();
-  store.setLoadingTip(loadingText);
   store.setLoadingStatus(false);
 }
 
 // 是否具有按钮权限
 export function hasPermission(permissionFlag) {
   return utilFn._get(store, 'state.user.permissions', []).includes(permissionFlag);
-}
-
-/**
- * 表单对象赋值:
- * 对目标对象存在且源对象同样存在的属性，全部覆盖；
- * 目标对象不存在但是源对象存在的属性， 全部丢弃；
- * 目标对象存在但是源对象不存在的属性，如果是字符串赋值为空串，其余类型赋值为undefined
- */
-export function recover(target, source) {
-  if (target === undefined || target === null) {
-    throw new TypeError('Cannot convert first argument to object');
-  }
-  var to = Object(target);
-  if (source === undefined || source === null) {
-    return to;
-  }
-  var keysArray = Object.keys(Object(target));
-  for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
-    var nextKey = keysArray[nextIndex];
-    var desc = Object.getOwnPropertyDescriptor(target, nextKey);
-    if (desc !== undefined && desc.enumerable) {
-      if (Object.prototype.hasOwnProperty.call(to, nextKey)) {
-        if (to[nextKey] instanceof Array) {
-          to[nextKey] = source[nextKey];
-        } else if (to[nextKey] instanceof Object) {
-          recover(to[nextKey], source[nextKey]);
-        } else if (source[nextKey] !== undefined) {
-          to[nextKey] = source[nextKey];
-        } else if (typeof to[nextKey] === 'string') {
-          to[nextKey] = '';
-        } else {
-          to[nextKey] = undefined;
-        }
-      }
-    }
-  }
-  return to;
-}
-
-/**
- * 表单对象赋值:
- * 对目标对象存在且源对象同样存在的属性，全部覆盖；
- * 目标对象不存在但是源对象存在的属性， 全部丢弃；
- * 目标对象存在但是源对象不存在的属性，保留目标对象的属性不做处理
- */
-export function recoverNotNull(target, source) {
-  if (target === undefined || target === null) {
-    throw new TypeError('Cannot convert first argument to object');
-  }
-  var to = Object(target);
-  if (source === undefined || source === null) {
-    return to;
-  }
-  var keysArray = Object.keys(Object(target));
-  for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
-    var nextKey = keysArray[nextIndex];
-    var desc = Object.getOwnPropertyDescriptor(target, nextKey);
-    if (desc !== undefined && desc.enumerable) {
-      if (Object.prototype.hasOwnProperty.call(to, nextKey)) {
-        if (to[nextKey] instanceof Array) {
-          to[nextKey] = source[nextKey];
-        } else if (to[nextKey] instanceof Object) {
-          recover(to[nextKey], source[nextKey]);
-        } else if (source[nextKey] !== undefined) {
-          to[nextKey] = source[nextKey];
-        }
-      }
-    }
-  }
-  return to;
 }
 
 // 工具方法
@@ -618,7 +515,6 @@ export const utilFn = {
   _isEmpty: isEmpty,
   _isNotEmpty: isNotEmpty,
   _isArrayRepeat: isArrayRepeat,
-  _getThemeColor: getThemeColor,
   _showPageLoading: showPageLoading,
   _hidePageLoading: hidePageLoading,
   _hasPermission: hasPermission,

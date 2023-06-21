@@ -1,12 +1,7 @@
-import config from '@/config'
-import http from '@/utils/httpRequest'
+import { API_SERVICE } from 'config'
+import http from 'http-request'
 
-export default {
-  token: {
-    url: `${config.API_URL}/token`,
-    name: '登录获取TOKEN',
-    post: async function (data = {}) {
-      return await http.post(this.url, data)
-    },
-  },
+// 登录获取TOKEN
+export function loginByEmailToToken(params) {
+  return http.post(`${API_SERVICE}/auth/login`, params)
 }

@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import Components from 'unplugin-vue-components/vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
+import { viteMockServe } from "vite-plugin-mock";
 import {
   createStyleImportPlugin,
   AndDesignVueResolve,
@@ -12,6 +13,9 @@ import {
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
+
+const localEnabled = process.env.USE_MOCK || false;
+const prodEnabled = process.env.USE_CHUNK_MOCK || false;
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -35,6 +39,7 @@ export default defineConfig({
       i18n: resolve('src/i18n'),
       layout: resolve('src/layout'),
       mixins: resolve('src/mixins'),
+      mock: resolve('src/mock'),
       router: resolve('src/router'),
       store: resolve('src/store'),
       styles: resolve('src/styles'),
@@ -49,6 +54,9 @@ export default defineConfig({
       scss: {
         additionalData: `@import "styles/index.scss";`,
       },
+      less: {
+        javascriptEnabled: true
+      }
     },
   },
   plugins: [
@@ -72,6 +80,19 @@ export default defineConfig({
         },
       ],
     }),
+    viteMockServe({
+      mockPath: './src/mock/server', // mock文件地址
+      localEnabled: localEnabled, // 开发打包开关
+      prodEnabled: prodEnabled, // 生产打包开关
+      // 这样可以控制关闭mock的时候不让mock打包到最终代码内
+      injectCode: `
+        import { setupProdMockServer } from './src/mock/mockProdServer';
+        setupProdMockServer();
+      `,
+      logger: false, //是否在控制台显示请求日志
+      watchFiles: true, // 监视⽂件更改，并重新加载 mock 数据
+      supportTs: false, // 打开后，可以读取 ts ⽂件模块。请注意，打开后将⽆法监视.js ⽂件。
+    })
   ],
   // 开发服务,build后的生产模式还需nginx代理
   server: {

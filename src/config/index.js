@@ -1,17 +1,6 @@
 /* =================== API请求配置 ================ */
-export const BASE_API = import.meta.env.NODE_ENV === 'production' ? import.meta.env.VITE_APP_BASE_API : '';
+export const BASE_API = import.meta.env.VITE_APP_BASE_API;
 export const API_SERVICE = `${BASE_API}`;
-export const ISC__SERVICE = `${BASE_API}/ocloud/auth/oauth`;
-export const CONFIG_SERVICE = `${BASE_API}/cnpdg`;
-export const SYS_PATH = `${BASE_API}/system-server`;
-export const AUTH_PATH = `${BASE_API}/auth-server`;
-export const DEVTOOLS_PATH = `${BASE_API}/devtools-server`;
-export const FLOW_PATH = `${BASE_API}/flowable-server`;
-export const ELASTICSEARCH_PATH = `${BASE_API}/elasticsearch-server/elasticsearch`;
-export const FILE_PATH = `${BASE_API}/file-server`;
-export const UREPORT_PATH = `${BASE_API}/ureport-server`;
-export const WPS_PATH = `${BASE_API}/wps-server`;
-export const TEST_PATH = `${BASE_API}/test-server`;
 
 /* =================== localStorage key ================ */
 export const TOKEN = 'token';

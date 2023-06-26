@@ -18,31 +18,31 @@ export const ERROR_HANDLERS = {
     });
   },
   403: () => {
-    message.error({ message: `未授权，拒绝访问`, duration: 5000 });
+    message.error(`未授权，拒绝访问`);
   },
   404: () => {
-    message.error({ message: `请求地址出错`, duration: 5000 });
+    message.error(`请求地址出错`);
   },
   408: () => {
-    message.error({ message: `请求超时`, duration: 5000 });
+    message.error(`请求超时`);
   },
   500: () => {
-    message.error({ message: `服务器内部错误`, duration: 5000 });
+    message.error(`服务器内部错误`);
   },
   501: () => {
-    message.error({ message: `服务未实现`, duration: 5000 });
+    message.error(`服务未实现`);
   },
   502: () => {
-    message.error({ message: `网关错误`, duration: 5000 });
+    message.error(`网关错误`);
   },
   503: () => {
-    message.error({ message: `服务不可用`, duration: 5000 });
+    message.error(`服务不可用`);
   },
   504: () => {
-    message.error({ message: `网关超时`, duration: 5000 });
+    message.error(`网关超时`);
   },
   505: () => {
-    message.error({ message: `HTTP版本不受支持`, duration: 5000 });
+    message.error(`HTTP版本不受支持`);
   },
 };
 

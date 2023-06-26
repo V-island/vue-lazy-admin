@@ -73,7 +73,7 @@ const onFinish = async (values) => {
   const [err, res] = await awaitWrap(loginByEmailToToken(values));
   utilFn._hidePageLoading();
 
-  if(err) return message.error('登录失败');
+  if(err) return false;
 
   // 写入Token
   auth.setToken(res.token);

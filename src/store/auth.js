@@ -8,13 +8,20 @@ export const authStore = defineStore('auth', {
     }
   },
   actions: {
-    setToken(token) {
-      this.token = token;
+    async loginByEmailToToken(token) {
+      try {
+        this.userData = await api.post({ login, password })
+        showTooltip(`Welcome back ${this.userData.name}!`)
+      } catch (error) {
+        showTooltip(error)
+        // 让表单组件显示错误
+        return error
+      }
     },
   },
 });
 
-// 用户信息
+// 菜单信息
 export const menuStore = defineStore('menu', {
   state: () => {
     return {

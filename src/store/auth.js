@@ -8,6 +8,9 @@ export const authStore = defineStore('auth', {
     }
   },
   actions: {
+    setToken(token) {
+      this.token = token;
+    },
     async loginByEmailToToken(token) {
       try {
         this.userData = await api.post({ login, password })

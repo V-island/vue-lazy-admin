@@ -1,7 +1,7 @@
 export default [
   {
     name: '登录获取TOKEN',
-    url: "/api/auth/login",
+    url: "/auth/login",
     method: "post",
     response: () => {
       return {
@@ -14,7 +14,7 @@ export default [
     }
   }, {
     name: '获取角色列表',
-    url: "/api/auth/getRoleList",
+    url: "/auth/getRoleList",
     method: "post",
     response: () => {
       return {
@@ -30,7 +30,7 @@ export default [
     }
   }, {
     name: '获取用户信息',
-    url: "/api/auth/getUserInfo",
+    url: "/auth/getUserInfo",
     method: "post",
     response: () => {
       return {
@@ -46,7 +46,7 @@ export default [
     }
   }, {
     name: '获取当前角色菜单列表',
-    url: "/api/auth/getMenuList",
+    url: "/auth/getMenuList",
     method: "post",
     response: () => {
       return {
@@ -63,7 +63,7 @@ export default [
     }
   }, {
     name: '获取当前角色权限代码列表',
-    url: "/api/auth/getPermissionList",
+    url: "/auth/getPermissionList",
     method: "post",
     response: () => {
       return {

@@ -1,0 +1,7 @@
+{
+  "/auth/login?*": "/user?$1",
+  "/auth/getRoleList?*": "/roles?$1",
+  "/auth/getUserInfo?id=:id": "/user/:id",
+  "/auth/getMenuList?*": "/menus?$1",
+  "/auth/getPermissionList?*": "/permissions?$1"
+}

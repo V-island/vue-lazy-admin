@@ -53,13 +53,10 @@ import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { utilFn, awaitWrap } from 'utils';
 import { message } from 'ant-design-vue';
-import { loginByEmailToToken } from 'api/auth';
-import { authStore, menuStore, userStore } from 'store/auth';
+import { useAuthStore } from 'store/auth';
 
 const router = useRouter();
-const auth = authStore();
-const menu = menuStore();
-const user = userStore();
+const auth = useAuthStore();
 const formState = reactive({
   username: '',
   password: '',
@@ -70,20 +67,13 @@ const formState = reactive({
 // 登录事件
 const onFinish = async (values) => {
   utilFn._showPageLoading();
-  const [err, res] = await awaitWrap(loginByEmailToToken(values));
+  // 登录获取用户信息、角色、菜单等数据
+  const [err, data] = await awaitWrap(auth.loginByEmailToToken(values));
   utilFn._hidePageLoading();
 
-  if(err) return false;
+  if (err || !data.result) return message.error(err || data.message);
 
-  // 写入Token
-  auth.setToken(res.token);
-  // 写入菜单数据
-  menu.setMenuList(res.menuList);
-  // 写入用户信息
-  user.setUserInfo(res.userInfo);
-
-  message.success('登录成功');
-
+  message.success(data.message);
   router.push({
     name: 'home',
   });

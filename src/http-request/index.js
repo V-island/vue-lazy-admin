@@ -1,14 +1,14 @@
 import axios from 'axios';
 import qs from 'qs';
 import { merge } from 'xe-utils';
-import { authStore } from 'store/auth';
+import { useAuthStore } from 'store/auth';
 import { ERROR_HANDLERS, AXIOS_CONFIG } from './configs';
 
 class HttpRequest {
   constructor(errorHandlers, axiosConfig = {}) {
     this.errorHandlers = errorHandlers;
     this.axios = axios.create(axiosConfig);
-    this.auth = authStore();
+    this.auth = useAuthStore();
     this.interceptors();
   }
 

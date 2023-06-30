@@ -81,12 +81,12 @@ export default defineConfig({
       ],
     }),
     viteMockServe({
-      mockPath: './src/mock/server', // mock文件地址
+      mockPath: './src/server/mock', // mock文件地址
       localEnabled: localEnabled, // 开发打包开关
       prodEnabled: prodEnabled, // 生产打包开关
       // 这样可以控制关闭mock的时候不让mock打包到最终代码内
       injectCode: `
-        import { setupProdMockServer } from './src/mock/mockProdServer';
+        import { setupProdMockServer } from './src/server/mockProdServer';
         setupProdMockServer();
       `,
       logger: false, //是否在控制台显示请求日志
@@ -100,13 +100,13 @@ export default defineConfig({
     port: 8080, // 指定服务器端口
     open: false, // 在服务器启动时自动打开默认浏览器
     https: false, // 是否开启HTTPS
-    // proxy: {
-    //   '/api': {
-    //     target: 'http://127.0.0.1:3000', // 目标代理服务器地址
-    //     changeOrigin: true, // 允许跨域
-    //     rewrite: (path) => path.replace(/^\/api/, '')
-    //   }
-    // }
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:3000', // 目标代理服务器地址
+        changeOrigin: true, // 允许跨域
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
 
   },
 });

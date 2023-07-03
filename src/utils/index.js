@@ -4,11 +4,6 @@ import { pageLoadingStore } from 'store/common';
 import { resetRoutes } from 'router';
 
 /* =================== 基础方法 ================ */
-// // 重置store的所有state为初始状态
-// export function resetStore() {
-//   store.dispatch('resetState');
-// }
-
 // 重置router，将会清除所有异步路由，只保留常量路由
 export function resetRouter() {
   resetRoutes();
@@ -16,7 +11,6 @@ export function resetRouter() {
 
 // 退出登陆时清除store和router
 export function clearAppState() {
-  // resetStore();
   resetRoutes();
 }
 

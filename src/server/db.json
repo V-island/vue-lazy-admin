@@ -23,6 +23,26 @@
       "url": "/home",
       "name": "首页",
       "customIcon": "/home.png"
+    },
+    {
+      "id": 2,
+      "url": "/base",
+      "name": "基础模板",
+      "customIcon": "/home.png",
+      "children": [
+        {
+          "id": 3,
+          "url": "/from",
+          "name": "表单",
+          "customIcon": "/home.png"
+        },
+        {
+          "id": 4,
+          "url": "/table",
+          "name": "表格",
+          "customIcon": "/home.png"
+        }
+      ]
     }
   ],
   "permissions": []

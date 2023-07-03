@@ -1,6 +1,5 @@
 import { Modal, message } from 'ant-design-vue';
-import { clearAppState } from 'utils';
-import { useRouter } from 'vue-router';
+import { clearAppState, toLoginPage } from 'utils';
 
 export const ERROR_HANDLERS = {
   // 异常处理：支持 400/401/403/404/405/413/414/500/502/504或其它任意错误码
@@ -10,10 +9,7 @@ export const ERROR_HANDLERS = {
       title: '提示',
       content: '长时间未操作，需要重新登录。',
       onOk: () => {
-        const router = useRouter();
-        router.push({
-          name: 'login',
-        });
+        toLoginPage('#/login')
       }
     });
   },

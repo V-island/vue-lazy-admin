@@ -7,7 +7,7 @@
         collapsible
       >
         <div class="logo">logo</div>
-        <!-- <MainSider /> -->
+        <MainSider />
       </a-layout-sider>
 
       <a-layout>
@@ -25,6 +25,7 @@
 <script setup>
 import { commonStore } from 'store/common';
 import MainHead from './header.vue';
+import MainSider from './sider.vue';
 
 const common = commonStore();
 </script>

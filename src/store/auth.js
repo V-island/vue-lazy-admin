@@ -1,5 +1,7 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+import { KEY_TOKEN } from 'config';
 import { utilFn, getResult, awaitWrap } from 'utils';
+import { storage } from 'utils/browserStorage';
 import { loginByEmailToToken, getRoleList, getUserInfo, getMenuList, getPermissionList } from 'api/auth';
 
 // 登录信息
@@ -22,12 +24,14 @@ export const useAuthStore = defineStore('auth', {
         // 登录
         const res = await loginByEmailToToken(params);
 
-        if(res.length == 0) return Promise.resolve(getResult(false, res.message || '请确认账号或密码是否填写正确！'));
+        if(res.code !== 200) return Promise.resolve(getResult(false, res.message || '请确认账号或密码是否填写正确！'));
 
         // 写入数据
-        const result = utilFn._get(res, '[0]', {});
+        const result = utilFn._get(res, 'data[0]', {});
         this.token = result.token;
         this.userInfo = result;
+
+        storage.set(KEY_TOKEN, this.token);
 
         // 获取菜单
         const menu = menuStore();
@@ -64,15 +68,21 @@ export const menuStore = defineStore('menu', {
       menuList: [],
     }
   },
+  getters: {
+    menuAllList(state) {
+      console.log(state.menuList);
+      return state.menuList || []
+    },
+  },
   actions: {
     async getMenuListToToken(params) {
       try {
         const result = await getMenuList(params);
 
-        if(result.length == 0) return Promise.resolve(getResult(false, result.message || '当前用户无访问权限！'));
+        if(result.code !== 200) return Promise.resolve(getResult(false, result.message || '当前用户无访问权限！'));
 
         // 写入数据
-        this.menuList = result;
+        this.menuList = utilFn._get(result, 'data', []);
 
         return Promise.resolve(getResult(true, '获取菜单列表信息成功！'));
       } catch (error) {

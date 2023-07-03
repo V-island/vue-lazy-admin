@@ -1,6 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
-import { merge } from 'xe-utils';
+import { merge, isEmpty } from 'xe-utils';
 import { useAuthStore } from 'store/auth';
 import { ERROR_HANDLERS, AXIOS_CONFIG } from './configs';
 
@@ -8,7 +8,6 @@ class HttpRequest {
   constructor(errorHandlers, axiosConfig = {}) {
     this.errorHandlers = errorHandlers;
     this.axios = axios.create(axiosConfig);
-    this.auth = useAuthStore();
     this.interceptors();
   }
 
@@ -16,9 +15,10 @@ class HttpRequest {
     // 请求拦截器
     this.axios.interceptors.request.use(
       async (config) => {
+        const useAuth = useAuthStore();
         // 登录逻辑判断
         if (import.meta.env.NODE_ENV === 'production' && config.isUseToken !== false)
-          config.headers['Authorization'] = `Bearer ${this.auth.token}` || '';
+          config.headers['Authorization'] = `Bearer ${useAuth.token}` || '';
 
         // 加上请求前缀
         if (
@@ -42,15 +42,16 @@ class HttpRequest {
     this.axios.interceptors.response.use(
       // 请求成功
       (response) => {
+        const result = import.meta.env.VITE_APP_SIMULATION_LOGIN != 'true' ? response.data : this.formatJsonServer(response.data);
         // 获取后端返回的错误码
-        const { code } = response.data;
+        const { code } = result;
         // 执行自定义的错误处理函数
         const errorHandler = this.errorHandlers[code];
 
-        if (code == 500) return Promise.reject(response.data.msg);
+        if (code == 500) return Promise.reject(result.message);
         else typeof errorHandler === 'function' && errorHandler();
 
-        return Promise.resolve(response.data);
+        return Promise.resolve(result);
       },
       // 错误处理
       (error) => {
@@ -65,6 +66,21 @@ class HttpRequest {
         return Promise.reject(error);
       },
     );
+  }
+
+  // 格式化json-server返回值
+  formatJsonServer(data) {
+    const response = {
+      data,
+      code: 200,
+      message: '请求成功'
+    }
+    if (isEmpty(data)) {
+      response.code = 405;
+      response.message = null;
+    }
+
+    return response;
   }
 
   /**

@@ -12,7 +12,7 @@
           <a-avatar :size="32">
             <template #icon><UserOutlined /></template>
           </a-avatar>
-          {{ user.username }}
+          {{ useAuth.username }}
           <DownOutlined />
         </span>
         <template #overlay>
@@ -32,19 +32,18 @@ import {
   MenuFoldOutlined,
   DownOutlined,
 } from '@ant-design/icons-vue';
-import { useRouter } from 'vue-router';
 import { commonStore } from 'store/common';
-import { userStore } from 'store/auth';
+import { useAuthStore } from 'store/auth';
+import { clearAppState, toLoginPage } from 'utils';
 
-const router = useRouter();
 const common = commonStore();
-const user = userStore();
+const useAuth = useAuthStore();
 
 const onClickEvent = ({ key }) => {
-  if (key == 'quit')
-    router.push({
-      name: 'login',
-    });
+  if (key == 'quit') {
+    clearAppState();
+    toLoginPage('#/login');
+  }
 };
 </script>
 

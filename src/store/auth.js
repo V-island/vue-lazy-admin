@@ -53,7 +53,7 @@ export const useAuthStore = defineStore('auth', {
         if (!result) return Promise.resolve(getResult(false, result.message || '未找到当前用户信息！'));
 
         // 写入数据
-        this.userInfo = result;
+        this.userInfo = result.data;
 
         return Promise.resolve(getResult(true, '获取用户信息成功！'));
       } catch (error) {

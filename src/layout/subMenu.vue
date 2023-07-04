@@ -1,6 +1,6 @@
 <template>
   <section>
-    <a-sub-menu v-if="!menu.hidden" :key="`${menu.name}`">
+    <a-sub-menu v-if="!menu.hidden" :key="`${menu.url}`">
       <template #title>
         {{ menu.name }}
       </template>
@@ -8,7 +8,7 @@
         <template v-if="item.children && item.children.length > 0 && item.name">
           <MainSubMenu :menu="item" />
         </template>
-        <a-menu-item v-else :key="`${item.name}`">
+        <a-menu-item v-else :key="`${item.url}`">
           <span>{{ item.name }}</span>
         </a-menu-item>
       </template>

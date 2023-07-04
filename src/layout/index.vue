@@ -1,33 +1,54 @@
 <template>
-    <a-layout class="layout">
-      <a-layout-sider
-        class="layout-sider"
-        v-model:collapsed="common.collapsed"
-        :trigger="null"
-        collapsible
-      >
-        <div class="logo">logo</div>
-        <MainSider />
-      </a-layout-sider>
+  <a-layout class="layout">
+    <a-layout-sider
+      class="layout-sider"
+      v-model:collapsed="common.collapsed"
+      :trigger="null"
+      collapsible
+    >
+      <div class="logo">logo</div>
+      <MainSider />
+    </a-layout-sider>
 
-      <a-layout>
-        <a-layout-header class="layout-header">
-          <MainHead />
-        </a-layout-header>
+    <a-layout>
+      <a-layout-header class="layout-header">
+        <MainHead />
+      </a-layout-header>
 
-        <a-layout-content class="layout-main">
-          <router-view></router-view>
-        </a-layout-content>
-      </a-layout>
+      <a-layout-content class="layout-main">
+        <router-view></router-view>
+      </a-layout-content>
     </a-layout>
+  </a-layout>
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { utilFn, awaitWrap } from 'utils';
+import { message } from 'ant-design-vue';
 import { commonStore } from 'store/common';
 import MainHead from './header.vue';
 import MainSider from './sider.vue';
 
+const router = useRouter();
 const common = commonStore();
+
+/** =========== 初始化 ============ */
+const initLoadData = async () => {
+  utilFn._showPageLoading();
+  // 登录获取用户信息、角色、菜单等数据
+  let [err, data] = await awaitWrap(common.initUserInfoAndMenu());
+
+  if (err || !data.result) {
+    message.error('该用户没有权限');
+    router.replace({ path: '/403' });
+  }
+  utilFn._hidePageLoading();
+};
+onMounted(() => {
+  initLoadData();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -45,11 +66,7 @@ const common = commonStore();
   position: relative;
   overflow: auto;
   height: calc(100vh - 60px);
-
-  .pages {
-    background-color: $--color-white;
-    padding: 15px 20px;
-  }
+  padding: 15px 20px;
 }
 .logo {
   @include flexbox();

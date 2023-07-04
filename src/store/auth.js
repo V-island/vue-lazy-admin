@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { KEY_TOKEN } from 'config';
+import { KEY_TOKEN, KEY_USER_INFO } from 'config';
 import { utilFn, getResult, awaitWrap } from 'utils';
 import { storage } from 'utils/browserStorage';
 import { loginByEmailToToken, getRoleList, getUserInfo, getMenuList, getPermissionList } from 'api/auth';
@@ -24,7 +24,7 @@ export const useAuthStore = defineStore('auth', {
         // 登录
         const res = await loginByEmailToToken(params);
 
-        if(res.code !== 200) return Promise.resolve(getResult(false, res.message || '请确认账号或密码是否填写正确！'));
+        if (res.code !== 200) return Promise.resolve(getResult(false, res.message || '请确认账号或密码是否填写正确！'));
 
         // 写入数据
         const result = utilFn._get(res, 'data[0]', {});
@@ -32,6 +32,7 @@ export const useAuthStore = defineStore('auth', {
         this.userInfo = result;
 
         storage.set(KEY_TOKEN, this.token);
+        storage.set(KEY_USER_INFO, this.userInfo);
 
         // 获取菜单
         const menu = menuStore();
@@ -44,11 +45,12 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     // 获取用户信息
-    async getUserInfoToToken(params) {
+    async getUserInfoToToken() {
       try {
-        const res = await getUserInfo(params);
+        const { id } = storage.get(KEY_USER_INFO);
+        const result = await getUserInfo({ id });
 
-        if(!res) return Promise.resolve(getResult(false, res.message || '未找到当前用户信息！'));
+        if (!result) return Promise.resolve(getResult(false, result.message || '未找到当前用户信息！'));
 
         // 写入数据
         this.userInfo = result;
@@ -66,11 +68,12 @@ export const menuStore = defineStore('menu', {
   state: () => {
     return {
       menuList: [],
+      openKeys: [],
+      selectedKeys: [],
     }
   },
   getters: {
     menuAllList(state) {
-      console.log(state.menuList);
       return state.menuList || []
     },
   },
@@ -79,7 +82,7 @@ export const menuStore = defineStore('menu', {
       try {
         const result = await getMenuList(params);
 
-        if(result.code !== 200) return Promise.resolve(getResult(false, result.message || '当前用户无访问权限！'));
+        if (result.code !== 200) return Promise.resolve(getResult(false, result.message || '当前用户无访问权限！'));
 
         // 写入数据
         this.menuList = utilFn._get(result, 'data', []);

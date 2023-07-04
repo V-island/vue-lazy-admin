@@ -1,19 +1,20 @@
 <template>
-  <VcResult status="404" title="404" sub-title="未找到访问页面">
-    <template v-slot:extra>
-      <el-button @click="handleBackLogin">重新登录</el-button>
+  <a-result status="404" title="404" sub-title="抱歉,未找到访问页面">
+    <template #extra>
+      <a-button type="primary" @click="handleBackLogin">重新登录</a-button>
     </template>
-  </VcResult>
+  </a-result>
 </template>
 
-<script>
-export default {
-  methods: {
-    // 重新登录
-    handleBackLogin() {
-      window.locationRef.href =
-        import.meta.env.VUE_APP_ISC_LOGOUT_ADDRESS + import.meta.env.VUE_APP_DEPLOYMENT_ADDRESS;
-    },
-  },
+<script setup>
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
+// 重新登录
+const handleBackLogin = () => {
+  router.replace({ path: '/login' });
 };
 </script>
+
+<style lang="scss" scoped></style>
+

@@ -6,7 +6,7 @@ export async function beforeHook(to, from, next) {
   document.title = getDocumentTitle(to.meta.title);
 
   // 访问白名单页面时
-  if (ACCESS_WHITE_LIST.includes(to.path))
+  if (ACCESS_WHITE_LIST.includes(to.name))
     return next();
 
   const token = storage.get(KEY_TOKEN);

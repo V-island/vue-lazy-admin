@@ -31,6 +31,14 @@ const routes = [
         },
         component: () => import('views/common/Home.vue'),
       },
+      {
+        path: '/home',
+        name: 'home',
+        meta: {
+          title: '首页',
+        },
+        component: () => import('views/common/Home.vue'),
+      },
       // 支持直接传递第三方url，打开iframe, router.push('/iframe??iframeUrl=http://localhost:8088/ureport/designer?_u=file:22.ureport.xml&title=编辑报表')
       {
         path: 'iframe',
@@ -38,6 +46,39 @@ const routes = [
         meta: { target: 'iframe' },
       },
     ],
+  },
+  {
+    path: '/base',
+    name: 'base',
+    component: () => import('layout/index.vue'),
+    redirect: { name: 'from' },
+    children: [
+      {
+        path: '/from',
+        name: 'from',
+        meta: {
+          title: 'from',
+        },
+        component: () => import('views/modules/from/index.vue'),
+      },
+      {
+        path: '/table',
+        name: 'table',
+        meta: {
+          title: 'table',
+        },
+        component: () => import('views/modules/table/index.vue'),
+      },
+    ],
+  },
+  {
+    path: '/403',
+    hidden: true,
+    name: 'notPermissionPage',
+    meta: {
+      title: '403',
+    },
+    component: () => import('views/common/NotPermissionPage.vue'),
   },
   {
     path: '/:pathMatch(.*)*',

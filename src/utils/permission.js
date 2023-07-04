@@ -1,7 +1,8 @@
-import tool from '@/utils/tool';
+import { storage } from 'utils/browserStorage';
+import { KEY_PERMISSIONS, KEY_USER_INFO } from 'config';
 
 export function permission(data) {
-  let permissions = tool.data.get('PERMISSIONS');
+  let permissions = storage.get(KEY_PERMISSIONS);
   if (!permissions) {
     return false;
   }
@@ -10,7 +11,7 @@ export function permission(data) {
 }
 
 export function rolePermission(data) {
-  let userInfo = tool.data.get('USER_INFO');
+  let userInfo = storage.get(KEY_USER_INFO);
   if (!userInfo) {
     return false;
   }

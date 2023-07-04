@@ -1,17 +1,18 @@
 <template>
   <section class="wrapper">
     <a-menu
-      v-model:openKeys="openKeys"
-      v-model:selectedKeys="selectedKeys"
       mode="inline"
       theme="dark"
-      :inline-collapsed="common.collapsed"
+      v-model:openKeys="menu.openKeys"
+      v-model:selectedKeys="menu.selectedKeys"
+      :collapsed="common.collapsed"
+      @click="handleMenuChange"
     >
       <template v-for="item in menu.menuAllList">
         <template v-if="item.children && item.children.length > 0 && item.name">
-          <MainSubMenu :menu="item"/>
+          <MainSubMenu :menu="item" />
         </template>
-        <a-menu-item v-else :key="`${item.name}`">
+        <a-menu-item v-else :key="`${item.url}`">
           <span>{{ item.name }}</span>
         </a-menu-item>
       </template>
@@ -20,17 +21,33 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { commonStore } from 'store/common';
 import { menuStore } from 'store/auth';
 import MainSubMenu from './subMenu.vue';
 
+const route = useRoute()
+const router = useRouter();
 const common = commonStore();
 const menu = menuStore();
 
-const openKeys = reactive([]);
-const selectedKeys = reactive([]);
+// 初始化
+const initLoadData = () => {
+  menu.selectedKeys = [route.name];
+}
+/** ========== 基础事件 ============ */
+const handleMenuChange = ({ key, keyPath }) => {
+  menu.openKeys = keyPath;
 
+  if (key.startsWith('http://') || key.startsWith('https://') || key.startsWith('www'))
+    window.open(key, '_blank');
+  else router.push({ name: key });
+};
+
+onMounted(() => {
+  initLoadData();
+})
 </script>
 
 <style lang="scss" scoped></style>

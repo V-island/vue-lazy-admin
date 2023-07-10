@@ -2,7 +2,7 @@
  * @Author: Allen.Li vv15802702853@163.com
  * @Date: 2023-06-19 17:35:42
  * @LastEditors: Allen.Li vv15802702853@163.com
- * @LastEditTime: 2023-07-05 16:58:32
+ * @LastEditTime: 2023-07-10 14:38:35
  * @FilePath: \lazy-base-template-vue3\src\views\modules\table\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -18,7 +18,7 @@ import XEUtils from 'xe-utils'
 
 const serveApiUrl = 'https://api.vxetable.cn/demo'
 // 创建VXETable实例
-const tableGrid = ref();
+const tableGrid = ref(null);
 // 创建VXETable配置
 const gridOptions = reactive({
   border: true,
@@ -26,22 +26,13 @@ const gridOptions = reactive({
   showOverflow: true,
   keepSource: true,
   id: 'base_table',
-  height: 600,
+  height: 730,
   rowConfig: {
     keyField: 'id',
     isHover: true,
   },
   columnConfig: {
     resizable: true,
-  },
-  customConfig: {
-    storage: true,
-    checkMethod({ column }) {
-      if (['nickname', 'role'].includes(column.field)) {
-        return false;
-      }
-      return true;
-    },
   },
   printConfig: {
     columns: [
@@ -52,14 +43,8 @@ const gridOptions = reactive({
       { field: 'amount' },
     ],
   },
-  sortConfig: {
-    trigger: 'cell',
-    remote: true,
-  },
-  filterConfig: {
-    remote: true,
-  },
   pagerConfig: {
+    background: true,
     pageSize: 10,
     pageSizes: [5, 10, 15, 20, 50, 100, 200, 500, 1000],
   },
@@ -69,9 +54,9 @@ const gridOptions = reactive({
     items: [
       {
         field: 'name',
-        title: 'app.body.label.name',
+        title: '名称',
         span: 8,
-        titlePrefix: { message: 'app.body.valid.rName', icon: 'vxe-icon-question-circle-fill' },
+        titlePrefix: { message: '请输入名称', icon: 'vxe-icon-question-circle-fill' },
         itemRender: { name: '$input', props: { placeholder: '请输入名称' } },
       },
       {
@@ -124,8 +109,8 @@ const gridOptions = reactive({
         itemRender: {
           name: '$buttons',
           children: [
-            { props: { type: 'submit', content: 'app.body.label.search', status: 'primary' } },
-            { props: { type: 'reset', content: 'app.body.label.reset' } },
+            { props: { type: 'submit', content: '搜索', status: 'primary' } },
+            { props: { type: 'reset', content: '重置' } },
           ],
         },
       },
@@ -136,7 +121,7 @@ const gridOptions = reactive({
       { code: 'insert_actived', name: '新增' },
       { code: 'delete', name: '直接删除' },
       { code: 'mark_cancel', name: '删除/取消' },
-      { code: 'save', name: 'app.body.button.save', status: 'success' },
+      { code: 'save', name: '保存', status: 'primary' },
     ],
     refresh: true, // 显示刷新按钮
     import: true, // 显示导入按钮
@@ -199,64 +184,33 @@ const gridOptions = reactive({
     {
       field: 'name',
       title: 'Name',
-      sortable: true,
-      titlePrefix: { message: '名称必须填写！' },
-      editRender: { name: 'input', attrs: { placeholder: '请输入名称' } },
     },
     {
       field: 'role',
       title: 'Role',
-      sortable: true,
-      titlePrefix: {
-        useHTML: true,
-        content:
-          '点击链接：<a class="link" href="https://vxetable.cn" target="_blank">vxe-table官网</a>',
-      },
-      filters: [
-        { label: '前端开发', value: '前端' },
-        { label: '后端开发', value: '后端' },
-        { label: '测试', value: '测试' },
-        { label: '程序员鼓励师', value: '程序员鼓励师' },
-      ],
-      filterMultiple: false,
-      editRender: { name: 'input', attrs: { placeholder: '请输入角色' } },
     },
     {
       field: 'email',
       title: 'Email',
       width: 160,
-      editRender: { name: '$input', props: { placeholder: '请输入邮件' } },
     },
     {
       field: 'nickname',
       title: 'Nickname',
-      editRender: { name: 'input', attrs: { placeholder: '请输入昵称' } },
     },
     {
       field: 'sex',
       title: 'Sex',
-      filters: [
-        { label: '男', value: '1' },
-        { label: '女', value: '0' },
-      ],
-      editRender: { name: '$select', options: [], props: { placeholder: '请选择性别' } },
     },
     {
       field: 'age',
       title: 'Age',
-      visible: false,
-      sortable: true,
-      editRender: { name: '$input', props: { type: 'number', min: 1, max: 120 } },
     },
     {
       field: 'amount',
       title: 'Amount',
       formatter({ cellValue }) {
         return cellValue ? `￥${XEUtils.commafy(XEUtils.toNumber(cellValue), { digits: 2 })}` : '';
-      },
-      editRender: {
-        name: '$input',
-        props: { type: 'float', digits: 2, placeholder: '请输入数值' },
       },
     },
     {
@@ -362,19 +316,6 @@ const gridOptions = reactive({
     reserve: true,
     highlight: true,
     range: true,
-  },
-  editRules: {
-    name: [
-      { required: true, message: 'app.body.valid.rName' },
-      { min: 3, max: 50, message: '名称长度在 3 到 50 个字符' },
-    ],
-    email: [{ required: true, message: '邮件必须填写' }],
-    role: [{ required: true, message: '角色必须填写' }],
-  },
-  editConfig: {
-    trigger: 'click',
-    mode: 'row',
-    showStatus: true,
   },
 });
 // 创建VXETable事件回调

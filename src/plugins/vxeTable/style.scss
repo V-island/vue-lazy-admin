@@ -1,12 +1,14 @@
-@import 'vxe-table/styles/variable.scss';
+// @import 'vxe-table/styles/variable.scss';
+@import 'styles/variable.scss';
 
 // 修改样式变量
 $vxe-font-size: 14px;
-$vxe-font-color: #666;
-$vxe-primary-color: #11bbbb;
-$vxe-table-font-color: $vxe-font-color;
+$vxe-font-color: $--color-text-regular;
+$vxe-primary-color: $--color-primary;
+$vxe-table-font-color: $--color-text-primary;
 $vxe-table-border-color: #e8eaec;
 $vxe-table-border-radius: 4px;
 // ...
 
-@import 'vxe-table/styles/modules.scss';
+// @import 'vxe-table/styles/modules.scss';
+@import 'vxe-table/styles/index.scss';

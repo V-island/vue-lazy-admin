@@ -17,7 +17,6 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
 import MainSubMenu from './subMenu.vue';
 
 const { menu } = defineProps(['menu']);

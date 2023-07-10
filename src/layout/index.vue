@@ -16,7 +16,7 @@
       </a-layout-header>
 
       <a-layout-content class="layout-main">
-        <router-view></router-view>
+        <router-view class="pages"></router-view>
       </a-layout-content>
     </a-layout>
   </a-layout>
@@ -59,19 +59,25 @@ onMounted(() => {
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 .layout-header {
-  background: #fff;
+  background: $--color-white;
   padding: 0;
 }
 .layout-main {
   position: relative;
   overflow: auto;
-  height: calc(100vh - 60px);
+  // height: calc(100vh - 60px);
+  height: auto;
   padding: 15px 20px;
+
+  .pages{
+    background-color: $--color-white;
+    padding: 15px 20px;
+  }
 }
 .logo {
   @include flexbox();
   height: 64px;
-  background-color: #fefefe;
+  background-color: $--color-primary-deputy;
   text-align: center;
   font-size: 16px;
 }

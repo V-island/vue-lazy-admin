@@ -1,6 +1,9 @@
 import path from 'path';
+import { resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'url'
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import vueI18n from '@intlify/vite-plugin-vue-i18n'
 import Components from 'unplugin-vue-components/vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 import { viteMockServe } from "vite-plugin-mock";
@@ -10,7 +13,7 @@ import {
 } from 'vite-plugin-style-import'
 
 // 设置绝对路径
-function resolve(dir) {
+function resolves(dir) {
   return path.join(__dirname, dir);
 }
 
@@ -28,25 +31,22 @@ export default defineConfig({
   // 调整内部的 webpack 配置
   resolve: {
     alias: {
-      '@': resolve('src'),
-      src: resolve('src'),
-      api: resolve('src/api'),
-      assets: resolve('src/assets'),
-      components: resolve('src/components'),
-      config: resolve('src/config'),
-      directives: resolve('src/directives'),
-      'http-request': resolve('src/http-request'),
-      i18n: resolve('src/i18n'),
-      layout: resolve('src/layout'),
-      mixins: resolve('src/mixins'),
-      mock: resolve('src/mock'),
-      router: resolve('src/router'),
-      store: resolve('src/store'),
-      styles: resolve('src/styles'),
-      utils: resolve('src/utils'),
-      views: resolve('src/views'),
-      plugins: resolve('src/plugins'),
-      'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js',
+      '@': resolves('src'),
+      src: resolves('src'),
+      api: resolves('src/api'),
+      assets: resolves('src/assets'),
+      components: resolves('src/components'),
+      config: resolves('src/config'),
+      'http-request': resolves('src/http-request'),
+      layout: resolves('src/layout'),
+      mixins: resolves('src/mixins'),
+      mock: resolves('src/mock'),
+      router: resolves('src/router'),
+      store: resolves('src/store'),
+      styles: resolves('src/styles'),
+      utils: resolves('src/utils'),
+      views: resolves('src/views'),
+      plugins: resolves('src/plugins'),
     },
   },
   css: {
@@ -61,6 +61,9 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    vueI18n({
+      include: resolve(dirname(fileURLToPath(import.meta.url)), './path/to/src/locales/**'),
+    }),
     Components({
       resolvers: [
         AntDesignVueResolver()

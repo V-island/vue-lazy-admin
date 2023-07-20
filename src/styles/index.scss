@@ -1,2 +1,6 @@
 @import "_base.scss";
 @import "variable.scss";
+
+#nprogress .bar {
+  background: $--color-primary !important; //自定义颜色
+}

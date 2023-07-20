@@ -1,6 +1,7 @@
+import router from 'router'
 import { defineStore } from 'pinia';
 import { KEY_TOKEN, KEY_USER_INFO } from 'config';
-import { utilFn, getResult, awaitWrap } from 'utils';
+import { generateAsyncRoutes, resetRouter, getResult, utilFn } from 'utils';
 import { storage } from 'utils/browserStorage';
 import { loginByEmailToToken, getRoleList, getUserInfo, getMenuList, getPermissionList } from 'api/auth';
 
@@ -70,6 +71,7 @@ export const menuStore = defineStore('menu', {
       menuList: [],
       openKeys: [],
       selectedKeys: [],
+      asyncRoutes: [],
     }
   },
   getters: {
@@ -82,12 +84,32 @@ export const menuStore = defineStore('menu', {
       try {
         const result = await getMenuList(params);
 
-        if (result.code !== 200) return Promise.resolve(getResult(false, result.message || '当前用户无访问权限！'));
+        if (result.code !== 200) return Promise.resolve(getResult(false, result.message));
+
+        const menuList = utilFn._get(result, 'data', []);
+        // 如果菜单为空数组，要提示报错
+        if (utilFn._isEmpty(menuList) || menuList.length < 1) return Promise.resolve(getResult(false, '当前用户无访问权限！'));
 
         // 写入数据
-        this.menuList = utilFn._get(result, 'data', []);
+        this.menuList = menuList;
 
-        return Promise.resolve(getResult(true, '获取菜单列表信息成功！'));
+        // 获取处理异步路由数据
+        try {
+          // 生成异步路由并动态添加
+          const asyncRoutes = generateAsyncRoutes(menuList);
+          resetRouter();
+          asyncRoutes.length > 0 && router.addRoutes(asyncRoutes);
+
+          this.asyncRoutes = asyncRoutes;
+        } catch (e) {
+          console.error(
+            `自定义错误：[src/store/auth.js][generateAsyncRoutes]方法执行异常：`,
+            e,
+          );
+          return Promise.resolve(getResult(false, '菜单生成失败！'));
+        }
+
+        return Promise.resolve(getResult(true, '获取用户菜单成功！'));
       } catch (error) {
         return Promise.reject(error);
       }

@@ -1,7 +1,8 @@
 import { createApp } from 'vue';
 import xeUtils from 'xe-utils';
 import { pageLoadingStore } from 'store/common';
-import { resetRoutes } from 'router';
+import {  menuStore } from 'store/auth';
+import { resetRoutes, getInitAsyncRoutes, staticRoutes } from 'router';
 
 /* =================== 基础方法 ================ */
 // 重置router，将会清除所有异步路由，只保留常量路由
@@ -12,6 +13,65 @@ export function resetRouter() {
 // 退出登陆时清除store和router
 export function clearAppState() {
   resetRoutes();
+}
+
+// 生成异步路由
+export function generateAsyncRoutes(menuList) {
+  let asyncRoutes = getInitAsyncRoutes();
+  let parentChildren = asyncRoutes[0].children;
+  function eachMenu(list) {
+    list.forEach((item) => {
+      if (item.children && Array.isArray(item.children) && item.children.length > 0) {
+        eachMenu(item.children);
+      } else {
+        const isLinkPage = /^(http:\/\/|https:\/\/|www\.)/i.test(item.url);
+        if (!isLinkPage) {
+          const str = item.url.replace(/\//g, '-');
+          parentChildren.push({
+            path: '/' + str,
+            name: str,
+            component: () => import(`views/modules/${item.url}.vue`),
+            meta: {
+              title: item.name,
+            },
+          });
+          /*parentChildren.push({
+            path: '/iframe-page',
+            name: 'iframe-page',
+            component: () => import('views/common/IframePage.vue'),
+            meta: {
+              title: item.name,
+              iframeURL: item.url,
+            },
+          });*/
+        }
+      }
+    });
+  }
+
+  if (xeUtils.isArray(menuList) && menuList.length > 0) {
+    // 递归生成菜单异步路由
+    eachMenu(menuList);
+    // 添加静态路由
+    staticRoutes.forEach((item) => parentChildren.push(item));
+    return asyncRoutes;
+  }
+  return [];
+}
+
+// 重新获取菜单并生成动态路由
+// 添加修改菜单、切换角色后需要调用此方法清空异步路由，重新获取新菜单后生成异步路由
+export async function resetRouterMenu() {
+  try {
+    // 获取菜单
+  const menu = menuStore();
+  await menu.getMenuListToToken();
+
+  } catch (error) {
+    // 菜单获取失败，回登陆页面
+    clearAppState();
+    Message.error('获取新菜单失败，请重新登陆');
+  }
 }
 
 // 封装promise，返回数组[err, data]
@@ -122,7 +182,7 @@ export function getObjectByQuery(param, type = '&', last = '?') {
 }
 
 /* =================== 打印下载 ================ */
-// 下载
+// 下载URL
 export function saveFile(data, filename) {
   var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
   save_link.href = data;
@@ -164,7 +224,7 @@ export function saveBlobFile(blob, fileName) {
   }
 }
 
-// 打印
+// 打印Dom
 export function iframePrint(Element) {
   var userAgent = navigator.userAgent.toLowerCase(); //取得浏览器的userAgent字符串
 
@@ -271,8 +331,8 @@ export function rotateBase64Img(src, edg, callback) {
 }
 
 // Url转Blob
-export function dataURLtoBlob(dataurl) {
-  var arr = dataurl.split(','),
+export function dataURLtoBlob(dataUrl) {
+  var arr = dataUrl.split(','),
     mime = arr[0].match(/:(.*?);/)[1],
     bstr = atob(arr[1]),
     n = bstr.length,

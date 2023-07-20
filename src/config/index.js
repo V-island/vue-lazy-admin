@@ -9,7 +9,5 @@ export const KEY_PERMISSIONS = 'permissions';
 
 /* =================== 访问白名单 ================ */
 export const ACCESS_WHITE_LIST = [
-  'login',
-  'notPermissionPage',
-  'notFoundPage'
+  '/', '/login', '/403', '/404'
 ];

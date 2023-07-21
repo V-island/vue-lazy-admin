@@ -33,7 +33,7 @@
           placeholder="请输入密码"
           :rules="[{ required: true, message: '请输入密码!' }]"
         >
-          <a-input-password v-model:value="formState.password" />
+          <a-input-password v-model:value="formState.password" autocomplete="off"/>
         </a-form-item>
 
         <a-form-item name="remember" :wrapper-col="{ offset: 4, span: 16 }">

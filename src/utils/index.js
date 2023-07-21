@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import xeUtils from 'xe-utils';
 import { pageLoadingStore } from 'store/common';
-import {  menuStore } from 'store/auth';
+import { menuStore } from 'store/auth';
 import { resetRoutes, getInitAsyncRoutes, staticRoutes } from 'router';
 
 /* =================== 基础方法 ================ */
@@ -15,48 +15,48 @@ export function clearAppState() {
   resetRoutes();
 }
 
+// 获取views/modules下所有文件
+const modules = import.meta.glob('views/modules/**/**/*.vue');
 // 生成异步路由
-export function generateAsyncRoutes(menuList) {
-  let asyncRoutes = getInitAsyncRoutes();
-  let parentChildren = asyncRoutes[0].children;
-  function eachMenu(list) {
-    list.forEach((item) => {
-      if (item.children && Array.isArray(item.children) && item.children.length > 0) {
-        eachMenu(item.children);
-      } else {
-        const isLinkPage = /^(http:\/\/|https:\/\/|www\.)/i.test(item.url);
-        if (!isLinkPage) {
-          const str = item.url.replace(/\//g, '-');
-          parentChildren.push({
-            path: '/' + str,
-            name: str,
-            component: () => import(`views/modules/${item.url}.vue`),
-            meta: {
-              title: item.name,
-            },
-          });
-          /*parentChildren.push({
-            path: '/iframe-page',
-            name: 'iframe-page',
-            component: () => import('views/common/IframePage.vue'),
-            meta: {
-              title: item.name,
-              iframeURL: item.url,
-            },
-          });*/
-        }
-      }
-    });
-  }
+export function generateAsyncRoutes(tree) {
+  const menuTree = xeUtils.clone(tree, true);
 
-  if (xeUtils.isArray(menuList) && menuList.length > 0) {
-    // 递归生成菜单异步路由
-    eachMenu(menuList);
-    // 添加静态路由
-    staticRoutes.forEach((item) => parentChildren.push(item));
-    return asyncRoutes;
-  }
-  return [];
+  // 判断是否获取到新菜单
+  if (!xeUtils.isArray(menuTree) && menuTree.length == 0) return [];
+
+  // 获取初始异步路由表
+  const asyncRoutes = getInitAsyncRoutes();
+  // 将树结构菜单列表转成数组列表
+  const menuList = xeUtils.toTreeArray(menuTree, { clear: true });
+  // 筛掉属于外链菜单/无链接数据
+  const notLinkMenuList = xeUtils.filter(menuList, item => 'url' in item && !(/^(http:\/\/|https:\/\/|www\.)/i.test(item.url)));
+  // 将菜单列表转成路由格式
+  const menuRoutes = xeUtils.map(notLinkMenuList, item => {
+    const { url, title } = item;
+    const menuName = url.replace(/\//g, '-');
+    return {
+      path: `/${menuName}`,
+      name: `${menuName}`,
+      component: modules[`/src/views/modules/${url}.vue`],
+      meta: {
+        title,
+      },
+    }
+  });
+  // 添加静态路由
+  const newRouterTree = xeUtils.union(menuRoutes, staticRoutes);
+  // 获取异步路由中layout所在引索Index
+  const layoutIndex = xeUtils.findIndexOf(asyncRoutes, item => item.name == 'layout');
+
+  // 判断是否找到layout
+  if (layoutIndex < 0) return xeUtils.union(asyncRoutes, newRouterTree);
+
+  // 获取异步路由中layout所在子集
+  const layoutChildren = xeUtils.get(asyncRoutes, `[${layoutIndex}].children`);
+
+  const newLayoutChildren = xeUtils.union(layoutChildren, newRouterTree);
+  asyncRoutes[`${layoutIndex}`].children = newLayoutChildren;
+  return asyncRoutes;
 }
 
 // 重新获取菜单并生成动态路由
@@ -64,8 +64,8 @@ export function generateAsyncRoutes(menuList) {
 export async function resetRouterMenu() {
   try {
     // 获取菜单
-  const menu = menuStore();
-  await menu.getMenuListToToken();
+    const menu = menuStore();
+    await menu.getMenuListToToken();
 
   } catch (error) {
     // 菜单获取失败，回登陆页面
@@ -398,10 +398,10 @@ export function toLoginPage(url) {
 // DOM全屏
 export function fullScreen(el) {
   var rfs =
-      el.requestFullScreen ||
-      el.webkitRequestFullScreen ||
-      el.mozRequestFullScreen ||
-      el.msRequestFullScreen,
+    el.requestFullScreen ||
+    el.webkitRequestFullScreen ||
+    el.mozRequestFullScreen ||
+    el.msRequestFullScreen,
     wscript;
 
   if (typeof rfs != 'undefined' && rfs) {
@@ -422,10 +422,10 @@ export function fullScreen(el) {
 export function exitFullScreen(el) {
   el = el || document;
   var cfs =
-      el.cancelFullScreen ||
-      el.webkitCancelFullScreen ||
-      el.mozCancelFullScreen ||
-      el.exitFullScreen,
+    el.cancelFullScreen ||
+    el.webkitCancelFullScreen ||
+    el.mozCancelFullScreen ||
+    el.exitFullScreen,
     wscript;
 
   if (typeof cfs != 'undefined' && cfs) {
@@ -555,6 +555,7 @@ export const utilFn = {
   _get: xeUtils.get,
   _set: xeUtils.set,
   _has: xeUtils.has,
+  _find: xeUtils.find,
   _toFixed: xeUtils.toFixed,
   _toNumber: xeUtils.toNumber,
   _toInteger: xeUtils.toInteger,

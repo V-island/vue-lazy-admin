@@ -9,11 +9,11 @@
       @click="handleMenuChange"
     >
       <template v-for="item in menu.menuAllList">
-        <template v-if="item.children && item.children.length > 0 && item.name">
+        <template v-if="item.children && item.children.length > 0 && item.title">
           <MainSubMenu :menu="item" />
         </template>
-        <a-menu-item v-else :key="`${item.url}`">
-          <span>{{ item.name }}</span>
+        <a-menu-item v-else :key="`${item.url || 'home'}`">
+          <span>{{ item.title }}</span>
         </a-menu-item>
       </template>
     </a-menu>
@@ -31,7 +31,6 @@ const route = useRoute()
 const router = useRouter();
 const common = commonStore();
 const menu = menuStore();
-
 // 初始化
 const initLoadData = () => {
   menu.selectedKeys = [route.name];
@@ -40,9 +39,12 @@ const initLoadData = () => {
 const handleMenuChange = ({ key, keyPath }) => {
   menu.openKeys = keyPath;
 
+  // 判断是否属于外链菜单
   if (key.startsWith('http://') || key.startsWith('https://') || key.startsWith('www'))
-    window.open(key, '_blank');
-  else router.push({ name: key });
+    return window.open(key, '_blank');
+
+  const name = key.replace(/\//g, '-');
+  router.push({ name });
 };
 
 onMounted(() => {

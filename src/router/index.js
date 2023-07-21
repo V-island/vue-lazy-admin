@@ -33,6 +33,15 @@ const constRoutes = [
       title: '404',
     },
   },
+  // {
+  //   path: '/:pathMatch(.*)*',
+  //   redirect: '/404',
+  // },
+  {
+    path: '/:catchAll(.*)*',
+    hidden: true,
+    component: () => import('views/common/PageNotFound.vue'),
+  },
 ];
 
 // 静态路由表
@@ -45,11 +54,15 @@ const staticRoutes = [
       title: '字典数据',
     },
   },
-  // 支持直接传递第三方url，打开iframe, router.push('/iframe??iframeUrl=http://localhost:8088/ureport/designer?_u=file:22.ureport.xml&title=编辑报表')
+  // 支持直接传递第三方url，打开iframe, router.push('/iframe-page??iframeUrl=http://localhost:8088/ureport/designer?_u=file:22.ureport.xml&title=编辑报表')
   {
-    path: 'iframe',
-    component: () => import('layout/other/empty'),
-    meta: { target: 'iframe' },
+    path: '/iframe-page',
+    name: 'iframe-page',
+    component: () => import('views/common/IframePage.vue'),
+    meta: {
+      title: 'iframe',
+      target: 'iframe'
+    },
   },
 ];
 
@@ -58,8 +71,8 @@ const initAsyncRoutes = [
   {
     path: '/layout',
     name: 'layout',
-    component: () => import('layout/index.vue'),
     redirect: { name: 'home' },
+    component: () => import('layout/index.vue'),
     children: [
       {
         path: '/home',
@@ -69,27 +82,7 @@ const initAsyncRoutes = [
           title: '首页',
         },
       },
-      {
-        path: '/sample/from',
-        name: 'sample-from',
-        meta: {
-          title: 'from',
-        },
-        component: () => import('views/modules/sample/from/index.vue'),
-      },
-      {
-        path: '/sample/table',
-        name: 'sample-table',
-        meta: {
-          title: 'table',
-        },
-        component: () => import('views/modules/sample/table/index.vue'),
-      },
     ],
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    redirect: '/404',
   },
 ];
 

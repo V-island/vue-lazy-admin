@@ -89,7 +89,6 @@ export const menuStore = defineStore('menu', {
         const menuList = utilFn._get(result, 'data', []);
         // 如果菜单为空数组，要提示报错
         if (utilFn._isEmpty(menuList) || menuList.length < 1) return Promise.resolve(getResult(false, '当前用户无访问权限！'));
-
         // 写入数据
         this.menuList = menuList;
 
@@ -98,7 +97,8 @@ export const menuStore = defineStore('menu', {
           // 生成异步路由并动态添加
           const asyncRoutes = generateAsyncRoutes(menuList);
           resetRouter();
-          asyncRoutes.length > 0 && router.addRoutes(asyncRoutes);
+          if (asyncRoutes.length > 0)
+            utilFn._find(asyncRoutes, item => router.addRoute(item));
 
           this.asyncRoutes = asyncRoutes;
         } catch (e) {

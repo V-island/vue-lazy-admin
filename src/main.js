@@ -13,7 +13,7 @@ const app = createApp(App);
 
 // 定义全局变量
 app.config.globalProperties.$utils = {
-  XEUtils
+  ...XEUtils
 };
 
 // 注册vue官方套件

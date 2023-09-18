@@ -1,27 +1,27 @@
 <template>
-  <a-spin :spinning="pageLoading.spinning" :tip="pageLoading.tip">
-    <a-config-provider :locale="locale === 'en' ? enUS : zhCN">
+  <a-config-provider :locale="locale === 'en' ? enUS : zhCN">
+    <g-spin :spinning="pageLoading.spinning" :tip="pageLoading.tip">
       <router-view />
-    </a-config-provider>
-  </a-spin>
+    </g-spin>
+  </a-config-provider>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, reactive, inject, watch, onMounted } from 'vue';
+import { message } from 'ant-design-vue';
 import { pageLoadingStore } from 'store/common';
 import enUS from 'ant-design-vue/es/locale/en_US';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
-import dayjs from 'dayjs';
-import 'dayjs/locale/zh-cn';
-dayjs.locale('zh-cn');
 
 const locale = ref(zhCN.locale);
 const pageLoading = pageLoadingStore();
 
-watch(locale, (val) => {
-  dayjs.locale(val);
+message.config({
+  duration: 1,
+  maxCount: 3,
 });
+
+onMounted(() => {});
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

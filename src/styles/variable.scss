@@ -4,6 +4,9 @@ $--color-white: #fff !default;
 $--color-black: #000 !default;
 
 $--color-primary: #1890ff !default;
+$--color-primary-hover: #40a9ff !default;
+$--color-primary-active: #096dd9 !default;
+$--color-primary-outline: rgba(24, 144, 255, .2) !default;
 $--color-primary-deputy: #E7F8F8 !default;
 $--color-primary-light-1: mix($--color-white, $--color-primary, 10%) !default; /* 53a8ff */
 $--color-primary-light-2: mix($--color-white, $--color-primary, 20%) !default; /* 66b1ff */
@@ -34,3 +37,5 @@ $--color-text-primary: #333333 !default;
 $--color-text-regular: #666666 !default;
 $--color-text-secondary: #999999 !default;
 $--color-text-placeholder: #c0c4cc !default;
+
+$--color-border: #c0c4cc !default;

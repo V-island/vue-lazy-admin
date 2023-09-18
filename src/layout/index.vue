@@ -6,7 +6,7 @@
       :trigger="null"
       collapsible
     >
-      <div class="logo">logo</div>
+      <div class="logo">{{ common.documentTitle }}</div>
       <MainSider />
     </a-layout-sider>
 
@@ -68,16 +68,11 @@ onMounted(() => {
   // height: calc(100vh - 60px);
   height: auto;
   padding: 15px 20px;
-
-  .pages{
-    background-color: $--color-white;
-    padding: 15px 20px;
-  }
 }
 .logo {
   @include flexbox();
   height: 64px;
-  background-color: $--color-primary-deputy;
+  color: $--color-white;
   text-align: center;
   font-size: 16px;
 }

@@ -1,24 +1,15 @@
 import path from 'path';
-import { resolve, dirname } from 'node:path'
-import { fileURLToPath } from 'url'
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import vueI18n from '@intlify/vite-plugin-vue-i18n'
 import Components from 'unplugin-vue-components/vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
-import { viteMockServe } from "vite-plugin-mock";
-import {
-  createStyleImportPlugin,
-  AndDesignVueResolve,
-} from 'vite-plugin-style-import'
+import { createStyleImportPlugin, AndDesignVueResolve } from 'vite-plugin-style-import';
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 
 // 设置绝对路径
 function resolves(dir) {
   return path.join(__dirname, dir);
 }
-
-const localEnabled = process.env.USE_MOCK || false;
-const prodEnabled = process.env.USE_CHUNK_MOCK || false;
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -40,7 +31,6 @@ export default defineConfig({
       'http-request': resolves('src/http-request'),
       layout: resolves('src/layout'),
       mixins: resolves('src/mixins'),
-      mock: resolves('src/mock'),
       router: resolves('src/router'),
       store: resolves('src/store'),
       styles: resolves('src/styles'),
@@ -55,61 +45,47 @@ export default defineConfig({
         additionalData: `@import "styles/index.scss";`,
       },
       less: {
-        javascriptEnabled: true
-      }
+        modifyVars: {
+          'primary-color': '#1890ff'
+        },
+        javascriptEnabled: true,
+      },
     },
   },
   plugins: [
     vue(),
-    vueI18n({
-      include: resolve(dirname(fileURLToPath(import.meta.url)), './path/to/src/locales/**'),
-    }),
     Components({
-      resolvers: [
-        AntDesignVueResolver()
-      ]
+      resolvers: [AntDesignVueResolver({importStyle: 'less'})],
     }),
     createStyleImportPlugin({
-      resolves: [
-        AndDesignVueResolve(),
-      ],
+      resolves: [AndDesignVueResolve()],
       libs: [
         {
           libraryName: 'ant-design-vue',
           esModule: true,
           resolveStyle: (name) => {
-            return `ant-design-vue/es/${name}/style/index`
+            return `ant-design-vue/es/${name}/style/index`;
           },
         },
       ],
     }),
-    viteMockServe({
-      mockPath: './src/server/mock', // mock文件地址
-      localEnabled: localEnabled, // 开发打包开关
-      prodEnabled: prodEnabled, // 生产打包开关
-      // 这样可以控制关闭mock的时候不让mock打包到最终代码内
-      injectCode: `
-        import { setupProdMockServer } from './src/server/mockProdServer';
-        setupProdMockServer();
-      `,
-      logger: false, //是否在控制台显示请求日志
-      watchFiles: true, // 监视⽂件更改，并重新加载 mock 数据
-      supportTs: false, // 打开后，可以读取 ts ⽂件模块。请注意，打开后将⽆法监视.js ⽂件。
-    })
+    createSvgIconsPlugin({
+      iconDirs: [resolves('src/assets/svg')],
+      symbolId: '[name]',
+    }),
   ],
   // 开发服务,build后的生产模式还需nginx代理
   server: {
-    host: 'localhost', // 指定服务器主机名
-    port: 8080, // 指定服务器端口
+    host: '0.0.0.0', // 指定服务器主机名
+    port: 8883, // 指定服务器端口
     open: false, // 在服务器启动时自动打开默认浏览器
     https: false, // 是否开启HTTPS
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:3000', // 目标代理服务器地址
         changeOrigin: true, // 允许跨域
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
-
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
 });

@@ -2,7 +2,7 @@
 /*
 * 显示省略号
  */
-@mixin ellipsis() {
+ @mixin ellipsis() {
   overflow: hidden;
   -ms-text-overflow: ellipsis;
   text-overflow: ellipsis;
@@ -83,9 +83,9 @@
 /*
 * 图片背景
  */
- @mixin bgImage($url, $size:contain, $position:center) {
+ @mixin bgImage($url, $size:contain, $position:center, $repeat:no-repeat) {
   background-image: url($url);
   background-size: $size;
-  background-repeat: no-repeat;
+  background-repeat: $repeat;
   background-position: $position;
 }

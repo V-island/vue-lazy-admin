@@ -12,7 +12,7 @@
         <template v-if="item.children && item.children.length > 0 && item.title">
           <MainSubMenu :menu="item" />
         </template>
-        <a-menu-item v-else :key="`${item.url || 'home'}`">
+        <a-menu-item v-else :key="formatMenuUrl(`${item.url || 'home'}`)">
           <span>{{ item.title }}</span>
         </a-menu-item>
       </template>
@@ -21,20 +21,22 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, getCurrentInstance } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { commonStore } from 'store/common';
 import { menuStore } from 'store/auth';
+import { formatMenuUrl } from 'utils';
 import MainSubMenu from './subMenu.vue';
 
-const route = useRoute()
+const { proxy } = getCurrentInstance();
+const route = useRoute();
 const router = useRouter();
 const common = commonStore();
 const menu = menuStore();
 // 初始化
 const initLoadData = () => {
   menu.selectedKeys = [route.name];
-}
+};
 /** ========== 基础事件 ============ */
 const handleMenuChange = ({ key, keyPath }) => {
   menu.openKeys = keyPath;
@@ -43,13 +45,12 @@ const handleMenuChange = ({ key, keyPath }) => {
   if (key.startsWith('http://') || key.startsWith('https://') || key.startsWith('www'))
     return window.open(key, '_blank');
 
-  const name = key.replace(/\//g, '-');
-  router.push({ name });
+  router.push({ name: key });
 };
 
 onMounted(() => {
   initLoadData();
-})
+});
 </script>
 
 <style lang="scss" scoped></style>

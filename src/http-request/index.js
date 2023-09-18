@@ -24,8 +24,7 @@ class HttpRequest {
         if (
           config.url.startsWith('http://') ||
           config.url.startsWith('https://') ||
-          config.url.startsWith('www') ||
-          import.meta.env.NODE_ENV !== 'production'
+          config.url.startsWith('www')
         ) {
           return config;
         } else {

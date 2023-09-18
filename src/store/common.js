@@ -22,6 +22,11 @@ export const commonStore = defineStore('common', {
       collapsed: false,
     }
   },
+  getters: {
+    documentTitle() {
+      return import.meta.env.VITE_APP_DOCUMENT_TITLE;
+    },
+  },
   actions: {
     onCollapsed() {
       this.collapsed = !this.collapsed;

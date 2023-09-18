@@ -14,6 +14,7 @@ const constRoutes = [
     component: () => import('views/common/Login.vue'),
     meta: {
       title: '登录',
+      tooltip: '请选择登录方式',
     },
   },
   {
@@ -33,10 +34,6 @@ const constRoutes = [
       title: '404',
     },
   },
-  // {
-  //   path: '/:pathMatch(.*)*',
-  //   redirect: '/404',
-  // },
   {
     path: '/:catchAll(.*)*',
     hidden: true,
@@ -46,14 +43,6 @@ const constRoutes = [
 
 // 静态路由表
 const staticRoutes = [
-  {
-    path: '/dict-data',
-    name: 'dict-data',
-    component: () => import('views/modules/system/dict-manage/dict-data.vue'),
-    meta: {
-      title: '字典数据',
-    },
-  },
   // 支持直接传递第三方url，打开iframe, router.push('/iframe-page??iframeUrl=http://localhost:8088/ureport/designer?_u=file:22.ureport.xml&title=编辑报表')
   {
     path: '/iframe-page',
@@ -61,7 +50,7 @@ const staticRoutes = [
     component: () => import('views/common/IframePage.vue'),
     meta: {
       title: 'iframe',
-      target: 'iframe'
+      target: 'iframe',
     },
   },
 ];

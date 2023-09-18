@@ -4,7 +4,7 @@ import { close, start } from 'plugins/nprogress'
 import { message } from 'ant-design-vue';
 import { menuStore } from 'store/auth';
 import { getDocumentTitle, clearAppState, resetRouter, generateAsyncRoutes } from 'utils';
-import { KEY_TOKEN, ACCESS_WHITE_LIST } from 'config';
+import { KEY_TOKEN, KEY_USER_INFO, ACCESS_WHITE_LIST } from 'config';
 import { storage } from 'utils/browserStorage';
 
 // 打印报错信息
@@ -24,7 +24,8 @@ export async function beforeHook(to, from, next) {
     return next();
 
   // 判断是否登录
-  const token = storage.get(KEY_TOKEN);
+  // const token = storage.get(KEY_TOKEN);
+  const token = storage.get(KEY_USER_INFO);
   if (token === undefined || token === "")
     return next('/login');
 

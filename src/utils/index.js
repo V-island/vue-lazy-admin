@@ -1,8 +1,10 @@
 import { createApp } from 'vue';
 import xeUtils from 'xe-utils';
 import { pageLoadingStore } from 'store/common';
-import { menuStore } from 'store/auth';
+import { useAuthStore, menuStore } from 'store/auth';
 import { resetRoutes, getInitAsyncRoutes, staticRoutes } from 'router';
+// RSA加密
+import JSEncrypt from 'jsencrypt';
 
 /* =================== 基础方法 ================ */
 // 重置router，将会清除所有异步路由，只保留常量路由
@@ -15,8 +17,23 @@ export function clearAppState() {
   resetRoutes();
 }
 
-// 获取views/modules下所有文件
-const modules = import.meta.glob('views/modules/**/**/*.vue');
+// 字典转义
+export function getDictToName(findDict, value, option = { value: 'value', name: 'name' }) {
+  const item = xeUtils.find(findDict, (item) => `${item[option.value]}` == `${value}`);
+  if (item) return item[option.name];
+  return '-';
+}
+
+// 格式化菜单链接
+export function formatMenuUrl(url) {
+  const menuName = url.replace(/\/index/g, '').replace(/\//g, '-');
+  const name = xeUtils.camelCase(menuName);
+
+  return name;
+}
+
+// 获取views下所有文件
+const modules = import.meta.glob('views/**/**/**/*.vue');
 // 生成异步路由
 export function generateAsyncRoutes(tree) {
   const menuTree = xeUtils.clone(tree, true);
@@ -29,11 +46,15 @@ export function generateAsyncRoutes(tree) {
   // 将树结构菜单列表转成数组列表
   const menuList = xeUtils.toTreeArray(menuTree, { clear: true });
   // 筛掉属于外链菜单/无链接数据
-  const notLinkMenuList = xeUtils.filter(menuList, item => 'url' in item && !(/^(http:\/\/|https:\/\/|www\.)/i.test(item.url)));
+  const notLinkMenuList = xeUtils.filter(
+    menuList,
+    (item) => 'url' in item && !/^(http:\/\/|https:\/\/|www\.)/i.test(item.url),
+  );
   // 将菜单列表转成路由格式
-  const menuRoutes = xeUtils.map(notLinkMenuList, item => {
+  const menuRoutes = xeUtils.map(notLinkMenuList, (item) => {
     const { url, title } = item;
-    const menuName = url.replace(/\//g, '-');
+    const menuName = formatMenuUrl(url);
+
     return {
       path: `/${menuName}`,
       name: `${menuName}`,
@@ -41,20 +62,20 @@ export function generateAsyncRoutes(tree) {
       meta: {
         title,
       },
-    }
+    };
   });
   // 添加静态路由
   const newRouterTree = xeUtils.union(menuRoutes, staticRoutes);
   // 获取异步路由中layout所在引索Index
-  const layoutIndex = xeUtils.findIndexOf(asyncRoutes, item => item.name == 'layout');
+  const layoutIndex = xeUtils.findIndexOf(asyncRoutes, (item) => item.name == 'layout');
 
   // 判断是否找到layout
   if (layoutIndex < 0) return xeUtils.union(asyncRoutes, newRouterTree);
 
   // 获取异步路由中layout所在子集
   const layoutChildren = xeUtils.get(asyncRoutes, `[${layoutIndex}].children`);
-
   const newLayoutChildren = xeUtils.union(layoutChildren, newRouterTree);
+
   asyncRoutes[`${layoutIndex}`].children = newLayoutChildren;
   return asyncRoutes;
 }
@@ -66,7 +87,6 @@ export async function resetRouterMenu() {
     // 获取菜单
     const menu = menuStore();
     await menu.getMenuListToToken();
-
   } catch (error) {
     // 菜单获取失败，回登陆页面
     clearAppState();
@@ -162,6 +182,19 @@ export function hexToRGBA(_color, _opacity) {
 // 获取UUID
 export function getUUID(prefixStr = '') {
   return prefixStr + Date.now() + Math.random().toString().substr(2, 3);
+}
+// 生成uuid唯一标识
+export function getBuildUUID() {
+  var s = [];
+  var hexDigits = '0123456789abcdef';
+  for (var i = 0; i < 30; i++) {
+    s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+  }
+  s[14] = '4'; // bits 12-15 of the time_hi_and_version field to 0010
+  s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+  s[8] = s[13] = s[18] = s[23] = '-';
+  var uuid = s.join('');
+  return uuid;
 }
 
 // 生成随机数
@@ -398,10 +431,10 @@ export function toLoginPage(url) {
 // DOM全屏
 export function fullScreen(el) {
   var rfs =
-    el.requestFullScreen ||
-    el.webkitRequestFullScreen ||
-    el.mozRequestFullScreen ||
-    el.msRequestFullScreen,
+      el.requestFullScreen ||
+      el.webkitRequestFullScreen ||
+      el.mozRequestFullScreen ||
+      el.msRequestFullScreen,
     wscript;
 
   if (typeof rfs != 'undefined' && rfs) {
@@ -422,10 +455,10 @@ export function fullScreen(el) {
 export function exitFullScreen(el) {
   el = el || document;
   var cfs =
-    el.cancelFullScreen ||
-    el.webkitCancelFullScreen ||
-    el.mozCancelFullScreen ||
-    el.exitFullScreen,
+      el.cancelFullScreen ||
+      el.webkitCancelFullScreen ||
+      el.mozCancelFullScreen ||
+      el.exitFullScreen,
     wscript;
 
   if (typeof cfs != 'undefined' && cfs) {
@@ -451,7 +484,7 @@ export function refresh(Url) {
     } else {
       return location.reload();
     }
-  }, 2000);
+  }, 1000);
 }
 
 // 元素添加背景水印
@@ -533,9 +566,40 @@ export function hidePageLoading() {
   store.setLoadingStatus(false);
 }
 
+// 全局倒计时消息
+export const showCountdownLoading = async (option = {}, callback) => {
+  let time = option.time || 10;
+  let text = option.text || `物资检查中，预计完成倒计时`;
+
+  showPageLoading(`${text}${time}秒... `);
+  return new Promise((resolve, reject) => {
+    const loadingTimer = setInterval(() => {
+      time--;
+      showPageLoading(`${text}${time}秒... `);
+      if (time == 0) {
+        hidePageLoading();
+        clearInterval(loadingTimer);
+        typeof callback === 'function' && callback();
+      }
+    }, time * 100);
+
+    resolve(loadingTimer);
+  });
+};
+
 // 是否具有按钮权限
 export function hasPermission(permissionFlag) {
   return utilFn._get(store, 'state.user.permissions', []).includes(permissionFlag);
+}
+
+export function getRsaCode(str) {
+  // 注册方法
+  const pubKey =
+    'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDMCvuROelOvtv3DrvOuG3cWlMOCF6kjXtqxyjTyLJP9wCupe5M2XNok9gG5j8K8L2TVHGhLHZuCSKMIXl5/PYh++vhKtDG8uxUit9+vo9yCK7trRU1UZbQQ83Uep0ybNlkd25B2aQjJcrTxDJiyEMBGKqjPQhQzeR+EYLfnAIGpwIDAQAB'; // ES6 模板字符串 引用 rsa 公钥
+  const encryptStr = new JSEncrypt();
+  encryptStr.setPublicKey(pubKey); // 设置 加密公钥
+  const data = encryptStr.encrypt(str.toString()); // 进行加密
+  return data;
 }
 
 // 工具方法
@@ -556,6 +620,7 @@ export const utilFn = {
   _set: xeUtils.set,
   _has: xeUtils.has,
   _find: xeUtils.find,
+  _filter: xeUtils.filter,
   _toFixed: xeUtils.toFixed,
   _toNumber: xeUtils.toNumber,
   _toInteger: xeUtils.toInteger,
@@ -566,6 +631,8 @@ export const utilFn = {
   _multiply: xeUtils.multiply,
   _divide: xeUtils.divide,
   _remove: xeUtils.remove,
+  _escape: xeUtils.escape,
+  _unescape: xeUtils.unescape,
   _awaitWrap: awaitWrap,
   _isEmpty: isEmpty,
   _isNotEmpty: isNotEmpty,
@@ -575,4 +642,5 @@ export const utilFn = {
   _hasPermission: hasPermission,
   _getUUID: getUUID,
   _getRandomInt: getRandomInt,
+  _getDictToName: getDictToName,
 };

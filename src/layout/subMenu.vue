@@ -5,12 +5,14 @@
         {{ menu.title }}
       </template>
       <template v-for="item in menu.children">
-        <template v-if="item.children && item.children.length > 0 && item.title">
-          <MainSubMenu :menu="item" />
+        <template v-if="!item.isHidden">
+          <template v-if="item.children && item.children.length > 0 && item.title">
+            <MainSubMenu :key="formatMenuUrl(`${item.title}`)" :menu="item" />
+          </template>
+          <a-menu-item v-else :key="formatMenuUrl(`${item.url}`)">
+            <span>{{ item.title }}</span>
+          </a-menu-item>
         </template>
-        <a-menu-item v-else :key="formatMenuUrl(`${item.url}`)">
-          <span>{{ item.title }}</span>
-        </a-menu-item>
       </template>
     </a-sub-menu>
   </section>

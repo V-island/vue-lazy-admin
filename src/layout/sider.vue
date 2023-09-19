@@ -9,12 +9,14 @@
       @click="handleMenuChange"
     >
       <template v-for="item in menu.menuAllList">
-        <template v-if="item.children && item.children.length > 0 && item.title">
-          <MainSubMenu :menu="item" />
+        <template v-if="!item.isHidden">
+          <template v-if="item.children && item.children.length > 0 && item.title">
+            <MainSubMenu :key="formatMenuUrl(`${item.title}`)" :menu="item" />
+          </template>
+          <a-menu-item v-else :key="formatMenuUrl(`${item.url || 'home'}`)">
+            <span>{{ item.title }}</span>
+          </a-menu-item>
         </template>
-        <a-menu-item v-else :key="formatMenuUrl(`${item.url || 'home'}`)">
-          <span>{{ item.title }}</span>
-        </a-menu-item>
       </template>
     </a-menu>
   </section>
@@ -44,6 +46,17 @@ const handleMenuChange = ({ key, keyPath }) => {
   // 判断是否属于外链菜单
   if (key.startsWith('http://') || key.startsWith('https://') || key.startsWith('www'))
     return window.open(key, '_blank');
+
+  // 判断是否属于iframe页面嵌套菜单
+  if (key.startsWith('iframe:')) {
+    common.iframeSrc = key;
+    return router.push({
+      name: 'iframePage',
+      query: {
+        iframeSrc: key,
+      },
+    });
+  }
 
   router.push({ name: key });
 };

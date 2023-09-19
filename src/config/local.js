@@ -20,4 +20,25 @@ export const MenuList = [
       },
     ],
   },
+  {
+    title: '系统监控',
+    customIcon: '',
+    children: [
+      {
+        title: '登录日志',
+        url: 'loginLog/index',
+        customIcon: '',
+      },
+      {
+        title: '操作日志',
+        url: 'operationLog/index',
+        customIcon: '',
+      },
+      {
+        title: '运行日志',
+        url: 'runLog/index',
+        customIcon: '',
+      },
+    ],
+  },
 ];

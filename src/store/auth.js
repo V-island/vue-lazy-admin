@@ -76,7 +76,8 @@ export const menuStore = defineStore('menu', {
   },
   getters: {
     menuAllList(state) {
-      return state.menuList || []
+      const menuList = state.menuList || [];
+      return utilFn._filter(menuList, item => !item.isHidden);
     },
   },
   actions: {

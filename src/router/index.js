@@ -43,10 +43,10 @@ const constRoutes = [
 
 // 静态路由表
 const staticRoutes = [
-  // 支持直接传递第三方url，打开iframe, router.push('/iframe-page??iframeUrl=http://localhost:8088/ureport/designer?_u=file:22.ureport.xml&title=编辑报表')
+  // 支持直接传递第三方url，打开iframe, iframe:http://localhost:8088/ureport/designer?_u=file:22.ureport.xml&title=编辑报表'
   {
-    path: '/iframe-page',
-    name: 'iframe-page',
+    path: '/iframePage',
+    name: 'iframePage',
     component: () => import('views/common/IframePage.vue'),
     meta: {
       title: 'iframe',

@@ -20,11 +20,19 @@ export const commonStore = defineStore('common', {
   state: () => {
     return {
       collapsed: false,
+      // iframe
+      iframeSrc: '',
+      iframeTitle: '',
     }
   },
   getters: {
     documentTitle() {
       return import.meta.env.VITE_APP_DOCUMENT_TITLE;
+    },
+    iframeURL(state) {
+      const { iframeSrc } = state;
+      const src = iframeSrc.substring(7);
+      return src;
     },
   },
   actions: {

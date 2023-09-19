@@ -26,6 +26,8 @@ export function getDictToName(findDict, value, option = { value: 'value', name: 
 
 // 格式化菜单链接
 export function formatMenuUrl(url) {
+  if (/^(http:\/\/|https:\/\/|www\.|iframe:)/i.test(url)) return url;
+
   const menuName = url.replace(/\/index/g, '').replace(/\//g, '-');
   const name = xeUtils.camelCase(menuName);
 
@@ -48,7 +50,7 @@ export function generateAsyncRoutes(tree) {
   // 筛掉属于外链菜单/无链接数据
   const notLinkMenuList = xeUtils.filter(
     menuList,
-    (item) => 'url' in item && !/^(http:\/\/|https:\/\/|www\.)/i.test(item.url),
+    (item) => 'url' in item && !/^(http:\/\/|https:\/\/|www\.|iframe:)/i.test(item.url),
   );
   // 将菜单列表转成路由格式
   const menuRoutes = xeUtils.map(notLinkMenuList, (item) => {
@@ -621,6 +623,8 @@ export const utilFn = {
   _has: xeUtils.has,
   _find: xeUtils.find,
   _filter: xeUtils.filter,
+  _findTree: xeUtils.findTree,
+  _searchTree: xeUtils.searchTree,
   _toFixed: xeUtils.toFixed,
   _toNumber: xeUtils.toNumber,
   _toInteger: xeUtils.toInteger,

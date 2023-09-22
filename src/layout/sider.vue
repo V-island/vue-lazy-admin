@@ -14,6 +14,9 @@
             <MainSubMenu :key="formatMenuUrl(`${item.title}`)" :menu="item" />
           </template>
           <a-menu-item v-else :key="formatMenuUrl(`${item.url || 'home'}`)">
+            <template v-if="item.customIcon" #icon>
+              <g-svg-icon :name="item.customIcon" :svgStyle="{ width: '22px', height: '22px' }" />
+            </template>
             <span>{{ item.title }}</span>
           </a-menu-item>
         </template>

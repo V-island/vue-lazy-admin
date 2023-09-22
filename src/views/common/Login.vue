@@ -1,173 +1,63 @@
 <template>
-  <section class="layout" id="particles">
-    <div class="login-box">
-      <div class="title">登录</div>
-      <a-form
-        name="login"
-        :model="formState"
-        :label-col="{ span: 6 }"
-        :wrapper-col="{ span: 18 }"
-        autocomplete="off"
-        @finish="onFinish"
-      >
-        <a-form-item
-          label="用户名"
-          name="userId"
-          placeholder="请输入您的用户名"
-          :rules="[{ required: true, message: '请输入您的用户名!' }]"
-        >
-          <a-input v-model:value="formState.userId" />
-        </a-form-item>
+  <section class="layout">
+    <!-- <div class="logo">
+      <img class="logo-img" alt="logo" src="~@/assets/images/logo.svg" />
+      <div class="logo-text">光谷信息</div>
+    </div> -->
+    <div class="content">
+      <div class="content-inner">
+        <div class="login-form-wrapper">
+          <div class="login-form-images">
+            <img src="~@/assets/images/logo.png" :alt="common.documentTitle" />
+          </div>
+          <div class="login-form-title">登录</div>
+          <div class="login-form-sub-title">欢迎登录{{ common.documentTitle }}</div>
+          <a-form name="login" :model="formState" autocomplete="off" @finish="onFinish">
+            <a-form-item name="userId" :rules="[{ required: true, message: '请输入您的用户名!' }]">
+              <a-input v-model:value="formState.userId" placeholder="请输入您的用户名">
+                <template #prefix><UserOutlined style="color: rgba(0, 0, 0, 0.25)" /></template>
+              </a-input>
+            </a-form-item>
 
-        <a-form-item
-          label="密码"
-          name="passWord"
-          placeholder="请输入您的密码"
-          :rules="[{ required: true, message: '请输入您的密码!' }]"
-        >
-          <a-input-password v-model:value="formState.passWord" autocomplete="off" />
-        </a-form-item>
+            <a-form-item name="passWord" :rules="[{ required: true, message: '请输入您的密码!' }]">
+              <a-input-password
+                v-model:value="formState.passWord"
+                placeholder="请输入您的密码"
+                autocomplete="off"
+              >
+                <template #prefix><LockOutlined style="color: rgba(0, 0, 0, 0.25)" /></template>
+              </a-input-password>
+            </a-form-item>
 
-        <a-form-item :wrapper-col="{ offset: 4, span: 8 }">
-          <a-button type="primary" html-type="submit" >登录</a-button>
-        </a-form-item>
-      </a-form>
+            <a-form-item>
+              <a-button class="login-submit" type="primary" html-type="submit">登录</a-button>
+            </a-form-item>
+          </a-form>
+        </div>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup>
 import { reactive, onMounted } from 'vue';
+import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
 import { utilFn, awaitWrap } from 'utils';
 import { message } from 'ant-design-vue';
 import { useAuthStore } from 'store/auth';
+import { commonStore } from 'store/common';
 
 const router = useRouter();
 const auth = useAuthStore();
+const common = commonStore();
 const formState = reactive({
   userId: '',
   passWord: '',
 });
 
 // 初始化
-const initLoadData = () => {
-  // 引入粒子特效的相关配置
-  particlesJS(
-    'particles',
-
-    {
-      particles: {
-        number: {
-          value: 40,
-          density: {
-            enable: true,
-            value_area: 800,
-          },
-        },
-        color: {
-          value: '#ffffff',
-        },
-        shape: {
-          type: 'circle',
-          stroke: {
-            width: 0,
-            color: '#000000',
-          },
-          polygon: {
-            nb_sides: 5,
-          },
-          image: {
-            src: 'img/github.svg',
-            width: 100,
-            height: 100,
-          },
-        },
-        opacity: {
-          value: 0.7,
-          random: false,
-          anim: {
-            enable: false,
-            speed: 1,
-            opacity_min: 0.1,
-            sync: false,
-          },
-        },
-        size: {
-          value: 3,
-          random: true,
-          anim: {
-            enable: false,
-            speed: 40,
-            size_min: 0.1,
-            sync: false,
-          },
-        },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: '#ffffff',
-          opacity: 0.6,
-          width: 1,
-        },
-        move: {
-          enable: true,
-          speed: 6,
-          direction: 'none',
-          random: false,
-          straight: false,
-          out_mode: 'out',
-          bounce: false,
-          attract: {
-            enable: false,
-            rotateX: 600,
-            rotateY: 1200,
-          },
-        },
-      },
-      interactivity: {
-        detect_on: 'canvas',
-        events: {
-          onhover: {
-            enable: true,
-            mode: 'grab',
-          },
-          onclick: {
-            enable: true,
-            mode: 'push',
-          },
-          resize: true,
-        },
-        modes: {
-          grab: {
-            distance: 200,
-            line_linked: {
-              opacity: 1,
-            },
-          },
-          bubble: {
-            distance: 400,
-            size: 40,
-            duration: 2,
-            opacity: 8,
-            speed: 3,
-          },
-          repulse: {
-            distance: 200,
-            duration: 0.4,
-          },
-          push: {
-            particles_nb: 4,
-          },
-          remove: {
-            particles_nb: 2,
-          },
-        },
-      },
-      retina_detect: false,
-    },
-  );
-};
+const initLoadData = () => {};
 /** ============== 基础事件 =============== */
 // 登录事件
 const onFinish = async (values) => {
@@ -180,7 +70,7 @@ const onFinish = async (values) => {
 
   message.success(data.message);
   router.push({
-    name: 'erpPut',
+    name: 'topology',
   });
 };
 
@@ -193,23 +83,102 @@ onMounted(() => {
 <style lang="scss" scoped>
 .layout {
   @include flexbox();
-  background: #275474;
+  @include bgImage('assets/images/login/login_bg.png', cover);
+  background-color: #fff;
   height: 100vh;
 }
-.login-box {
-  padding: 20px;
-  width: 400px;
-  height: 300px;
+.content-inner {
+  @include flexbox(center, center, center, column);
+  padding: 70px 29px 58px;
+  width: 428px;
+  min-height: 300px;
   background-color: $--color-white;
-  z-index: 9;
-
-  .title {
-    font-size: 24px;
-    margin-bottom: 10px;
-    text-align: center;
+  position: relative;
+  box-shadow: 0 0 20px -5px rgba(60, 112, 204, 0.12), 0 0 20px -5px rgba(60, 112, 204, 0.12);
+}
+.logo {
+  position: fixed;
+  top: 32px;
+  left: 40px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  &-text {
+    margin-right: 4px;
+    margin-left: 4px;
+    color: #f7f8fa;
+    font-size: 20px;
+    font-size: 32px;
+    color: #467cea;
+    font-weight: 700;
+    transition: all 0.5s;
+    font-family: 'PangMenZhengDao';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 38.016px;
+    line-height: 43px;
+    color: #282828;
   }
-  .ant-form {
-    margin-top: 50px;
+  &-img {
+    width: 38px;
+    height: 38px;
+  }
+}
+.login-form {
+  &-wrapper {
+    width: 320px;
+    padding-top: 36px;
+  }
+
+  &-images {
+    @include wh(32px, 36px);
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    > img {
+      @include wh(100%, 100%);
+    }
+  }
+
+  &-title {
+    font-family: 'Alibaba PuHuiTi';
+    font-style: normal;
+    font-size: 24px;
+    line-height: 44px;
+    color: #000;
+    font-weight: 500;
+    text-align: left;
+    margin-bottom: 20px;
+    position: relative;
+
+    &::after {
+      content: '';
+      width: 16px;
+      height: 4px;
+      background: linear-gradient(to right, #649afa, #89eee7);
+      position: absolute;
+      left: 5px;
+      bottom: -8px;
+    }
+  }
+
+  &-sub-title {
+    font-size: 14px;
+    line-height: 22px;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 20px;
+  }
+}
+:deep(.ant-form) {
+  .login-submit {
+    width: 100%;
+    background: linear-gradient(to right, #588cf9, #94c4fb);
+    margin-top: 17px;
+    height: 40px;
+    border: none;
+    &:hover {
+      background: linear-gradient(to left, #588cf9, #94c4fb);
+    }
   }
 }
 </style>

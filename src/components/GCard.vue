@@ -1,5 +1,6 @@
 <template>
   <a-card
+    class="card-box"
     :loading="loading"
     :size="size"
     :headStyle="headStyle"
@@ -15,7 +16,11 @@
     <!-- 卡片标题 -->
     <template #title>
       <a-space align="center" :size="2">
-        <gx-svg-icon v-if="icon" :name="icon"></gx-svg-icon>
+        <g-svg-icon
+          v-if="icon"
+          :name="icon"
+          :svgStyle="{ width: '20px', height: '20px' }"
+        ></g-svg-icon>
         <slot v-if="$slots.title" name="title" />
         <div class="card-title" v-else>{{ title }}</div>
       </a-space>
@@ -25,25 +30,25 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
     title: {
       type: String,
-      default: "",
+      default: '',
     },
     icon: {
       type: String,
-      default: "",
+      default: '',
     },
     size: {
       type: String,
-      default: "default",
+      default: 'default',
     },
     height: {
       type: String,
-      default: "",
+      default: '',
     },
     loading: {
       type: Boolean,
@@ -56,22 +61,26 @@ export default defineComponent({
     headStyle: {
       type: Object,
       default: {
-        borderWidth: 0,
-        padding: "0 20px",
+        borderWidth: '1px',
+        padding: '0 20px',
       },
     },
     bodyStyle: {
       type: Object,
       default: {
-        padding: "0 20px 20px 20px !important",
-        minHeight: "200px",
+        padding: '10px 20px !important',
+        minHeight: '100px',
       },
     },
   },
 });
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
+.card-box {
+  border-radius: 6px;
+  box-shadow: 1px 1px 3px rgba(16, 37, 76, 0.05), 3px 3px 6px rgba(16, 37, 76, 0.05);
+}
 .card-title {
   font-weight: 600;
   color: #202f40;
@@ -79,5 +88,6 @@ export default defineComponent({
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  margin-left: 5px;
 }
 </style>

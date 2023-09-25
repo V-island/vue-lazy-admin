@@ -1,6 +1,7 @@
 import path from 'path';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import legacy from '@vitejs/plugin-legacy'
 import Components from 'unplugin-vue-components/vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 import { createStyleImportPlugin, AndDesignVueResolve } from 'vite-plugin-style-import';
@@ -14,7 +15,7 @@ function resolves(dir) {
 // https://vitejs.dev/config/
 export default defineConfig({
   // 基本路径
-  base: './',
+  base: '/',
   // 构建时的输出目录
   outDir: 'dist',
   // 放置静态资源的目录
@@ -55,7 +56,7 @@ export default defineConfig({
   plugins: [
     vue(),
     Components({
-      resolvers: [AntDesignVueResolver({importStyle: 'less'})],
+      resolvers: [AntDesignVueResolver({ importStyle: 'less' })],
     }),
     createStyleImportPlugin({
       resolves: [AndDesignVueResolve()],
@@ -73,6 +74,29 @@ export default defineConfig({
       iconDirs: [resolves('src/assets/svg')],
       symbolId: '[name]',
     }),
+    legacy({
+      targets: ['defaults', 'ie >= 11', 'Android >= 7', 'chrome < 60', 'edge < 15'], // 需要兼容的目标列表，可以设置多个
+      additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
+      renderLegacyChunks: true,
+      polyfills: [
+        'es.symbol',
+        'es.array.filter',
+        'es.promise',
+        'es.promise.finally',
+        'es/map',
+        'es/set',
+        'es.array.for-each',
+        'es.object.define-properties',
+        'es.object.define-property',
+        'es.object.get-own-property-descriptor',
+        'es.object.get-own-property-descriptors',
+        'es.object.keys',
+        'es.object.to-string',
+        'web.dom-collections.for-each',
+        'esnext.global-this',
+        'esnext.string.match-all'
+      ]
+    })
   ],
   // 开发服务,build后的生产模式还需nginx代理
   server: {

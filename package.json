@@ -14,7 +14,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "ant-design-vue": "^3.2.20",
+    "ant-design-vue": "^4.0.6",
     "axios": "^1.4.0",
     "highlight.js": "^11.0.1",
     "jsencrypt": "^3.0.1",

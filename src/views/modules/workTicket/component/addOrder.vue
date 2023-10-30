@@ -81,7 +81,6 @@ import { Form, message } from 'ant-design-vue';
 import { useAuthStore } from 'store/auth';
 import { cacheStore } from 'store/cache';
 import { addErpOrder } from 'api/order.js';
-import SelectMaterielModal from 'components/modules/selectMaterielModal.vue';
 
 const { config } = defineProps(['config']);
 const emit = defineEmits(['onSave']);

@@ -23,13 +23,3 @@ export const defaultTab = {
 
 // 菜单图标列表
 export const menuIcons = ['fa-cog', 'fa-address-book-o'];
-
-// 系统主题对应色值
-export const systemThemeColor = {
-  green: '#11BBBB',
-  blue: '#31A6EF',
-  purple: '#E747BA',
-};
-
-// 禁用keep-alive缓存的组件列表(组件name)
-export const disableCacheComponents = [];

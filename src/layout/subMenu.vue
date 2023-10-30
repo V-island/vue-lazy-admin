@@ -1,10 +1,18 @@
 <template>
-  <a-sub-menu v-if="!menu.hidden" :key="formatMenuUrl(`${menu.title}`)">
-    <template v-if="menu.customIcon" #icon>
+  <a-sub-menu
+    popupClassName="submenu-top"
+    v-if="!menu.hidden"
+    :key="formatMenuUrl(`${menu.title}`)"
+    :popupOffset="['-25%', 0]"
+  >
+    <!-- <template v-if="menu.customIcon" #icon>
       <g-svg-icon :name="menu.customIcon" :svgStyle="{ width: '22px', height: '22px' }" />
-    </template>
+    </template> -->
     <template #title>
       {{ menu.title }}
+    </template>
+    <template #expandIcon>
+      <RightOutlined />
     </template>
     <template v-for="item in menu.children">
       <template v-if="!item.isHidden">
@@ -12,9 +20,9 @@
           <MainSubMenu :key="formatMenuUrl(`${item.title}`)" :menu="item" />
         </template>
         <a-menu-item v-else :key="formatMenuUrl(`${item.url}`)">
-          <template v-if="item.customIcon" #icon>
+          <!-- <template v-if="item.customIcon" #icon>
             <g-svg-icon :name="item.customIcon" :svgStyle="{ width: '22px', height: '22px' }" />
-          </template>
+          </template> -->
           <span>{{ item.title }}</span>
         </a-menu-item>
       </template>
@@ -29,4 +37,23 @@ import MainSubMenu from './subMenu.vue';
 const { menu } = defineProps(['menu']);
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.submenu-layout {
+  background: #000;
+}
+
+:deep(.submenu-layout) {
+  background: #000;
+  .ant-menu-vertical > .ant-menu-item,
+  .ant-menu-vertical-left > .ant-menu-item,
+  .ant-menu-vertical-right > .ant-menu-item,
+  .ant-menu-inline > .ant-menu-item,
+  .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title,
+  .ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title,
+  .ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title,
+  .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+    height: 56px;
+    line-height: 56px;
+  }
+}
+</style>

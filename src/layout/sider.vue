@@ -1,8 +1,7 @@
 <template>
   <section class="wrapper">
     <a-menu
-      mode="inline"
-      theme="dark"
+      mode="horizontal"
       v-model:openKeys="menu.openKeys"
       v-model:selectedKeys="menu.selectedKeys"
       :collapsed="common.collapsed"
@@ -14,9 +13,9 @@
             <MainSubMenu :key="formatMenuUrl(`${item.title}`)" :menu="item" />
           </template>
           <a-menu-item v-else :key="formatMenuUrl(`${item.url || 'home'}`)">
-            <template v-if="item.customIcon" #icon>
+            <!-- <template v-if="item.customIcon" #icon>
               <g-svg-icon :name="item.customIcon" :svgStyle="{ width: '22px', height: '22px' }" />
-            </template>
+            </template> -->
             <span>{{ item.title }}</span>
           </a-menu-item>
         </template>
@@ -69,4 +68,76 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.wrapper {
+  @include flexbox(space-between);
+  width: 100%;
+  height: 100%;
+  color: $--color-white;
+
+  :deep(.ant-menu) {
+    border-width: 0;
+    background-color: transparent;
+    color: $--color-white;
+    height: calc(100% - 2px);
+    line-height: 88px;
+    font-size: 20px;
+
+    &:not(.ant-menu-dark) {
+      > .ant-menu-item:hover,
+      > .ant-menu-submenu:hover,
+      > .ant-menu-item-active,
+      > .ant-menu-submenu-active,
+      > .ant-menu-item-open,
+      > .ant-menu-submenu-open,
+      > .ant-menu-item-selected,
+      > .ant-menu-submenu-selected {
+        color: $--color-white;
+
+        .ant-menu-submenu-arrow {
+          transform: rotate(90deg);
+        }
+      }
+
+      > .ant-menu-item:hover::after,
+      > .ant-menu-item-active::after,
+      > .ant-menu-submenu-active::after,
+      > .ant-menu-submenu-open::after,
+      > .ant-menu-item-selected::after,
+      > .ant-menu-submenu-selected::after {
+        border-bottom: 4px solid rgba(255, 255, 255, 0.8);
+      }
+    }
+    .ant-menu-item:hover,
+    .ant-menu-item-active,
+    .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
+    .ant-menu-submenu-active,
+    .ant-menu-submenu-title:hover {
+      color: $--color-white;
+    }
+    .ant-menu-submenu-expand-icon,
+    .ant-menu-submenu-arrow {
+      display: block;
+      right: -16px;
+      width: 10px;
+      color: $--color-white;
+    }
+    &.ant-menu-light .ant-menu-submenu-selected > .ant-menu-submenu-title {
+      color: $--color-white;
+    }
+  }
+  :deep(.ant-menu-submenu-popup) {
+    .ant-menu-vertical > .ant-menu-item,
+    .ant-menu-vertical-left > .ant-menu-item,
+    .ant-menu-vertical-right > .ant-menu-item,
+    .ant-menu-inline > .ant-menu-item,
+    .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title,
+    .ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title,
+    .ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title,
+    .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+      height: 56px;
+      line-height: 56px;
+    }
+  }
+}
+</style>

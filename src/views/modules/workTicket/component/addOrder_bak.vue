@@ -110,12 +110,6 @@
           </template>
         </g-table>
       </section>
-      <!-- 选择物料 -->
-      <SelectMaterielModal
-        v-if="materielConfig.show"
-        :config="materielConfig"
-        @onSave="onSelectMateriel"
-      />
     </a-spin>
     <template #footer>
       <a-button type="primary" @click="onSubmitOrValidate">确定</a-button>
@@ -130,7 +124,6 @@ import { Form, message } from 'ant-design-vue';
 import { useAuthStore } from 'store/auth';
 import { cacheStore } from 'store/cache';
 import { addErpOrder } from 'api/order.js';
-import SelectMaterielModal from 'components/modules/selectMaterielModal.vue';
 
 const { config } = defineProps(['config']);
 const emit = defineEmits(['onSave']);

@@ -3,24 +3,25 @@
 $--color-white: #fff !default;
 $--color-black: #000 !default;
 
-$--color-primary: #1890ff !default;
-$--color-primary-hover: #40a9ff !default;
-$--color-primary-active: #096dd9 !default;
-$--color-primary-outline: rgba(24, 144, 255, .2) !default;
-$--color-primary-deputy: #E7F8F8 !default;
-$--color-primary-light-1: mix($--color-white, $--color-primary, 10%) !default; /* 53a8ff */
-$--color-primary-light-2: mix($--color-white, $--color-primary, 20%) !default; /* 66b1ff */
-$--color-primary-light-3: mix($--color-white, $--color-primary, 30%) !default; /* 79bbff */
-$--color-primary-light-4: mix($--color-white, $--color-primary, 40%) !default; /* 8cc5ff */
-$--color-primary-light-5: mix($--color-white, $--color-primary, 50%) !default; /* a0cfff */
-$--color-primary-light-6: mix($--color-white, $--color-primary, 60%) !default; /* b3d8ff */
-$--color-primary-light-7: mix($--color-white, $--color-primary, 70%) !default; /* c6e2ff */
-$--color-primary-light-8: mix($--color-white, $--color-primary, 80%) !default; /* d9ecff */
-$--color-primary-light-9: mix($--color-white, $--color-primary, 90%) !default; /* ecf5ff */
+// 主色
+$--color-primary: #0099f6 !default;
+$--color-primary-hover: #0579c2 !default;
+$--color-primary-active: #1887cc !default;
+$--color-primary-outline: rgba(15, 147, 228, 0.2) !default;
 
-$--color-success: #67c23a !default;
-$--color-warning: #e6a23c !default;
-$--color-danger: #f56c6c !default;
+// 辅助色
+$--color-orange: #ED7B2F !default;
+$--color-orange-hover: #DD722A !default;
+$--color-yellow: #EEA02A !default;
+$--color-green: #00BBB7 !default;
+$--color-blue: #168FFF !default;
+$--color-purple: #8E5CE0 !default;
+
+// 功能色
+$--color-success: #66BB83 !default;
+$--color-warning: #FFC148 !default;
+$--color-danger: #F2634F !default;
+$--color-error: #B12B2B !default;
 $--color-info: #909399 !default;
 
 $--color-success-light: mix($--color-white, $--color-success, 80%) !default;
@@ -33,9 +34,24 @@ $--color-warning-lighter: mix($--color-white, $--color-warning, 90%) !default;
 $--color-danger-lighter: mix($--color-white, $--color-danger, 90%) !default;
 $--color-info-lighter: mix($--color-white, $--color-info, 90%) !default;
 
-$--color-text-primary: #333333 !default;
-$--color-text-regular: #666666 !default;
-$--color-text-secondary: #999999 !default;
-$--color-text-placeholder: #c0c4cc !default;
+$--color-text-primary: #171717 !default;
+$--color-text-regular: #585858 !default;
+$--color-text-secondary: #808080 !default;
+$--color-text-placeholder: #C8CDCE !default;
 
 $--color-border: #c0c4cc !default;
+
+// layout
+$--layout-padding: 16px;
+
+$--header-height: 88px;
+$--header-padding: 0 $--layout-padding;
+$--header-color-bg: $--color-primary;
+
+$--breadcrumb-height: 40px;
+$--breadcrumb-color: $--color-white;
+$--breadcrumb-color-bg: $--color-white;
+
+$--footer-height: 120px;
+$--footer-color: $--color-text-secondary;
+$--footer-color-bg: $--color-text-primary;

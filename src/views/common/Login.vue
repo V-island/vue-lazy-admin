@@ -1,14 +1,16 @@
 <template>
   <section class="layout">
-    <!-- <div class="logo">
+    <div class="logo">
       <img class="logo-img" alt="logo" src="~@/assets/images/logo.svg" />
-      <div class="logo-text">光谷信息</div>
-    </div> -->
+      <div class="logo-text">
+        <span>{{ common.documentTitle }}</span>
+      </div>
+    </div>
     <div class="content">
       <div class="content-inner">
         <div class="login-form-wrapper">
           <div class="login-form-images">
-            <img src="~@/assets/images/logo.png" :alt="common.documentTitle" />
+            <img src="~@/assets/images/logo.svg" :alt="common.documentTitle" />
           </div>
           <div class="login-form-title">登录</div>
           <div class="login-form-sub-title">欢迎登录{{ common.documentTitle }}</div>
@@ -109,7 +111,7 @@ onMounted(() => {
     color: #f7f8fa;
     font-size: 20px;
     font-size: 32px;
-    color: #467cea;
+    color: $--color-primary;
     font-weight: 700;
     transition: all 0.5s;
     font-family: 'PangMenZhengDao';
@@ -155,7 +157,7 @@ onMounted(() => {
       content: '';
       width: 16px;
       height: 4px;
-      background: linear-gradient(to right, #649afa, #89eee7);
+      background: linear-gradient(to right, $--color-primary, $--color-primary-hover);
       position: absolute;
       left: 5px;
       bottom: -8px;
@@ -172,12 +174,12 @@ onMounted(() => {
 :deep(.ant-form) {
   .login-submit {
     width: 100%;
-    background: linear-gradient(to right, #588cf9, #94c4fb);
+    background: linear-gradient(to right, $--color-primary, $--color-primary-hover);
     margin-top: 17px;
     height: 40px;
     border: none;
     &:hover {
-      background: linear-gradient(to left, #588cf9, #94c4fb);
+      background: linear-gradient(to right, $--color-primary, $--color-primary-hover);
     }
   }
 }

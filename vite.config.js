@@ -38,18 +38,13 @@ export default defineConfig({
       utils: resolves('src/utils'),
       views: resolves('src/views'),
       plugins: resolves('src/plugins'),
+      theme: resolves('src/theme'),
     },
   },
   css: {
     preprocessorOptions: {
       scss: {
         additionalData: `@import "styles/index.scss";`,
-      },
-      less: {
-        modifyVars: {
-          'primary-color': '#1890ff'
-        },
-        javascriptEnabled: true,
       },
     },
   },

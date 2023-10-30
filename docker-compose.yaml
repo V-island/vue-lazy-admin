@@ -1,0 +1,16 @@
+version: "3"
+services:
+  app:
+    image: "lazy-website"
+    volumes:
+      - /srv/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - /srv/nginx/data:/data
+      - /srv/nginx/logs:/logs
+#    ports:
+#      - '80:80'
+    networks:
+      - lazy-bridge
+
+networks:
+  lazy-bridge:
+    external: true

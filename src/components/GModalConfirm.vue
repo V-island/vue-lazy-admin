@@ -155,8 +155,6 @@ export default defineComponent({
   }
   .ant-modal-body {
     padding: $--layout-padding;
-    overflow: auto;
-    max-height: calc(100vh - 56px - 68px - $--layout-padding - $--layout-padding);
   }
   .ant-modal-footer {
     @include flexbox();

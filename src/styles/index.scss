@@ -3,6 +3,7 @@
 @import "font.scss";
 
 :deep(.ant-form) {
+
   .ant-select,
   .ant-input,
   .ant-input-number,
@@ -17,4 +18,40 @@
 
 #nprogress .bar {
   background: $--color-primary !important; //自定义颜色
+}
+
+
+.ant-btn-orange {
+  color: $--color-orange;
+  border-color: $--color-orange;
+  background: $--color-white;
+
+  &.ant-btn-link {
+    color: $--color-orange;
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+
+    &:hover,
+    &:focus {
+      color: $--color-orange-hover;
+      border-color: transparent;
+      background: transparent;
+    }
+  }
+
+  &.ant-btn-primary {
+    color: $--color-white;
+    border-color: $--color-orange;
+    background: $--color-orange;
+    text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+    box-shadow: 0 2px #0000000b;
+
+    &:hover,
+    &:focus {
+      color: $--color-white;
+      border-color: $--color-orange-hover;
+      background: $--color-orange-hover;
+    }
+  }
 }

@@ -23,7 +23,7 @@ export const commonStore = defineStore('common', {
       // iframe
       iframeSrc: '',
       iframeTitle: '',
-    }
+    };
   },
   getters: {
     documentTitle() {
@@ -45,10 +45,7 @@ export const commonStore = defineStore('common', {
         const menu = menuStore();
 
         // 获取角色信息、菜單
-        const requestList = Promise.all([
-          useAuth.getUserInfoToToken(),
-          menu.getMenuListToToken(),
-        ]);
+        const requestList = Promise.all([useAuth.getUserInfoToToken(), menu.getMenuListToToken()]);
         const [errList, requestSet] = await awaitWrap(requestList);
 
         // 请求出错直接返回错误信息
@@ -62,7 +59,7 @@ export const commonStore = defineStore('common', {
       } catch (error) {
         return Promise.reject(error);
       }
-    }
+    },
   },
 });
 
@@ -71,8 +68,8 @@ export const pageLoadingStore = defineStore('pageLoading', {
   state: () => {
     return {
       spinning: false,
-      tip: '数据加载中，请稍后...',
-    }
+      tip: '正在努力加载中...',
+    };
   },
   actions: {
     setLoadingStatus(show) {

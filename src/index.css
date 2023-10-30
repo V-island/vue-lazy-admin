@@ -40,12 +40,12 @@ li {
 }
 
 *::-webkit-scrollbar-thumb {
-  background: rgba(24, 144, 255, 0.6);
+  background: rgba(0, 148, 131, 0.6);
   border-radius: 5px;
 }
 
 *::-webkit-scrollbar-thumb :hover {
-  background: #53a8ff;
+  background: #009483;
 
 }
 
@@ -56,12 +56,43 @@ li {
 
 * {
   scrollbar-width: 10px;
-  scrollbar-base-color: rgba(24, 144, 255, 0.6);
+  scrollbar-base-color: rgba(0, 148, 131, 0.6);
   scrollbar-track-color: rgba(0, 0, 0, .2);
-  scrollbar-arrow-color: rgba(24, 144, 255, 0.6);
+  scrollbar-arrow-color: rgba(0, 148, 131, 0.6);
 }
 
 input:-internal-autofill-selected {
   box-shadow: 0 0 0 1000px #E7F8F8 inset;
   -webkit-text-fill-color: #333333;
+}
+
+.ant-menu-submenu-popup.submenu-top .ant-menu-vertical.ant-menu-sub {
+  min-width: 220px;
+}
+
+.ant-menu-submenu-popup.submenu-top .ant-menu-vertical>.ant-menu-item {
+  width: 100%;
+  height: 56px;
+  line-height: 56px;
+  padding-inline: 24px;
+  margin-inline: 0;
+  margin-block: 4px;
+  font-size: 18px;
+}
+
+.ant-menu-submenu-popup.submenu-top .ant-menu-vertical>.ant-menu-item::after {
+  position: absolute;
+  inset-block: 0px;
+  left: 0;
+  border-left: 2px solid transparent;
+  transition: border-color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  content: "";
+}
+
+.ant-menu-submenu-popup.submenu-top .ant-menu-vertical>.ant-menu-item-selected {
+  font-weight: 600;
+}
+
+.ant-menu-submenu-popup.submenu-top .ant-menu-vertical>.ant-menu-item-selected::after {
+  border-left: 2px solid rgba(0, 148, 131, 0.8);
 }

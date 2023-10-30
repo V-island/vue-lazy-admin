@@ -1,14 +1,14 @@
 <template>
   <a-spin wrapperClassName="spin-wrapper" :spinning="spinning" :tip="tip">
     <template #indicator>
-      <LoadingOutlined spin />
+      <Loading3QuartersOutlined spin />
     </template>
     <slot></slot>
   </a-spin>
 </template>
 <script>
 import { defineComponent } from 'vue';
-import { LoadingOutlined } from '@ant-design/icons-vue';
+import { Loading3QuartersOutlined } from '@ant-design/icons-vue';
 
 export default defineComponent({
   props: {
@@ -18,11 +18,11 @@ export default defineComponent({
     },
     tip: {
       type: String,
-      default: '数据加载中，请稍后...',
+      default: '正在努力加载中...',
     },
   },
   components: {
-    LoadingOutlined,
+    Loading3QuartersOutlined,
   },
 });
 </script>
@@ -35,12 +35,15 @@ export default defineComponent({
   :deep(.ant-spin) {
     max-height: inherit;
     z-index: 1002;
+    color: $--color-primary;
+
     .ant-spin-text {
-      font-size: 16px;
+      font-size: 20px;
+      font-weight: 500;
     }
     .ant-spin-dot {
-      font-size: 30px;
-      margin-top: -40px !important;
+      font-size: 38px;
+      margin-top: -50px !important;
     }
   }
 }

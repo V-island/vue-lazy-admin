@@ -12,7 +12,12 @@
     <a-layout-content class="layout-main">
       <router-view class="pages"></router-view>
       <div class="watermark"></div>
-      <a-layout-footer class="layout-footer"> wms ©1998-2023 </a-layout-footer>
+      <a-layout-footer class="layout-footer">
+        <div class="icp">
+          <a href="https://beian.miit.gov.cn" target="_blank">粤ICP备2022114741号-1</a>
+          LazyMeta 懒人星球 © 2020~2021版权所有
+        </div>
+      </a-layout-footer>
     </a-layout-content>
   </a-layout>
 </template>

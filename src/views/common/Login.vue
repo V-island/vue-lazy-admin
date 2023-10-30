@@ -38,6 +38,16 @@
         </div>
       </div>
     </div>
+    <div class="footer">
+      <a-row :gutter="[16, 16]">
+        <a-col :span="24">
+          <div class="icp">
+            <a href="https://beian.miit.gov.cn" target="_blank">粤ICP备2022114741号-1</a>
+            LazyMeta 懒人星球 © 2020~2021版权所有
+          </div>
+        </a-col>
+      </a-row>
+    </div>
   </section>
 </template>
 
@@ -84,7 +94,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .layout {
-  @include flexbox();
+  @include flexbox(center, center, center, column);
   @include bgImage('assets/images/login/login_bg.png', cover);
   background-color: #fff;
   height: 100vh;
@@ -97,6 +107,16 @@ onMounted(() => {
   background-color: $--color-white;
   position: relative;
   box-shadow: 0 0 20px -5px rgba(60, 112, 204, 0.12), 0 0 20px -5px rgba(60, 112, 204, 0.12);
+}
+.footer {
+  position: fixed;
+  bottom: 32px;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
 }
 .logo {
   position: fixed;

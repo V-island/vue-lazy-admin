@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { useAuthStore, menuStore } from 'store/auth';
-import { utilFn, getResult, awaitWrap } from 'utils';
+import { useAuthStore, menuStore } from '@/store/auth';
+import { utilFn, getResult, awaitWrap } from '@/utils';
 
 // 校验错误结果
 function validateResult(results) {

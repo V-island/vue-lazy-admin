@@ -1,5 +1,5 @@
 /* =================== API请求配置 ================ */
-export const BASE_API = import.meta.env.VITE_APP_BASE_API;
+export const BASE_API = import.meta.env.VITE_BASE_API;
 
 export const API_SERVICE = `${BASE_API}`;
 export const WS_SERVICE_SITE = `ws://${import.meta.env.VITE_APP_WS_FRONT_SITE}`;

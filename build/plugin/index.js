@@ -16,7 +16,7 @@ import { configLegacyPlugin } from './legacy'
 import unplugin from './unplugin'
 
 export function createVitePlugins(viteEnv, isBuild) {
-  const plugins = [vue(), ...unplugin, configHtmlPlugin(viteEnv, isBuild), Unocss()]
+  const plugins = [vue(), ...unplugin, configHtmlPlugin(viteEnv, isBuild), Unocss(), configLegacyPlugin()]
 
   if (viteEnv.VITE_USE_COMPRESS) {
     plugins.push(viteCompression({ algorithm: viteEnv.VITE_COMPRESS_TYPE || 'gzip' }))
@@ -29,9 +29,6 @@ export function createVitePlugins(viteEnv, isBuild) {
         gzipSize: true,
         brotliSize: true,
       })
-    )
-    plugins.push(
-      configLegacyPlugin()
     )
   }
 

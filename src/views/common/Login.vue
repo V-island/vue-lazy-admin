@@ -3,17 +3,17 @@
     <div class="logo">
       <img class="logo-img" alt="logo" src="~@/assets/images/logo.svg" />
       <div class="logo-text">
-        <span>{{ common.documentTitle }}</span>
+        <span>{{ title }}</span>
       </div>
     </div>
     <div class="content">
       <div class="content-inner">
         <div class="login-form-wrapper">
           <div class="login-form-images">
-            <img src="~@/assets/images/logo.svg" :alt="common.documentTitle" />
+            <img src="~@/assets/images/logo.svg" :alt="title" />
           </div>
           <div class="login-form-title">登录</div>
-          <div class="login-form-sub-title">欢迎登录{{ common.documentTitle }}</div>
+          <div class="login-form-sub-title">欢迎登录{{ title }}</div>
           <a-form name="login" :model="formState" autocomplete="off" @finish="onFinish">
             <a-form-item name="userId" :rules="[{ required: true, message: '请输入您的用户名!' }]">
               <a-input v-model:value="formState.userId" placeholder="请输入您的用户名">
@@ -53,34 +53,31 @@
 
 <script setup>
 import { reactive, onMounted } from 'vue';
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
-import { utilFn, awaitWrap } from 'utils';
-import { message } from 'ant-design-vue';
-import { useAuthStore } from 'store/auth';
-import { commonStore } from 'store/common';
+// import { utilFn, awaitWrap } from '@/utils';
+// import { useAuthStore } from '@/store/auth';
 
 const router = useRouter();
-const auth = useAuthStore();
-const common = commonStore();
+// const auth = useAuthStore();
 const formState = reactive({
   userId: '',
   passWord: '',
 });
+const title = import.meta.env.VITE_TITLE; // 环境变量中读取
 
 // 初始化
 const initLoadData = () => {};
 /** ============== 基础事件 =============== */
 // 登录事件
 const onFinish = async (values) => {
-  utilFn._showPageLoading();
-  // 登录获取用户信息、角色、菜单等数据
-  const [err, data] = await awaitWrap(auth.loginByUserNameToToken(values));
-  utilFn._hidePageLoading();
+  // utilFn._showPageLoading();
+  // // 登录获取用户信息、角色、菜单等数据
+  // const [err, data] = await awaitWrap(auth.loginByUserNameToToken(values));
+  // utilFn._hidePageLoading();
 
-  if (err || !data.result) return message.error(err || data.message);
+  if (err || !data.result) return $message.error(err || data.message);
 
-  message.success(data.message);
+  $message.success(data.message);
   router.push({
     name: 'topology',
   });
@@ -95,7 +92,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .layout {
   @include flexbox(center, center, center, column);
-  @include bgImage('assets/images/login/login_bg.webp', cover);
+  @include bgImage('@/assets/images/login/login_bg.webp', cover);
   background-color: #fff;
   height: 100vh;
 }
@@ -104,7 +101,7 @@ onMounted(() => {
   padding: 70px 29px 58px;
   width: 428px;
   min-height: 300px;
-  background-color: $--color-white;
+  background-color: var(--color-white);
   position: relative;
   box-shadow: 0 0 20px -5px rgba(60, 112, 204, 0.12), 0 0 20px -5px rgba(60, 112, 204, 0.12);
 }
@@ -131,7 +128,7 @@ onMounted(() => {
     color: #f7f8fa;
     font-size: 20px;
     font-size: 32px;
-    color: $--color-primary;
+    color: var(--primary-color);
     font-weight: 700;
     transition: all 0.5s;
     font-family: 'PangMenZhengDao';
@@ -177,7 +174,7 @@ onMounted(() => {
       content: '';
       width: 16px;
       height: 4px;
-      background: linear-gradient(to right, $--color-primary, $--color-primary-hover);
+      background: linear-gradient(to right, var(--primary-color), var(--primary-color-hover));
       position: absolute;
       left: 5px;
       bottom: -8px;
@@ -194,12 +191,12 @@ onMounted(() => {
 :deep(.ant-form) {
   .login-submit {
     width: 100%;
-    background: linear-gradient(to right, $--color-primary, $--color-primary-hover);
+    background: linear-gradient(to right, var(--primary-color), var(--primary-color-hover));
     margin-top: 17px;
     height: 40px;
     border: none;
     &:hover {
-      background: linear-gradient(to right, $--color-primary, $--color-primary-hover);
+      background: linear-gradient(to right, var(--primary-color), var(--primary-color-hover));
     }
   }
 }

@@ -2,52 +2,69 @@
   "name": "lazy-base-template-vue3",
   "private": true,
   "version": "0.1.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:server": "json-server --watch ./server/db.json",
     "build": "vite build",
     "build:test": "vite build --mode testing",
-    "dev:mock": "cross-env USE_MOCK=true vite",
-    "build:mock": "cross-env USE_CHUNK_MOCK=true vite build",
-    "server:json": "json-server --watch ./src/server/db.json",
-    "dev:json": "concurrently --raw \"npm run dev\" \"npm run server:json\"",
-    "preview": "vite preview"
+    "dev:json": "concurrently --raw \"npm run dev\" \"npm run dev:server\"",
+    "preview": "vite preview",
+    "lint": "eslint --ext .js,.vue .",
+    "lint:fix": "eslint --fix --ext .js,.vue .",
+    "up": "taze major -I"
   },
   "dependencies": {
+    "@vueuse/core": "^9.13.0",
     "axios": "^1.4.0",
-    "highlight.js": "^11.0.1",
+    "dayjs": "^1.11.10",
+    "highlight.js": "^11.8.0",
     "jsencrypt": "^3.0.1",
     "nprogress": "^0.2.0",
+    "md-editor-v3": "^2.11.3",
     "pinia": "^2.1.4",
+    "pinia-plugin-persistedstate": "^3.1.0",
     "qs": "^6.11.2",
     "simplebar-vue": "^2.3.3",
     "tools-javascript": "^1.0.14",
     "tools-vue3": "^1.0.48",
-    "vite": "^4.3.9",
     "vue": "^3.2.47",
-    "vue-i18n": "^9.2.2",
     "vue-router": "^4.2.2",
-    "xe-utils": "^3.5.11"
+    "xe-utils": "^3.5.11",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@intlify/vite-plugin-vue-i18n": "^7.0.0",
+    "@antfu/eslint-config": "^0.39.5",
+    "@iconify/json": "^2.2.80",
+    "@iconify/vue": "^4.1.1",
     "@vitejs/plugin-legacy": "^4.1.1",
+    "@unocss/eslint-config": "^0.53.1",
     "@unocss/preset-rem-to-px": "^0.55.7",
-    "@vitejs/plugin-vue": "^4.1.0",
+    "@unocss/reset": "^0.53.1",
+    "@vitejs/plugin-vue": "^4.2.3",
     "concurrently": "^8.2.0",
-    "consola": "^3.1.0",
-    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
+    "eslint": "^8.43.0",
     "json-server": "^0.17.3",
     "naive-ui": "^2.35.0",
     "rollup-plugin-visualizer": "^5.9.2",
     "sass": "^1.63.4",
     "unocss": "0.55.3",
+    "taze": "^0.8.5",
     "unplugin-auto-import": "^0.16.6",
     "unplugin-icons": "^0.16.6",
     "unplugin-vue-components": "^0.25.2",
+    "vite": "^4.3.9",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-html": "^3.2.0",
     "vite-plugin-svg-icons": "^2.0.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@antfu",
+      "@unocss"
+    ],
+    "globals": {
+      "window": true
+    }
   }
 }

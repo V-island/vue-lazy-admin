@@ -1,6 +1,7 @@
 {
   "header": {
-    "height": 60
+    "height": 60,
+    "padding": 16
   },
   "tags": {
     "visible": true,
@@ -8,10 +9,13 @@
   },
   "naiveThemeOverrides": {
     "common": {
+      "whiteColor": "#fff",
+      "blackColor": "#000",
       "primaryColor": "#66bb83FF",
       "primaryColorHover": "#66bb83E3",
       "primaryColorPressed": "#66bb83FF",
       "primaryColorSuppl": "#66bb83E3",
+      "primaryColorGbg": "102,187,131",
       "infoColor": "#2080F0FF",
       "infoColorHover": "#4098FCFF",
       "infoColorPressed": "#1060C9FF",

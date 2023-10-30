@@ -1,104 +1,76 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
-import { clone } from 'xe-utils';
-import { beforeHook, afterHook } from './routerHooks';
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
+import { EMPTY_ROUTE, NOT_FOUND_ROUTE, basicRoutes } from './routes'
+import { setupRouterGuard } from './guard'
+import { getToken } from '@/utils'
+import { usePermissionStore, useUserStore } from '@/store'
 
-// 常量路由表
-const constRoutes = [
-  {
-    path: '/',
-    redirect: { name: 'login' },
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('views/common/Login.vue'),
-    meta: {
-      title: '登录',
-      tooltip: '请选择登录方式',
-    },
-  },
-  {
-    path: '/403',
-    hidden: true,
-    name: 'pageNotPermission',
-    meta: {
-      title: '403',
-    },
-    component: () => import('views/common/PageNotPermission.vue'),
-  },
-  {
-    path: '/404',
-    name: 'pageNotFound',
-    component: () => import('views/common/PageNotFound.vue'),
-    meta: {
-      title: '404',
-    },
-  },
-  {
-    path: '/:catchAll(.*)*',
-    hidden: true,
-    component: () => import('views/common/PageNotFound.vue'),
-  },
-];
+const isHash = import.meta.env.VITE_USE_HASH === 'true'
+export const router = createRouter({
+  history: isHash ? createWebHashHistory('/') : createWebHistory('/'),
+  routes: basicRoutes,
+  scrollBehavior: () => ({ left: 0, top: 0 }),
+})
 
-// 静态路由表
-const staticRoutes = [
-  // 支持直接传递第三方url，打开iframe, iframe:http://localhost:8088/ureport/designer?_u=file:22.ureport.xml&title=编辑报表'
-  {
-    path: '/iframePage',
-    name: 'iframePage',
-    component: () => import('views/common/IframePage.vue'),
-    meta: {
-      title: 'iframe',
-      target: 'iframe',
-    },
-  },
-];
-
-// 初始异步路由表
-const initAsyncRoutes = [
-  {
-    path: '/layout',
-    name: 'layout',
-    redirect: { name: 'home' },
-    component: () => import('layout/index.vue'),
-    children: [
-      {
-        path: '/home',
-        name: 'home',
-        component: () => import('views/common/Home.vue'),
-        meta: {
-          title: '首页',
-        },
-      },
-    ],
-  },
-];
-
-// 当前路由实例
-const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constRoutes,
-});
-router.beforeEach(beforeHook);
-router.afterEach(afterHook);
-
-// 创建一个新的路由实例，替换当前路由实例中的路由列表
-export function resetRoutes() {
-  const newRouter = createRouter({
-    history: createWebHashHistory(import.meta.env.BASE_URL),
-    scrollBehavior: () => ({ y: 0 }),
-    routes: constRoutes,
-  });
-  router.matcher = newRouter.matcher;
+export async function setupRouter(app) {
+  await addDynamicRoutes() // 每次刷新时都添加动态路由
+  setupRouterGuard(router) // 路由守卫
+  app.use(router)
 }
 
-// 初始化实例
-export function getInitAsyncRoutes() {
-  return clone(initAsyncRoutes, true);
+// 用户退出登录时需要重置路由
+export async function resetRouter() {
+  const basicRouteNames = getRouteNames(basicRoutes)
+  router.getRoutes().forEach((route) => {
+    const name = route.name
+    if (!basicRouteNames.includes(name))
+      router.removeRoute(name)
+  })
 }
 
-export { staticRoutes };
+// ! 添加动态路由: 可以由前端生成或后端生成路由
+export async function addDynamicRoutes() {
+  const token = getToken()
 
-export default router;
+  // 没有 token 的情况
+  if (!token) {
+    router.addRoute(EMPTY_ROUTE)
+    return
+  }
+
+  // 有 token 的情况
+  try {
+    // 根据权限生成动态路由
+    const userStore = useUserStore()
+    const permissionStore = usePermissionStore()
+
+    // userId 不存在, 则调用接口根据 token 获取用户信息
+    !userStore.userId && (await userStore.getUserInfo())
+
+    // 根据环境变量中的值决定前端生成路由还是后端路由
+    const accessRoutes = JSON.parse(import.meta.env.VITE_BACK_ROUTER)
+      ? await permissionStore.generateRoutesBack() // ! 后端生成路由
+      : permissionStore.generateRoutesFront(['admin']) // ! 前端生成路由 (根据角色), 待完善
+
+    // 将当前没有的路由添加进去
+    accessRoutes.forEach(route => !router.hasRoute(route.name) && router.addRoute(route))
+    // 移除 EMPTY_ROUTE 页面
+    router.hasRoute(EMPTY_ROUTE.name) && router.removeRoute(EMPTY_ROUTE.name)
+    // 添加 404 页面
+    router.addRoute(NOT_FOUND_ROUTE)
+  }
+  catch (err) {
+    console.error('addDynamicRoutes Error: ', err)
+  }
+}
+
+export function getRouteNames(routes) {
+  return routes.map(route => getRouteName(route)).flat(1)
+}
+
+// 获取 route 下的路由名称
+function getRouteName(route) {
+  const names = [route.name]
+  if (route.children?.length)
+    names.push(...route.children.map(e => getRouteName(e)).flat(1))
+  return names
+}

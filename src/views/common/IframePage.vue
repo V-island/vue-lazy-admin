@@ -19,11 +19,11 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
 import { reactive, ref, computed, onMounted, onUnmounted, inject, getCurrentInstance } from 'vue';
-import { commonStore } from 'store/common';
-import { close, start } from 'plugins/nprogress';
+// import { commonStore } from '@/store/common';
+import { close, start } from '@/plugins/nprogress';
 
 const route = useRoute();
-const common = commonStore();
+const common = {};
 
 // 初始化
 const initLoadData = () => {

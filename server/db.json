@@ -1,0 +1,49 @@
+{
+  "user": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "123456",
+      "orgName": "测试集团小组",
+      "realName": "小明同学",
+      "token": "token_admin_1"
+    }
+  ],
+  "roles": [
+    {
+      "id": 1,
+      "name": "系统管理员",
+      "code": "IN_SYS_ADMIN",
+      "userId": 1
+    }
+  ],
+  "menus": [
+    {
+      "id": 1,
+      "title": "首页",
+      "customIcon": "/home.png"
+    },
+    {
+      "id": 2,
+      "title": "基础模板",
+      "customIcon": "/home.png",
+      "children": [
+        {
+          "id": 3,
+          "parentId": 2,
+          "url": "sample/from/index",
+          "title": "表单",
+          "customIcon": "/home.png"
+        },
+        {
+          "id": 4,
+          "parentId": 2,
+          "url": "sample/table/index",
+          "title": "表格",
+          "customIcon": "/home.png"
+        }
+      ]
+    }
+  ],
+  "permissions": []
+}

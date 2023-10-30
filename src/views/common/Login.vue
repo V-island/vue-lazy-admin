@@ -95,7 +95,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .layout {
   @include flexbox(center, center, center, column);
-  @include bgImage('assets/images/login/login_bg.png', cover);
+  @include bgImage('assets/images/login/login_bg.webp', cover);
   background-color: #fff;
   height: 100vh;
 }

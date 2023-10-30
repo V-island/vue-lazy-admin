@@ -1,110 +1,50 @@
-import path from 'path';
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import legacy from '@vitejs/plugin-legacy'
-import Components from 'unplugin-vue-components/vite';
-import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
-import { createStyleImportPlugin, AndDesignVueResolve } from 'vite-plugin-style-import';
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+import { defineConfig, loadEnv } from 'vite'
 
-// 设置绝对路径
-function resolves(dir) {
-  return path.join(__dirname, dir);
-}
+import { convertEnv, getSrcPath, getRootPath } from './build/utils'
+import { createVitePlugins } from './build/plugin'
+import { OUTPUT_DIR, PROXY_CONFIG } from './build/constant'
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  // 基本路径
-  base: '/',
-  // 构建时的输出目录
-  outDir: 'dist',
-  // 放置静态资源的目录
-  assetsDir: 'assets',
-  // 调整内部的 webpack 配置
-  resolve: {
-    alias: {
-      '@': resolves('src'),
-      src: resolves('src'),
-      api: resolves('src/api'),
-      assets: resolves('src/assets'),
-      components: resolves('src/components'),
-      config: resolves('src/config'),
-      'http-request': resolves('src/http-request'),
-      layout: resolves('src/layout'),
-      mixins: resolves('src/mixins'),
-      router: resolves('src/router'),
-      store: resolves('src/store'),
-      styles: resolves('src/styles'),
-      utils: resolves('src/utils'),
-      views: resolves('src/views'),
-      plugins: resolves('src/plugins'),
-      theme: resolves('src/theme'),
-    },
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@import "styles/index.scss";`,
+export default defineConfig(({ command, mode }) => {
+  const srcPath = getSrcPath()
+  const rootPath = getRootPath()
+  const isBuild = command === 'build'
+
+  const env = loadEnv(mode, process.cwd())
+  const viteEnv = convertEnv(env)
+  const { VITE_PORT, VITE_PUBLIC_PATH, VITE_USE_PROXY, VITE_BASE_API } = viteEnv
+
+  return {
+    base: VITE_PUBLIC_PATH || '/',
+    resolve: {
+      alias: {
+        '~': rootPath,
+        '@': srcPath,
       },
     },
-  },
-  plugins: [
-    vue(),
-    Components({
-      resolvers: [AntDesignVueResolver({ importStyle: 'less' })],
-    }),
-    createStyleImportPlugin({
-      resolves: [AndDesignVueResolve()],
-      libs: [
-        {
-          libraryName: 'ant-design-vue',
-          esModule: true,
-          resolveStyle: (name) => {
-            return `ant-design-vue/es/${name}/style/index`;
-          },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import "styles/index.scss";`,
         },
-      ],
-    }),
-    createSvgIconsPlugin({
-      iconDirs: [resolves('src/assets/svg')],
-      symbolId: '[name]',
-    }),
-    legacy({
-      targets: ['defaults', 'ie >= 11', 'Android >= 7', 'chrome < 60', 'edge < 15'], // 需要兼容的目标列表，可以设置多个
-      additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
-      renderLegacyChunks: true,
-      polyfills: [
-        'es.symbol',
-        'es.array.filter',
-        'es.promise',
-        'es.promise.finally',
-        'es/map',
-        'es/set',
-        'es.array.for-each',
-        'es.object.define-properties',
-        'es.object.define-property',
-        'es.object.get-own-property-descriptor',
-        'es.object.get-own-property-descriptors',
-        'es.object.keys',
-        'es.object.to-string',
-        'web.dom-collections.for-each',
-        'esnext.global-this',
-        'esnext.string.match-all'
-      ]
-    })
-  ],
-  // 开发服务,build后的生产模式还需nginx代理
-  server: {
-    host: '0.0.0.0', // 指定服务器主机名
-    port: 8989, // 指定服务器端口
-    open: false, // 在服务器启动时自动打开默认浏览器
-    https: false, // 是否开启HTTPS
-    proxy: {
-      '/api': {
-        target: 'http://127.0.0.1:3000', // 目标代理服务器地址
-        changeOrigin: true, // 允许跨域
-        rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
-  },
-});
+    plugins: createVitePlugins(viteEnv, isBuild),
+    server: {
+      host: '0.0.0.0',
+      port: VITE_PORT,
+      open: false,
+      proxy: VITE_USE_PROXY
+        ? {
+          [VITE_BASE_API]: PROXY_CONFIG[VITE_BASE_API],
+          '/api/v2': PROXY_CONFIG['/api/v2'],
+        }
+        : undefined,
+    },
+    build: {
+      target: 'es2015',
+      outDir: OUTPUT_DIR || 'dist',
+      reportCompressedSize: false, // 启用/禁用 gzip 压缩大小报告
+      chunkSizeWarningLimit: 1024, // chunk 大小警告的限制（单位kb）
+    },
+  }
+})

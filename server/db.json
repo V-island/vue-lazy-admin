@@ -9,41 +9,27 @@
       "token": "token_admin_1"
     }
   ],
-  "roles": [
-    {
-      "id": 1,
-      "name": "系统管理员",
-      "code": "IN_SYS_ADMIN",
-      "userId": 1
-    }
-  ],
-  "menus": [
-    {
-      "id": 1,
-      "title": "首页",
-      "customIcon": "/home.png"
-    },
-    {
-      "id": 2,
-      "title": "基础模板",
-      "customIcon": "/home.png",
-      "children": [
-        {
-          "id": 3,
-          "parentId": 2,
-          "url": "sample/from/index",
-          "title": "表单",
-          "customIcon": "/home.png"
-        },
-        {
-          "id": 4,
-          "parentId": 2,
-          "url": "sample/table/index",
-          "title": "表格",
-          "customIcon": "/home.png"
-        }
-      ]
-    }
-  ],
-  "permissions": []
+  "setting": {
+    "website_avatar": "https://img-blog.csdnimg.cn/9e1832a8817d4344901f2e476cc74c16.jpeg",
+    "website_name": "基础管理后台",
+    "website_author": "Allen Li",
+    "website_intro": "Lazy懒人星球",
+    "website_notice": "是一个 **挤牙膏式** 的后台管理模板，基于 `Vue3、Vite4、Pinia、Unocss 和 Naive UI` 等前端技术栈。",
+    "website_createtime": "2022-11-01",
+    "website_record": "鲁ICP备2022040119号",
+    "social_login_list": [],
+    "social_url_list": [],
+    "qq": "123456",
+    "github": "https://github.com/123456",
+    "gitee": "https://gitee.com/123456",
+    "tourist_avatar": "https://static.talkxj.com/photos/0bca52afdb2b9998132355d716390c9f.png",
+    "user_avatar": "https://static.talkxj.com/avatar/user.png",
+    "article_cover": "https://static.talkxj.com/config/e587c4651154e4da49b5a54f865baaed.jpg",
+    "is_comment_review": 1,
+    "is_message_review": 1,
+    "is_email_notice": 0,
+    "is_reward": 0,
+    "wechat_qrcode": "http://dummyimage.com/100x100",
+    "alipay_ode": "http://dummyimage.com/100x100"
+  }
 }

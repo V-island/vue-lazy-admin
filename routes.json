@@ -1,7 +1,5 @@
 {
-  "/auth/login?*": "/user?$1",
-  "/auth/getRoleList": "/roles",
-  "/auth/getUserInfo?id=:id": "/user/:id",
-  "/auth/getMenuList": "/menus",
-  "/auth/getPermissionList": "/permissions"
+  "/login?*": "/user?$1",
+  "/user/info?id=:id": "/user/:id",
+  "/setting/blog-config": "/roles"
 }

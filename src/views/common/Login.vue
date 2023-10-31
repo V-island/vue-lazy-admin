@@ -132,11 +132,11 @@ const handleLogin = async () => {
     // 腾讯滑块验证码 (在 index.html 中引入 js 文件)
     const captcha = new TencentCaptcha(
       config.TENCENT_CAPTCHA,
-      async (res) => res.ret === 0 && doLogin(username, password),
+      async (res) => res.ret === 0 && loginByUserNameToToken(username, password),
     );
     captcha.show();
   } else {
-    doLogin(username, password);
+    loginByUserNameToToken(username, password);
   }
 };
 /** ============== 数据请求 =============== */

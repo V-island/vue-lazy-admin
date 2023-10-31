@@ -1,5 +1,5 @@
 {
-  "/login?*": "/user?$1",
+  "/login": "/user/1",
   "/user/info?id=:id": "/user/:id",
   "/setting/blog-config": "/roles"
 }

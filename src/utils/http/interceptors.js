@@ -4,8 +4,9 @@ import { getToken } from '@/utils'
 
 // 发送请求前的操作
 export function reqResolve(config) {
+  console.log(config);
   // 发送请求前的配置: 不需要 token, 直接发送即可
-  if (import.meta.env.NODE_ENV === 'production' && config.noNeedToken)
+  if (config.noNeedToken)
     return config
 
   // 获取本地存储的 token, 不存在则登录过期

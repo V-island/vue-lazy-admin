@@ -28,46 +28,85 @@ body {
   height: 100%;
 }
 
-/** 自定义滚动条样式 */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: rgba(var(--primary-color-gbg), 0.2);
-  border-radius: 2em;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--primary-color);
-  background-image: -webkit-linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.4) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(255, 255, 255, 0.4) 50%,
-    rgba(255, 255, 255, 0.4) 75%,
-    transparent 75%,
-    transparent
-  );
-  border-radius: 2em;
-
-  :hover {
-    background-color: var(--primary-color-hover);
-  }
-}
-
-::-webkit-scrollbar-corner {
-  background-color: transparent;
-}
-
-::-moz-selection {
-  color: #fff;
-  background-color: var(--primary-color);
-}
-
 input:-internal-autofill-selected {
   box-shadow: 0 0 0 1000px #e7f8f8 inset;
   -webkit-text-fill-color: #333333;
 }
+
+/* 自定义滚动条样式 */
+.cus-scroll {
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+}
+.cus-scroll-x {
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 8px;
+  }
+}
+.cus-scroll-y {
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 0;
+  }
+}
+.cus-scroll,
+.cus-scroll-x,
+.cus-scroll-y {
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 4px;
+  }
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background: #bfbfbf;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-color);
+    }
+  }
+}
+/** 自定义花色滚动条样式 */
+// ::-webkit-scrollbar {
+//   width: 8px;
+//   height: 8px;
+// }
+
+// ::-webkit-scrollbar-track {
+//   background-color: rgba(var(--primary-color-gbg), 0.2);
+//   border-radius: 2em;
+// }
+
+// ::-webkit-scrollbar-thumb {
+//   background-color: var(--primary-color);
+//   background-image: -webkit-linear-gradient(
+//     45deg,
+//     rgba(255, 255, 255, 0.4) 25%,
+//     transparent 25%,
+//     transparent 50%,
+//     rgba(255, 255, 255, 0.4) 50%,
+//     rgba(255, 255, 255, 0.4) 75%,
+//     transparent 75%,
+//     transparent
+//   );
+//   border-radius: 2em;
+
+//   :hover {
+//     background-color: var(--primary-color-hover);
+//   }
+// }
+
+// ::-webkit-scrollbar-corner {
+//   background-color: transparent;
+// }
+
+// ::-moz-selection {
+//   color: #fff;
+//   background-color: var(--primary-color);
+// }
+

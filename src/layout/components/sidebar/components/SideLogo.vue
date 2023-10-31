@@ -8,7 +8,7 @@ const title = import.meta.env.VITE_TITLE
 <template>
   <router-link class="h-60 flex items-center justify-center" to="/">
     <div class="h-full w-36 flex items-center justify-center">
-      <img src="@/assets/svg/logo.svg" alt="logo" class="h-36 w-36">
+      <img src="@/assets/images/logo.svg" alt="logo" class="h-36 w-36">
     </div>
     <h2
       v-show="!themeStore.collapsed"

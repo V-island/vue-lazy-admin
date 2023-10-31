@@ -5,23 +5,23 @@
         <div class="flex items-center">
           <n-avatar round :size="60" :src="userStore.avatar" />
           <div class="ml-20 flex-col">
-            <span class="text-20 opacity-80">Hello, {{ userStore.name }}</span>
-            <span class="mt-4 opacity-50">今日事，今日毕。</span>
+            <span class="text-20 opacity-80">Hello, {{ userStore.nickname }}</span>
+            <span class="mt-4 opacity-50">懒。。。。</span>
           </div>
         </div>
 
-        <p class="mt-20 text-14 opacity-60">一个人几乎可以在任何他怀有无限热忱的事情上成功。</p>
-        <p class="mt-12 text-right text-12 opacity-40">—— 查尔斯·史考伯</p>
+        <p class="mt-20 text-14 opacity-60">懒，它是一个动词。</p>
+        <p class="mt-12 text-right text-12 opacity-40">—— 周树人</p>
       </n-card>
       <n-card class="ml-12 w-70%">
-        <h3 class="text-20 font-normal opacity-90">⚡️欢迎使用 Vue Naive Admin</h3>
+        <h3 class="text-20 font-normal opacity-90">⚡️欢迎使用 Vue Lazy Admin</h3>
         <p class="mt-8 opacity-60">
           这是一款基于 Vue3 + Vite + Pinia + Unocss + Naive UI 的轻量级后台管理模板！！
         </p>
         <footer class="mt-24 flex items-center justify-end">
           <n-button
             tag="a"
-            href="https://zclzone.github.io/vue-naive-admin-docs"
+            href="#"
             target="_blank"
             type="primary"
             ghost
@@ -30,7 +30,7 @@
           </n-button>
           <n-button
             tag="a"
-            href="https://github.com/zclzone/vue-naive-admin"
+            href="#"
             target="_blank"
             type="primary"
             class="ml-12"
@@ -51,7 +51,7 @@
             :key="i"
             size="small"
             class="my-6 w-320 flex-shrink-0 cursor-pointer hover:card-shadow"
-            title="Vue Naive Admin"
+            title="Vue Lazy Admin"
           >
             <p class="op-60">一个基于 Vue3.0、Vite、Naive UI 的轻量级后台管理模板</p>
           </n-card>

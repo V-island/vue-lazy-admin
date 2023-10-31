@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "target": "ESNext",
+    "baseUrl": "./",
+    "moduleResolution": "node",
     "paths": {
+      "~/*": ["./*"],
       "@/*": ["src/*"]
     },
-    "target": "ES6",
-    "allowSyntheticDefaultImports": true
+    "jsx": "preserve",
+    "allowJs": true
   },
-  "include": ["src/**/*","jsconfig.json"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"]
 }

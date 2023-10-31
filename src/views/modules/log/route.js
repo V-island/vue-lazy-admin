@@ -6,7 +6,7 @@ export default {
   component: Layout,
   redirect: '/log/operation',
   meta: {
-    title: '操作日志',
+    title: '日志管理',
     icon: 'mdi:math-log',
     order: 6,
   },

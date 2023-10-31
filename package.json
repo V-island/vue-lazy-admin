@@ -6,12 +6,30 @@
     "dev": "vite",
     "dev:server": "json-server --watch ./server/db.json",
     "build": "vite build",
-    "build:test": "vite build --mode testing",
-    "dev:json": "concurrently --raw \"npm run dev\" \"npm run dev:server\"",
-    "preview": "vite preview",
+    "build:test": "vite build --mode test",
     "lint": "eslint --ext .js,.vue .",
     "lint:fix": "eslint --fix --ext .js,.vue .",
+    "lint:staged": "lint-staged",
+    "prepare": "husky install",
+    "preview": "vite preview",
     "up": "taze major -I"
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "eslint --ext .js,.vue ."
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "@zclzone",
+      "@unocss",
+      ".eslint-global-variables.json"
+    ]
   },
   "dependencies": {
     "@vueuse/core": "^10.4.1",
@@ -45,11 +63,17 @@
     "@unocss/reset": "^0.57.1",
     "@vitejs/plugin-legacy": "^4.1.1",
     "@vitejs/plugin-vue": "^4.2.3",
+    "@zclzone/eslint-config": "^0.0.5",
     "concurrently": "^8.2.0",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "cz-customizable": "^7.0.0",
     "dotenv": "^16.3.1",
     "eslint": "^8.43.0",
     "fs-extra": "^11.1.1",
+    "husky": "^8.0.3",
     "json-server": "^0.17.3",
+    "lint-staged": "^14.0.1",
     "naive-ui": "^2.35.0",
     "rollup-plugin-visualizer": "^5.9.2",
     "sass": "^1.63.4",

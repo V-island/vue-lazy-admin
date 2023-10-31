@@ -31,10 +31,20 @@ export default [
     method: 'post',
     response: ({ headers }) => {
       return {
-        code: 0,
+        code: 200,
         data: {
           token: resolveToken(headers?.authorization),
         },
+      }
+    },
+  },
+  {
+    url: '/api/auth/logout',
+    method: 'get',
+    response: () => {
+      return {
+        code: 200,
+        data: {},
       }
     },
   },

@@ -15,6 +15,7 @@
 
     <CrudTable
       ref="$table"
+      row-key="title"
       v-model:query-items="queryItems"
       :extra-params="extraParams"
       :scroll-x="1200"

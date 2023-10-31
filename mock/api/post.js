@@ -1,7 +1,7 @@
 const posts = [
   {
     title: '使用纯css优雅配置移动端rem布局',
-    author: '大脸怪',
+    author: 'Allen Li',
     category: 'Css',
     description: '通常配置rem布局会使用js进行处理，比如750的设计稿会这样...',
     content: '通常配置rem布局会使用js进行处理，比如750的设计稿会这样',
@@ -23,7 +23,7 @@ const posts = [
   },
   {
     title: '如何优雅的给图片添加水印',
-    author: '大脸怪',
+    author: 'Allen Li',
     category: 'JavaScript',
     description: '优雅的给图片添加水印',
     content: '我之前写过一篇文章记录了一次上传图片的优化史',
@@ -35,7 +35,7 @@ const posts = [
 
   {
     title: '前端缓存的理解',
-    author: '大脸怪',
+    author: 'Allen Li',
     category: 'Http',
     description: '谈谈前端缓存的理解',
     content:
@@ -47,7 +47,7 @@ const posts = [
   },
   {
     title: 'Promise的五个静态方法',
-    author: '大脸怪',
+    author: 'Allen Li',
     category: 'JavaScript',
     description: '简单介绍下在 Promise 类中，有5 种静态方法及它们的使用场景',
     content:

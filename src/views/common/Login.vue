@@ -1,203 +1,179 @@
 <template>
-  <section class="layout">
-    <div class="logo">
-      <img class="logo-img" alt="logo" src="~@/assets/images/logo.svg" />
-      <div class="logo-text">
-        <span>{{ title }}</span>
-      </div>
+  <AppPage :show-footer="true" bg-cover :style="{ backgroundImage: `url(${bgImg})` }">
+    <!-- logo -->
+    <div flex items-center justify-start>
+      <img src="@/assets/images/logo.svg" alt="logo" mr-10 h-38 w-38 />
+      <div text="black opacity-90 38" font="normal sans">{{ title }}</div>
     </div>
-    <div class="content">
-      <div class="content-inner">
-        <div class="login-form-wrapper">
-          <div class="login-form-images">
-            <img src="~@/assets/images/logo.svg" :alt="title" />
-          </div>
-          <div class="login-form-title">登录</div>
-          <div class="login-form-sub-title">欢迎登录{{ title }}</div>
-          <a-form name="login" :model="formState" autocomplete="off" @finish="onFinish">
-            <a-form-item name="userId" :rules="[{ required: true, message: '请输入您的用户名!' }]">
-              <a-input v-model:value="formState.userId" placeholder="请输入您的用户名">
-                <template #prefix><UserOutlined style="color: rgba(0, 0, 0, 0.25)" /></template>
-              </a-input>
-            </a-form-item>
+    <!-- 表单 -->
+    <div
+      m-auto
+      max-w-700
+      min-w-428
+      flex
+      items-center
+      justify-center
+      rounded-10
+      bg="white opacity-60"
+      p-15
+      card-shadow
+      dark:bg-dark
+    >
+      <div w="100%" flex="~ col" p="x-20 y-20" relative>
+        <div absolute right-24 top-10>
+          <img src="@/assets/images/logo.svg" alt="logo" h-32 w-32 />
+        </div>
+        <div
+          relative
+          m-t-50
+          text="24 black"
+          font="normal semibold"
+          p="b-10"
+          un-after="absolute content-empty bottom-6 left-0 w-22 h-4 bg-gradient-line"
+          style="
+            --un-gradient: var(--primary-color);
+            --un-gradient-stops: var(--primary-color-hover);
+          "
+          dark:text-white
+        >
+          登录
+        </div>
+        <div text="14 black" line-height-normal mb-20 dark:text-white>欢迎登录{{ title }}</div>
 
-            <a-form-item name="passWord" :rules="[{ required: true, message: '请输入您的密码!' }]">
-              <a-input-password
-                v-model:value="formState.passWord"
-                placeholder="请输入您的密码"
-                autocomplete="off"
-              >
-                <template #prefix><LockOutlined style="color: rgba(0, 0, 0, 0.25)" /></template>
-              </a-input-password>
-            </a-form-item>
-
-            <a-form-item>
-              <a-button class="login-submit" type="primary" html-type="submit">登录</a-button>
-            </a-form-item>
-          </a-form>
+        <div mt-30>
+          <NInput
+            v-model:value="loginInfo.username"
+            class="autofocus h-50 items-center pl-10 text-16"
+            placeholder="请输入您的用户名"
+            :maxlength="20"
+          />
+        </div>
+        <div mt-30>
+          <NInput
+            v-model:value="loginInfo.password"
+            class="h-50 items-center pl-10 text-16"
+            type="password"
+            show-password-on="mousedown"
+            placeholder="请输入您的密码"
+            :maxlength="20"
+            @keydown.enter="handleLogin"
+          />
+        </div>
+        <div mt-20>
+          <NCheckbox
+            :checked="isRemember"
+            label="记住我"
+            :on-update:checked="(val) => (isRemember = val)"
+          />
+        </div>
+        <div mt-20>
+          <NButton
+            class="h-50 w-full rounded-5 text-16"
+            type="primary"
+            :loading="loading"
+            @click="handleLogin"
+          >
+            登录
+          </NButton>
         </div>
       </div>
     </div>
-    <div class="footer">
-      <a-row :gutter="[16, 16]">
-        <a-col :span="24">
-          <div class="icp">
-            <a href="https://beian.miit.gov.cn" target="_blank">粤ICP备2022114741号-1</a>
-            LazyMeta 懒人星球 © 2020~2021版权所有
-          </div>
-        </a-col>
-      </a-row>
-    </div>
-  </section>
+  </AppPage>
 </template>
 
 <script setup>
-import { reactive, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-// import { utilFn, awaitWrap } from '@/utils';
-// import { useAuthStore } from '@/store/auth';
+import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStorage } from '@vueuse/core';
+import AppPage from '@/components/page/AppPage.vue';
 
-const router = useRouter();
-// const auth = useAuthStore();
-const formState = reactive({
-  userId: '',
-  passWord: '',
-});
+import { lStorage, setToken } from '@/utils';
+import { addDynamicRoutes } from '@/router';
+import { useAppStore, useUserStore } from '@/store';
+import bgImg from '@/assets/images/login_bg.webp';
+import config from '@/constant/config';
+import api from '@/api';
+
 const title = import.meta.env.VITE_TITLE; // 环境变量中读取
 
+const userStore = useUserStore();
+const appStore = useAppStore();
+const router = useRouter();
+const { query } = useRoute();
+
+const loginInfo = ref({
+  username: 'admin',
+  password: '123456',
+});
+
+// Reactive LocalStorage/SessionStorage - vueuse
+const isRemember = useStorage('isRemember', false);
+const loading = ref(false);
+
 // 初始化
-const initLoadData = () => {};
+const initLoginInfo = () => {
+  // 从 localStorage 中获取记住的用户名和密码
+  const localLoginInfo = lStorage.get('loginInfo');
+  if (localLoginInfo) {
+    loginInfo.value = {
+      username: localLoginInfo.username || 'admin',
+      password: localLoginInfo.password || '123456',
+    };
+  }
+};
 /** ============== 基础事件 =============== */
 // 登录事件
-const onFinish = async (values) => {
-  // utilFn._showPageLoading();
-  // // 登录获取用户信息、角色、菜单等数据
-  // const [err, data] = await awaitWrap(auth.loginByUserNameToToken(values));
-  // utilFn._hidePageLoading();
+const handleLogin = async () => {
+  const { username, password } = loginInfo.value;
+  if (!username || !password) return $message.warning('请输入用户名和密码');
 
-  if (err || !data.result) return $message.error(err || data.message);
+  // 判断是否需要验证码
+  if (JSON.parse(import.meta.env.VITE_USE_CAPTCHA)) {
+    // 腾讯滑块验证码 (在 index.html 中引入 js 文件)
+    const captcha = new TencentCaptcha(
+      config.TENCENT_CAPTCHA,
+      async (res) => res.ret === 0 && doLogin(username, password),
+    );
+    captcha.show();
+  } else {
+    doLogin(username, password);
+  }
+};
+/** ============== 数据请求 =============== */
+// 登录
+const loginByUserNameToToken = async (username, password) => {
+  loading.value = true;
+  $message.loading('正在验证...');
 
-  $message.success(data.message);
-  router.push({
-    name: 'topology',
-  });
+  // 登录接口
+  try {
+    const res = await api.login({ username, password });
+    setToken(res.data.token); // 持久化 token
+    $message.success('登录成功');
+
+    await userStore.getUserInfo(); // 获取用户信息
+    await appStore.getBlogInfo(); // 获取博客信息
+
+    // "记住我" 功能
+    isRemember ? lStorage.set('loginInfo', { username, password }) : lStorage.remove('loginInfo');
+
+    // 动态添加路由
+    await addDynamicRoutes();
+
+    // 页面跳转: 根据 URL 中的 redirect 进行跳转
+    if (query.redirect) {
+      const path = query.redirect;
+      Reflect.deleteProperty(query, 'redirect'); // 从对象身上删除属性
+      router.push({ path, query });
+    } else {
+      router.push('/');
+    }
+  } finally {
+    loading.value = false;
+  }
 };
 
-/** ============== 数据请求 =============== */
 onMounted(() => {
-  initLoadData();
+  initLoginInfo();
 });
 </script>
-
-<style lang="scss" scoped>
-.layout {
-  @include flexbox(center, center, center, column);
-  @include bgImage('@/assets/images/login/login_bg.webp', cover);
-  background-color: #fff;
-  height: 100vh;
-}
-.content-inner {
-  @include flexbox(center, center, center, column);
-  padding: 70px 29px 58px;
-  width: 428px;
-  min-height: 300px;
-  background-color: var(--color-white);
-  position: relative;
-  box-shadow: 0 0 20px -5px rgba(60, 112, 204, 0.12), 0 0 20px -5px rgba(60, 112, 204, 0.12);
-}
-.footer {
-  position: fixed;
-  bottom: 32px;
-  left: 0;
-  z-index: 1;
-  width: 100%;
-  display: inline-flex;
-  align-items: center;
-  flex-direction: column;
-}
-.logo {
-  position: fixed;
-  top: 32px;
-  left: 40px;
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  &-text {
-    margin-right: 4px;
-    margin-left: 4px;
-    color: #f7f8fa;
-    font-size: 20px;
-    font-size: 32px;
-    color: var(--primary-color);
-    font-weight: 700;
-    transition: all 0.5s;
-    font-family: 'PangMenZhengDao';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 38.016px;
-    line-height: 43px;
-    color: #282828;
-  }
-  &-img {
-    width: 38px;
-    height: 38px;
-  }
-}
-.login-form {
-  &-wrapper {
-    width: 320px;
-    padding-top: 36px;
-  }
-
-  &-images {
-    @include wh(32px, 36px);
-    position: absolute;
-    top: 24px;
-    right: 24px;
-    > img {
-      @include wh(100%, 100%);
-    }
-  }
-
-  &-title {
-    font-family: 'Alibaba PuHuiTi';
-    font-style: normal;
-    font-size: 24px;
-    line-height: 44px;
-    color: #000;
-    font-weight: 500;
-    text-align: left;
-    margin-bottom: 20px;
-    position: relative;
-
-    &::after {
-      content: '';
-      width: 16px;
-      height: 4px;
-      background: linear-gradient(to right, var(--primary-color), var(--primary-color-hover));
-      position: absolute;
-      left: 5px;
-      bottom: -8px;
-    }
-  }
-
-  &-sub-title {
-    font-size: 14px;
-    line-height: 22px;
-    color: rgba(0, 0, 0, 0.6);
-    margin-bottom: 20px;
-  }
-}
-:deep(.ant-form) {
-  .login-submit {
-    width: 100%;
-    background: linear-gradient(to right, var(--primary-color), var(--primary-color-hover));
-    margin-top: 17px;
-    height: 40px;
-    border: none;
-    &:hover {
-      background: linear-gradient(to right, var(--primary-color), var(--primary-color-hover));
-    }
-  }
-}
-</style>

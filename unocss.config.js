@@ -1,9 +1,17 @@
-import { defineConfig, presetIcons, presetUno } from 'unocss'
+import { defineConfig, presetAttributify, presetIcons, presetUno } from 'unocss'
 import presetRemToPx from '@unocss/preset-rem-to-px'
+import presetMini from '@unocss/preset-mini'
 
 export default defineConfig({
+  content: {
+    pipeline: {
+      include: [/\.(vue|svelte|[jt]sx|mdx?|html)($|\?)/],
+    },
+  },
   presets: [
     presetUno(),
+    presetMini(),
+    presetAttributify(),
     presetRemToPx({ baseFontSize: 4 }),
     presetIcons({
       extraProperties: {
@@ -12,10 +20,30 @@ export default defineConfig({
       },
     }),
   ],
+  shortcuts: [
+    ['wh-full', 'w-full h-full'],
+    ['f-c-c', 'flex justify-center items-center'],
+    ['flex-col', 'flex flex-col'],
+    ['absolute-lt', 'absolute left-0 top-0'],
+    ['absolute-lb', 'absolute left-0 bottom-0'],
+    ['absolute-rt', 'absolute right-0 top-0'],
+    ['absolute-rb', 'absolute right-0 bottom-0'],
+    ['absolute-center', 'absolute-lt f-c-c wh-full'],
+    ['text-ellipsis', 'truncate'],
+  ],
+  rules: [
+    [/^bc-(.+)$/, ([, color]) => ({ 'border-color': `#${color}` })],
+    [
+      'card-shadow',
+      { 'box-shadow': '0 1px 2px -2px #00000029, 0 3px 6px #0000001f, 0 5px 12px 4px #00000017' },
+    ],
+    [
+      'bg-gradient-line',
+      { 'background': 'linear-gradient(to right, var(--primary-color), var(--primary-color-hover))' },
+    ],
+  ],
   theme: {
     colors: {
-      black: 'var(--black-color)',
-      white: 'var(--white-color)',
       primary: 'var(--primary-color)',
       primary_hover: 'var(--primary-color-hover)',
       primary_pressed: 'var(--primary-color-pressed)',

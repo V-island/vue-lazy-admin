@@ -9,7 +9,7 @@ export default defineConfig(({ command, mode }) => {
   const rootPath = getRootPath()
   const isBuild = command === 'build'
 
-  const env = loadEnv(mode, require('node:process').cwd())
+  const env = loadEnv(mode, process.cwd())
   const viteEnv = convertEnv(env)
   const { VITE_PORT, VITE_PUBLIC_PATH, VITE_USE_PROXY, VITE_BASE_API } = viteEnv
 
@@ -21,13 +21,13 @@ export default defineConfig(({ command, mode }) => {
         '@': srcPath,
       },
     },
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: '@import "@/styles/index.scss";',
-        },
-      },
-    },
+    // css: {
+    //   preprocessorOptions: {
+    //     scss: {
+    //       additionalData: '@import "@/styles/index.scss";',
+    //     },
+    //   },
+    // },
     plugins: createVitePlugins(viteEnv, isBuild),
     server: {
       host: '0.0.0.0',

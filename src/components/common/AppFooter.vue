@@ -8,13 +8,13 @@ const { blogConfig } = storeToRefs(useAppStore())
 <template>
   <footer class="flex flex-col items-center justify-center text-14 text-gray-700">
     <p>
-      Copyright©2023
+      Copyright©2020~2023
       <a
-        href="https://github.com/szluyu99"
+        href="http://lazymeta.cn"
         target="__blank"
         hover="decoration-underline color-primary"
       >
-        szluyu99
+        LazyMeta 懒人星球
       </a>
     </p>
     <p>
@@ -23,7 +23,7 @@ const { blogConfig } = storeToRefs(useAppStore())
         target="__blank"
         hover="decoration-underline color-primary"
       >
-        {{ blogConfig.website_record ?? '备案信息未知' }}
+        {{ blogConfig.website_record ?? '粤ICP备2022114741号-1' }}
       </a>
     </p>
   </footer>

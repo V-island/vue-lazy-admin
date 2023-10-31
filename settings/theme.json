@@ -9,8 +9,6 @@
   },
   "naiveThemeOverrides": {
     "common": {
-      "whiteColor": "#fff",
-      "blackColor": "#000",
       "primaryColor": "#66bb83FF",
       "primaryColorHover": "#66bb83E3",
       "primaryColorPressed": "#66bb83FF",

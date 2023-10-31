@@ -1,6 +1,6 @@
 import { createStorage } from './storage'
 
-const prefixKey = 'GIN_BLOG_ADMIN_'
+const prefixKey = 'LAZY_ADMIN_'
 
 export const createLocalStorage = function (option = {}) {
   return createStorage({

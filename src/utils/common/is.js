@@ -16,6 +16,22 @@ export function isNull(val) {
   return val === null
 }
 
+// 值是否不为空
+export function isNotEmpty(val) {
+  return !isEmpty(val);
+}
+
+// 数组是否存在重复
+export function isArrayRepeat(array) {
+  let is = false;
+
+  array.forEach((item, index) => {
+    if (array.indexOf(item) != index) is = true;
+  });
+
+  return is;
+}
+
 export function isWhitespace(val) {
   return val === ''
 }

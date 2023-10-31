@@ -1,16 +1,14 @@
 <script setup>
-import { storeToRefs } from 'pinia'
-import { NLayout, NLayoutSider } from 'naive-ui'
+import { storeToRefs } from 'pinia';
+import { header, tags } from '~/settings';
+import AppHeader from './components/header/index.vue';
+import AppMain from './components/AppMain.vue';
+import Sidebar from './components/sidebar/index.vue';
+import AppTags from './components/tags/index.vue';
 
-import { header, tags } from '~/settings'
-import AppHeader from './components/header/index.vue'
-import AppMain from './components/AppMain.vue'
-import Sidebar from './components/sidebar/index.vue'
-import AppTags from './components/tags/index.vue'
+import { useThemeStore } from '@/store';
 
-import { useThemeStore } from '@/store'
-
-const { collapsed } = storeToRefs(useThemeStore())
+const { collapsed } = storeToRefs(useThemeStore());
 </script>
 
 <template>

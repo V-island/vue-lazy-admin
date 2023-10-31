@@ -1,25 +1,21 @@
 import { WebSocketBean } from 'tools-vue3';
-import { message } from 'ant-design-vue';
 import { utilFn, getBuildUUID, clearAppState, toLoginPage } from 'utils';
 import { useAuthStore } from 'store/auth';
-import { WS_SERVICE_SITE } from 'config';
 
 export default class WSUtil {
-  // constructor() {}
-
   errorHandlers = {
     403: () => {
-      message.error(`未授权，拒绝访问`);
+      $message.error(`未授权，拒绝访问`);
       CEvent.emit(`onNotPermission`);
     },
     404: () => {
-      message.error(`请求地址出错`);
+      $message.error(`请求地址出错`);
     },
     408: () => {
-      message.error(`请求超时`);
+      $message.error(`请求超时`);
     },
     5000: () => {
-      message.error(`服务器内部错误`);
+      $message.error(`服务器内部错误`);
     },
   };
 
@@ -36,7 +32,7 @@ export default class WSUtil {
 
     //初始化websokcet对象
     this.ws = new WebSocketBean({
-      url: `${WS_SERVICE_SITE}/api/env/free`,
+      url: `ws://${import.meta.env.VITE_WS_FRONT_SITE}/api/env/free`,
       needReconnect: true,
       reconnectGapTime: 5000,
       heartSend: { cmd: 'ping' },
@@ -61,11 +57,11 @@ export default class WSUtil {
               CEvent.emit(`DeviceRealTimeStatus`, jsonData.data);
               break;
             case 403:
-              message.error(`未授权，拒绝访问`);
+              $message.error(`未授权，拒绝访问`);
               CEvent.emit(`onNotPermission`);
               break;
             case 5000:
-              message.error(jsonData.msg);
+              $message.error(jsonData.msg);
               break;
           }
         });

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { router } from '@/router'
-import { sStorage } from '@/utils'
+import { sStorage } from '@/utils/storage'
 
 /**
  * @type {string} activeTag 当前激活的标签

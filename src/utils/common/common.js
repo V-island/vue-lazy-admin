@@ -1,7 +1,22 @@
 import xeUtils from 'xe-utils';
+import dayjs from 'dayjs'
 import { commonStore } from '@/store'
 
-/* =================== 基础方法 ================ */
+/* =================== 基础方法 ================ *
+
+/**
+ * @desc  格式化时间
+ * @param {(Object|string|number)} time
+ * @param {string} format
+ * @returns {string | null}
+ */
+export function formatDateTime(time = undefined, format = 'YYYY-MM-DD HH:mm:ss') {
+  return dayjs(time).format(format)
+}
+
+export function formatDate(date = undefined, format = 'YYYY-MM-DD') {
+  return formatDateTime(date, format)
+}
 /**
  * @desc  函数节流
  * @param {Function} fn

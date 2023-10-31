@@ -4,7 +4,6 @@ import { getToken } from '@/utils'
 
 // 发送请求前的操作
 export function reqResolve(config) {
-  console.log(config);
   // 发送请求前的配置: 不需要 token, 直接发送即可
   if (config.noNeedToken)
     return config
@@ -24,38 +23,22 @@ export function reqReject(err) {
   return Promise.reject(err)
 }
 
-// 格式化json-server返回值
-const formatJsonServer = (data) => {
-  const response = {
-    data,
-    code: 200,
-    message: '请求成功'
-  }
-  if (isEmpty(data)) {
-    response.code = 405;
-    response.message = null;
-  }
-
-  return response;
-}
-
 // 响应成功的操作
 export function resResolve(response) {
   // TODO: 处理不同的 response.headers
   // 响应结构 http://axios-js.com/zh-cn/docs/#响应结构
   const { data, status, config, statusText } = response
-  const result = import.meta.env.VITE_APP_SIMULATION_LOGIN != 'true' ? data : formatJsonServer(data);
   // 处理请求异常: 自定义状态码异常
-  if (result?.code !== 200) {
-    const code = result?.code ?? status
+  if (data?.code !== 200) {
+    const code = data?.code ?? status
     // 根据 code 处理对应操作, 返回处理后的 msg
-    const msg = resolveResError(code, result?.message ?? statusText)
+    const msg = resolveResError(code, data?.message ?? statusText)
     // 需要错误提醒
     !config?.noNeedTip && window.$message.error(msg)
-    return Promise.reject({ code, msg, error: result || response })
+    return Promise.reject({ code, msg, error: data || response })
   }
   // 请求正常
-  return Promise.resolve(result)
+  return Promise.resolve(data)
 }
 
 // 响应错误的操作

@@ -2,13 +2,13 @@ const Layout = () => import('@/layout/index.vue')
 
 // 基础路由, 无需权限, 总是会注册到最终路由中
 export const basicRoutes = [
-  {
-    name: '',
-    path: '/',
-    component: Layout,
-    redirect: '/home', // 默认跳转到首页
-    meta: { order: 0 },
-  },
+  // {
+  //   name: '',
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/home', // 默认跳转到首页
+  //   meta: { order: 0 },
+  // },
   {
     name: '404',
     path: '/404',
@@ -32,6 +32,7 @@ export const basicRoutes = [
     path: '/iframePage',
     name: 'iframePage',
     component: () => import('@/views/common/IframePage.vue'),
+    isHidden: true,
     meta: {
       title: 'iframe',
       target: 'iframe',

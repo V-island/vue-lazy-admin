@@ -36,7 +36,7 @@ export const useAppStore = defineStore('app', {
     async getBlogInfo() {
       try {
         const res = await api.getBlogConfig()
-        if (res.code === 0)
+        if (res.code === 200)
           this.blogConfig = res.data
         else return Promise.reject(res)
       }

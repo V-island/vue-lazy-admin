@@ -15,12 +15,10 @@ const wrapper = ref(null)
 const isOverflow = ref(false)
 
 const resetTranslateX = debounce((wrapperWidth, contentWidth) => {
-  if (!isOverflow.value)
-    translateX.value = 0
+  if (!isOverflow.value) translateX.value = 0
   else if (-translateX.value > contentWidth - wrapperWidth)
     translateX.value = wrapperWidth - contentWidth
-  else if (translateX.value > 0)
-    translateX.value = 0
+  else if (translateX.value > 0) translateX.value = 0
 }, 200)
 
 const refreshIsOverflow = debounce(() => {
@@ -41,13 +39,10 @@ function handleMouseWheel(e) {
    * @contentWidth 内容的宽度
    */
   if (wheelDelta < 0) {
-    if (wrapperWidth > contentWidth && translateX.value < -10)
-      return
-    if (wrapperWidth <= contentWidth && contentWidth + translateX.value - wrapperWidth < -10)
-      return
+    if (wrapperWidth > contentWidth && translateX.value < -10) return
+    if (wrapperWidth <= contentWidth && contentWidth + translateX.value - wrapperWidth < -10) return
   }
-  if (wheelDelta > 0 && translateX.value > 10)
-    return
+  if (wheelDelta > 0 && translateX.value > 10) return
 
   translateX.value += wheelDelta
   resetTranslateX(wrapperWidth, contentWidth)
@@ -69,8 +64,7 @@ onBeforeUnmount(() => {
 function handleScroll(x, width) {
   const wrapperWidth = wrapper.value?.offsetWidth
   const contentWidth = content.value?.offsetWidth
-  if (contentWidth <= wrapperWidth)
-    return
+  if (contentWidth <= wrapperWidth) return
 
   // 当 x 小于可视范围的最小值时
   if (x < -translateX.value + 150) {
@@ -91,12 +85,51 @@ defineExpose({
 </script>
 
 <template>
-  <div ref="wrapper" class="wrapper" @mousewheel.prevent="handleMouseWheel">
+  <div
+    ref="wrapper"
+    class="wrapper"
+    bg="white dark:bg-dark"
+    @mousewheel.prevent="handleMouseWheel"
+  >
     <template v-if="showArrow && isOverflow">
-      <div class="left" @click="handleMouseWheel({ wheelDelta: 120 })">
+      <div
+        absolute
+        top-0
+        bottom-0
+        left-0
+        m-auto
+        w-20
+        h-35
+        flex
+        items-center
+        justify-center
+        z-2
+        cursor-pointer
+        text-18
+        bg="white dark:gray-7"
+        un-border="1 solid gray-200 rd-2 dark:gray-6"
+        @click="handleMouseWheel({ wheelDelta: 120 })"
+      >
         <span class="i-ic:baseline-keyboard-arrow-left" />
       </div>
-      <div class="right" @click="handleMouseWheel({ wheelDelta: -120 })">
+      <div
+        absolute
+        top-0
+        bottom-0
+        right-0
+        m-auto
+        w-20
+        h-35
+        flex
+        items-center
+        justify-center
+        text-18
+        z-2
+        cursor-pointer
+        un-border="1 solid gray-200 rd-2 dark:gray-6"
+        bg="white dark:gray-7"
+        @click="handleMouseWheel({ wheelDelta: -120 })"
+      >
         <span class="i-ic:baseline-keyboard-arrow-right" />
       </div>
     </template>
@@ -117,7 +150,6 @@ defineExpose({
 <style lang="scss" scoped>
 .wrapper {
   display: flex;
-  background-color: #fff;
 
   z-index: 9;
   overflow: hidden;
@@ -132,33 +164,6 @@ defineExpose({
       padding-left: 30px;
       padding-right: 30px;
     }
-  }
-  .left,
-  .right {
-    background-color: #fff;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-
-    width: 20px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 18px;
-    border: 1px solid #e0e0e6;
-    border-radius: 2px;
-
-    z-index: 2;
-    cursor: pointer;
-  }
-  .left {
-    left: 0;
-  }
-  .right {
-    right: 0;
   }
 }
 </style>

@@ -2,7 +2,7 @@ const Layout = () => import('@/layout/index.vue')
 
 export default {
   name: 'Profile',
-  path: '/',
+  path: '/profile',
   component: Layout,
   redirect: '/profile',
   isHidden: true,

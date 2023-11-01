@@ -1,12 +1,12 @@
 <script setup>
-import { storeToRefs } from 'pinia';
-import { useAppStore } from '@/store';
+import { storeToRefs } from 'pinia'
+import { useAppStore } from '@/store'
 
-const { blogConfig } = storeToRefs(useAppStore());
+const { blogConfig } = storeToRefs(useAppStore())
 </script>
 
 <template>
-  <footer class="flex flex-col items-center justify-center text-14 text-gray-700">
+  <footer flex="~ col" items-center justify-center text="14 gray-700 dark:gray-4">
     <p>
       Copyright©2020~2023
       <a href="http://lazymeta.cn" target="__blank" hover="decoration-underline color-primary">

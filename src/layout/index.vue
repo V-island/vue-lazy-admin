@@ -1,18 +1,18 @@
 <script setup>
-import { storeToRefs } from 'pinia';
-import { header, tags } from '~/settings';
-import AppHeader from './components/header/index.vue';
-import AppMain from './components/AppMain.vue';
-import Sidebar from './components/sidebar/index.vue';
-import AppTags from './components/tags/index.vue';
+import { storeToRefs } from 'pinia'
+import { header, tags } from '~/settings'
+import AppHeader from './components/header/index.vue'
+import AppMain from './components/AppMain.vue'
+import Sidebar from './components/sidebar/index.vue'
+import AppTags from './components/tags/index.vue'
 
-import { useThemeStore } from '@/store';
+import { useThemeStore } from '@/store'
 
-const { collapsed } = storeToRefs(useThemeStore());
+const { collapsed } = storeToRefs(useThemeStore())
 </script>
 
 <template>
-  <NLayout has-sider class="h-full w-full">
+  <NLayout has-sider h-full w-full>
     <!-- 左侧边栏 -->
     <NLayoutSider
       bordered
@@ -25,20 +25,23 @@ const { collapsed } = storeToRefs(useThemeStore());
       <Sidebar />
     </NLayoutSider>
     <!-- 右半部分 -->
-    <article class="flex flex-1 flex-col overflow-hidden">
+    <article flex="~ 1 col" overflow-hidden>
       <!-- 头部 -->
       <header
+        flex
+        items-center
+        px-15
+        un-border="b-1 gray-200 b-solid dark:gray-6"
         :style="`height: ${header.height}px`"
-        class="flex items-center border-b-1 border-gray-200 border-b-solid px-15"
       >
         <AppHeader />
       </header>
       <!-- 标签栏 -->
-      <section v-if="tags.visible" class="border-b border-gray-200 border-b-solid">
+      <section v-if="tags.visible" un-border="b gray-200 b-solid dark:gray-6">
         <AppTags :style="{ height: `${tags.height}px` }" />
       </section>
       <!-- 主体内容 -->
-      <section class="flex-1 overflow-hidden">
+      <section flex-1 overflow-hidden>
         <AppMain />
       </section>
     </article>

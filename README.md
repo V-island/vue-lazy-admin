@@ -45,7 +45,7 @@
 git config --global core.autocrlf false
 
 # 克隆项目
-git clone https://##
+git clone https://e.coding.net/dklighters/lazy/lazy-base-template-vue3.git
 
 # 进入项目目录
 cd lazy-vue-admin

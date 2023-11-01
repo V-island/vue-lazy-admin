@@ -14,17 +14,18 @@ export const useUserStore = defineStore('user', {
   getters: {
     userId: state => state.userInfo.id,
     nickname: state => state.userInfo.nickname,
+    avatar: state => convertImgUrl(state.userInfo.avatar),
+    role: state => state.userInfo?.role || [],
     intro: state => state.userInfo.intro,
     website: state => state.userInfo.website,
-    avatar: state => convertImgUrl(state.userInfo.avatar),
   },
   actions: {
     // 获取用户信息
     async getUserInfo() {
       try {
         const res = await api.getUser()
-        const { id, nickname, avatar, intro, website } = res.data
-        this.userInfo = { id, nickname, avatar, intro, website }
+        const { id, nickname, avatar, role, intro, website } = res.data
+        this.userInfo = { id, nickname, avatar, role, intro, website }
         return Promise.resolve(res.data)
       }
       catch (err) {

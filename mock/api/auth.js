@@ -11,7 +11,7 @@ export default [
     url: '/api/auth/login',
     method: 'post',
     response: ({ body }) => {
-      if (['admin', 'guest'].includes(body?.username)) {
+      if (['admin', 'test', 'guest'].includes(body?.username)) {
         return {
           code: 200,
           data: {

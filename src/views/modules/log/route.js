@@ -8,6 +8,9 @@ export default {
   meta: {
     title: '日志管理',
     icon: 'mdi:math-log',
+    role: ['admin'],
+    requireAuth: true,
+    keepAlive: true,
     order: 6,
   },
   children: [
@@ -18,6 +21,8 @@ export default {
       meta: {
         title: '操作日志',
         icon: 'mdi:book-open-page-variant-outline',
+        role: ['admin'],
+        requireAuth: true,
         keepAlive: true,
       },
     },
@@ -28,6 +33,8 @@ export default {
       meta: {
         title: '登录日志',
         icon: 'material-symbols:login',
+        role: ['admin'],
+        requireAuth: true,
         keepAlive: true,
       },
     },

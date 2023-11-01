@@ -21,13 +21,6 @@ export default defineConfig(({ command, mode }) => {
         '@': srcPath,
       },
     },
-    // css: {
-    //   preprocessorOptions: {
-    //     scss: {
-    //       additionalData: '@import "@/styles/index.scss";',
-    //     },
-    //   },
-    // },
     plugins: createVitePlugins(viteEnv, isBuild),
     server: {
       host: '0.0.0.0',

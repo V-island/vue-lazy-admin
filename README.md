@@ -101,7 +101,7 @@ Vue Lazy Admin
 |   |   |-- html.js                     // vite-plugin-html插件，用于注入变量或者html标签
 |   |   |-- unplugin.js                 // unplugin相关插件，包含DefineOptions和自动导入
 |   |-- script                          // 打包完成后执行的一些node脚本（不重要）
-|       |-- build-cname.js              // 自动生成cname
+|   |   |-- build-cname.js              // 自动生成cname
 |-- public                              // 公共资源，文件夹下的文件会在打包后会直接加到dist根目录下
 |-- settings                            // 项目配置
 |   |-- proxy-config.js                 // 代理配置文件
@@ -118,37 +118,48 @@ Vue Lazy Admin
 |   |   |-- page                        // 页面组件
 |   |   |-- query-bar                   // 查询选项
 |   |   |-- table                       // 封装的表格组件
+|   |   |-- upload                      // 封装的上传组件
 |   |-- composables                     // 封装的组合式函数
 |   |-- layout                          // 布局相关组件
 |   |   |-- components
-|   |       |-- AppMain.vue             // 主体内容
-|   |       |-- header                  // 头部
-|   |       |-- sidebar                 // 侧边菜单栏
-|   |       |-- tags                    // 多页签栏
+|   |   |   |-- AppMain.vue             // 主体内容
+|   |   |   |-- header                  // 头部
+|   |   |   |-- sidebar                 // 侧边菜单栏
+|   |   |   |-- tags                    // 多页签栏
+|   |   |-- other                       // 其他模板
+|   |-- plugins                         // 插件库
 |   |-- router                          // 路由
 |   |   |-- guard                       // 路由守卫
 |   |   |-- routes                      // 路由列表
 |   |-- store                           // 状态管理（pinia）
 |   |   |-- modules                     // 模块
-|   |       |-- app                     // 管理页面重新加载、折叠菜单栏和keepAlive等
-|   |       |-- permission              // 权限相关，管理权限菜单
-|   |       |-- tags                    // 管理多页签
-|   |       |-- user                    // 用户模块，管理用户信息、登录登出
+|   |   |   |-- app                     // 管理页面重新加载、折叠菜单栏和keepAlive等
+|   |   |   |-- cache                   // 临时缓存、管理数据枚举
+|   |   |   |-- common                  // 通用配置
+|   |   |   |-- permission              // 权限相关，管理权限菜单
+|   |   |   |-- tags                    // 管理多页签
+|   |   |   |-- theme                   // 管理主题配置
+|   |   |   |-- user                    // 用户模块，管理用户信息、登录登出
 |   |-- styles                          // 样式
 |   |-- utils                           // 封装的工具方法
 |   |   |-- auth                        // 权限相关，如token、跳转登录页等
 |   |   |-- common                      // 通用
 |   |   |-- http                        // 封装axios
+|   |   |-- socket                      // 封装WebSocket
 |   |   |-- storage                     // 封装localStorage和sessionStorage
 |   |-- views                           // 页面
-|   |   |-- demo                        // 示例
-|   |   |-- error-page                  // 错误页
-|   |   |-- login                       // 登录页
-|   |   |-- workbench                   // 首页
+|   |   |-- common                      // 通用模块页面
+|   |   |-- modules                     // 项目模块页面
+|   |   |   |-- demo                    // 示例
+|   |   |   |-- error-page              // 错误页
+|   |   |   |-- log                     // 日志
+|   |   |   |-- profile                 // 个人中心
+|   |   |   |-- workbench               // 工作台
 |   |-- App.vue
 |   |-- main.js
 |-- .editorconfig                       // 编辑器配置
 |-- .env                                // 环境文件，所有环境都会载入
+|-- .env.development                    // 开发环境文件
 |-- .env.production                     // 生产环境文件
 |-- .env.test                           // 测试环境文件
 |-- .eslintignore                       // eslint忽略

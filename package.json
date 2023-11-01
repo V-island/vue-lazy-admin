@@ -1,5 +1,7 @@
 {
   "name": "lazy-base-template-vue3",
+  "description": "一个挤牙膏式的后台管理模板，基于 `Vue3、Vite4、Pinia、Unocss 和 Naive UI` 等前端技术栈",
+  "author": "Allen Li",
   "private": true,
   "version": "0.1.0",
   "scripts": {
@@ -40,7 +42,6 @@
     "echarts": "^5.4.3",
     "highlight.js": "^11.8.0",
     "jsencrypt": "^3.0.1",
-    "nprogress": "^0.2.0",
     "md-editor-v3": "^4.7.0",
     "mockjs": "^1.1.0",
     "pinia": "^2.1.4",

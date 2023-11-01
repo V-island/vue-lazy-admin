@@ -17,32 +17,31 @@
 </template>
 
 <script setup>
-import { useRoute, useRouter } from 'vue-router';
-import { reactive, ref, computed, onMounted, onUnmounted, inject, getCurrentInstance } from 'vue';
-// import { commonStore } from '@/store/common';
-import { close, start } from '@/plugins/nprogress';
+import { useRoute, useRouter } from 'vue-router'
+import { reactive, ref, computed, onMounted, onUnmounted, inject, getCurrentInstance } from 'vue'
+import { commonStore } from '@/store'
 
-const route = useRoute();
-const common = {};
+const route = useRoute()
+const common = commonStore()
 
 // 初始化
 const initLoadData = () => {
-  const { iframeSrc } = route.query;
-  common.iframeSrc = iframeSrc;
+  const { iframeSrc } = route.query
+  common.iframeSrc = iframeSrc
 
   // 加载页面
-  const iframe = document.getElementById('iframe');
-  start();
+  const iframe = document.getElementById('iframe')
+  window.$loadingBar?.start()
 
   iframe.onload = function () {
-    close();
-  };
-};
+    window.$loadingBar?.finish()
+  }
+}
 /** ============== 基础事件 =============== */
 
 onMounted(() => {
-  initLoadData();
-});
+  initLoadData()
+})
 </script>
 
 <style lang="scss">

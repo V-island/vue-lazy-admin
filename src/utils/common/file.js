@@ -99,7 +99,7 @@ export function iframePrint(Element) {
       document.body.appendChild(iframe);
 
       var doc = iframe.contentWindow.document;
-      doc.write(`<link rel="stylesheet" type="text/css" href="../css/style.css">`);
+      // doc.write(`<link rel="stylesheet" type="text/css" href="../css/style.css">`);
       doc.write(Element);
       doc.close();
 

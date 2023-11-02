@@ -1,6 +1,6 @@
 import { createStorage } from './storage'
 
-const prefixKey = 'LAZY_ADMIN_'
+const prefixKey = 'LAZY_'
 
 export const createLocalStorage = function (option = {}) {
   return createStorage({

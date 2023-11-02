@@ -178,3 +178,17 @@ Vue Lazy Admin
 |-- unocss.config.js                    // unocss配置
 |-- vite.config.js                      // vite配置
 ```
+
+## 总结鸣谢
+
+一个 **挤牙膏式** 的后台管理模板，这个过程中也参考了很多优秀的开源项目，感谢大家的开源让程序员的世界更加美好。本项目中仍有很多不足，后续会继续更新。
+
+鸣谢项目：
+
+- [https://github.com/zclzone/vue-naive-admin](https://github.com/zclzone/vue-naive-admin)
+- [https://github.com/szluyu99/gin-vue-blog](https://github.com/szluyu99/gin-vue-blog)
+- ...
+
+⭐ 后台的前端基于 [vue-naive-admin](https://github.com/zclzone/vue-naive-admin) 进行二开，感谢作者的开源。
+
+> 需要感谢的绝不止以上这些开源项目，但是一时难以全部列出，后面会慢慢补上。

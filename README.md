@@ -4,7 +4,7 @@
   </a>
 </p>
 
-### 简介
+## 简介
 
 [Vue Lazy Admin](#) 是一个 **挤牙膏式** 的后台管理模板，基于 `Vue3、Vite4、Pinia、Unocss 和 Naive UI` 等前端技术栈。
 
@@ -86,7 +86,7 @@ pnpm cz
 
 ### 目录说明
 
-```
+```bash
 Vue Lazy Admin
 |-- .vscode                             // vscode编辑器相关
 |   |-- extensions.json                 // 插件推荐

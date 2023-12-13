@@ -96,7 +96,7 @@ export const useTagsStore = defineStore('tag', {
         router.push(filterTags[filterTags.length - 1].path)
     },
     /**
-     * 关闭左侧标签
+     * 关闭右侧标签
      * @param {string} path
      */
     removeRight(path) {

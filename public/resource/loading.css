@@ -89,3 +89,11 @@
 	font-weight: 500;
   color: #6a6a6a;
 }
+
+
+@media (prefers-color-scheme: dark) {
+  body{
+    background: black;
+    color: white;
+  }
+}

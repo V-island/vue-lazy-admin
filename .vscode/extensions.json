@@ -5,5 +5,7 @@
     "mikestead.dotenv",
     "sdras.vue-vscode-snippets",
     "cipchk.cssrem",
+    "EditorConfig.EditorConfig",
+    "agutierrezr.vscode-essentials"
   ]
 }

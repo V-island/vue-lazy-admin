@@ -5,9 +5,11 @@ import { NButton, NModal } from 'naive-ui'
 const props = defineProps({
   visible: { type: Boolean, required: true },
   width: { type: String, default: '600px' },
+  height: { type: String, default: 'auto' },
   title: { type: String, default: '' },
   showFooter: { type: Boolean, default: true },
   loading: { type: Boolean, default: false },
+  size:{type:String,default:'huge'}
 })
 
 const emit = defineEmits(['update:visible', 'save'])
@@ -21,10 +23,10 @@ const show = computed({
 <template>
   <NModal
     v-model:show="show"
-    :style="{ width }"
+    :style="{ width,height }"
     preset="card"
     :title="title"
-    size="huge"
+    :size="size"
     :bordered="false"
   >
     <slot />

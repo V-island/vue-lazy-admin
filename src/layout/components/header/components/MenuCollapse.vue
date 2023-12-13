@@ -7,7 +7,7 @@ const themeStore = useThemeStore()
 
 <template>
   <NIcon size="20" class="cursor-pointer" @click="themeStore.switchCollapsed">
-    <span v-if="themeStore.collapsed" class="i-mdi:format-indent-increase" />
-    <span v-else class="i-mdi:format-indent-decrease" />
+    <span v-if="themeStore.collapsed" class="block i-mdi:format-indent-increase" />
+    <span v-else class="block i-mdi:format-indent-decrease" />
   </NIcon>
 </template>

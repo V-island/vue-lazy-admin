@@ -6,7 +6,7 @@ import QueryBar from '../query-bar/QueryBar.vue'
 
 const props = defineProps({
   /** 是否不设定列的分割线 */
-  singleLine: { type: Boolean, default: false },
+  singleLine: { type: Boolean, default: true },
   /** true: 后端分页 false: 前端分页 */
   remote: { type: Boolean, default: true },
   /** 是否分页 */
@@ -19,15 +19,23 @@ const props = defineProps({
   columns: { type: Array, required: true },
   /** 是否需要边框 */
   bordered: { type: Boolean, default: true },
+  /** 分页字段 */
+  pageKey: { type: String, default: 'pageNo' },
+  /** 页数字段 */
+  pageSizeKey: { type: String, default: 'pageSize' },
   /** queryBar 中的参数 */
   queryItems: {
     type: Object,
-    default() { return {} },
+    default() {
+      return {}
+    },
   },
   /** 补充参数（可选） */
   extraParams: {
     type: Object,
-    default() { return {} },
+    default() {
+      return {}
+    },
   },
   /**
    * ! 约定接口入参出参
@@ -79,10 +87,8 @@ async function handleQuery() {
     let paginationParams = {}
     // 如果非分页模式或者使用前端分页, 则无需传分页参数
     if (props.isPagination && props.remote) {
-      paginationParams = {
-        pageNo: pagination.page,
-        pageSize: pagination.pageSize,
-      }
+      paginationParams[props.pageKey] = pagination.page
+      paginationParams[props.pageSizeKey] = pagination.pageSize
     }
     const { data } = await props.getData({
       ...props.queryItems,
@@ -91,12 +97,10 @@ async function handleQuery() {
     })
     tableData.value = data?.pageData || data
     pagination.itemCount = data?.total ?? data.length
-  }
-  catch (error) {
+  } catch (error) {
     tableData.value = []
     pagination.itemCount = 0
-  }
-  finally {
+  } finally {
     emit('onDataChange', tableData.value)
     loading.value = false
   }
@@ -109,8 +113,7 @@ function handleSearch() {
 
 async function handleReset() {
   const queryItems = { ...props.queryItems }
-  for (const key in queryItems)
-    queryItems[key] = null // 注意类型
+  for (const key in queryItems) queryItems[key] = null // 注意类型
   emit('update:queryItems', { ...queryItems, ...initQuery })
   await nextTick()
   pagination.page = 1
@@ -125,17 +128,15 @@ function onPageChange(currentPage) {
 function onChecked(rowKeys) {
   selections.value = rowKeys
   // 包含 selection
-  if (props.columns.some(item => item.type === 'selection'))
-    emit('onChecked', rowKeys)
+  if (props.columns.some((item) => item.type === 'selection')) emit('onChecked', rowKeys)
 }
 
 function handleExport(columns = props.columns, data = tableData.value) {
-  if (!data?.length)
-    return $message.warning('没有数据')
-  const columnsData = columns.filter(item => !!item.title && !item.hideInExcel)
-  const thKeys = columnsData.map(item => item.key)
-  const thData = columnsData.map(item => item.title)
-  const trData = data.map(item => thKeys.map(key => item[key]))
+  if (!data?.length) return $message.warning('没有数据')
+  const columnsData = columns.filter((item) => !!item.title && !item.hideInExcel)
+  const thKeys = columnsData.map((item) => item.key)
+  const thData = columnsData.map((item) => item.title)
+  const trData = data.map((item) => thKeys.map((key) => item[key]))
   const sheet = utils.aoa_to_sheet([thData, ...trData])
   const workBook = utils.book_new()
   utils.book_append_sheet(workBook, sheet, '数据报表')
@@ -152,12 +153,7 @@ defineExpose({
 </script>
 
 <template>
-  <QueryBar
-    v-if="$slots.queryBar"
-    class="mb-30"
-    @search="handleSearch"
-    @reset="handleReset"
-  >
+  <QueryBar v-if="$slots.queryBar" class="mb-30" @search="handleSearch" @reset="handleReset">
     <slot name="queryBar" />
   </QueryBar>
 

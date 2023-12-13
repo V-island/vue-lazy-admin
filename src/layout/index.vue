@@ -26,18 +26,19 @@ const { collapsed } = storeToRefs(useThemeStore())
     </NLayoutSider>
     <!-- 右半部分 -->
     <article flex="~ 1 col" overflow-hidden>
-      <!-- 头部 -->
+      <!-- 头部 un-border="b-1 gray-100 b-solid dark:white/5"-->
       <header
         flex
         items-center
         px-15
-        un-border="b-1 gray-200 b-solid dark:gray-6"
+        
         :style="`height: ${header.height}px`"
+        class="bg-[var(--n-color)]"
       >
         <AppHeader />
       </header>
-      <!-- 标签栏 -->
-      <section v-if="tags.visible" un-border="b gray-200 b-solid dark:gray-6">
+      <!-- 标签栏 un-border="b-1 gray-100 b-solid dark:white/5"-->
+      <section v-if="tags.visible">
         <AppTags :style="{ height: `${tags.height}px` }" />
       </section>
       <!-- 主体内容 -->

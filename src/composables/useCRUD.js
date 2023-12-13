@@ -1,4 +1,4 @@
-import { isNullOrWhitespace } from '@/utils'
+import { isNullOrWhitespace, isFunction } from '@/utils'
 
 const ACTIONS = {
   view: '查看',
@@ -6,30 +6,36 @@ const ACTIONS = {
   add: '新增',
 }
 
-export default function ({ name, initForm = {}, doCreate, doDelete, doUpdate, refresh }) {
+export default function ({ name, titles = {}, initForm = {}, doCreate, doDelete, doUpdate, refresh }) {
   const modalVisible = ref(false)
   const modalAction = ref('')
-  const modalTitle = computed(() => ACTIONS[modalAction.value] + name)
+  const modalTitle = computed(() => titles[modalAction.value] ? `${titles[modalAction.value]}` : `${ACTIONS[modalAction.value]}${name}`)
   const modalLoading = ref(false)
   const modalFormRef = ref(null)
   const modalForm = ref({ ...initForm })
 
   /** 新增 */
-  function handleAdd() {
+  function handleAdd(callback) {
+    isFunction(callback) && callback()
+
     modalAction.value = 'add'
     modalVisible.value = true
     modalForm.value = { ...initForm }
   }
 
   /** 修改 */
-  function handleEdit(row) {
+  function handleEdit(row, callback) {
+    isFunction(callback) && callback()
+
     modalAction.value = 'edit'
     modalVisible.value = true
     modalForm.value = { ...row }
   }
 
   /** 查看 */
-  function handleView(row) {
+  function handleView(row, callback) {
+    isFunction(callback) && callback()
+
     modalAction.value = 'view'
     modalVisible.value = true
     modalForm.value = { ...row }
@@ -69,7 +75,7 @@ export default function ({ name, initForm = {}, doCreate, doDelete, doUpdate, re
 
   /** 删除 */
   function handleDelete(id, confirmOptions) {
-    if (isNullOrWhitespace(id)) return
+    if (isNullOrWhitespace(id)) { console.warn('id为空'); return }
     $dialog.confirm({
       content: '确定删除？',
       async confirm() {

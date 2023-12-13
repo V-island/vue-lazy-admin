@@ -1,5 +1,5 @@
 <script setup>
-import { NConfigProvider, darkTheme, dateZhCN, zhCN } from 'naive-ui';
+import { NConfigProvider, NGlobalStyle, NThemeEditor, darkTheme, dateZhCN, zhCN } from 'naive-ui';
 import { useCssVar } from '@vueuse/core';
 import { kebabCase } from 'xe-utils';
 import hljs from 'highlight.js/lib/core';
@@ -9,6 +9,8 @@ import { useThemeStore } from '@/store';
 
 hljs.registerLanguage('json', json);
 const themeStore = useThemeStore();
+
+const useThemeEdit = import.meta.env.VITE_THEME_EDITER;
 
 // 装载CSS
 function setupCssVar() {
@@ -22,14 +24,16 @@ setupCssVar();
 </script>
 
 <template>
-  <NConfigProvider
-    wh-full
-    :theme="themeStore.darkMode ? darkTheme : undefined"
-    :theme-overrides="naiveThemeOverrides"
-    :locale="zhCN"
-    :date-locale="dateZhCN"
-    :hljs="hljs"
-  >
-    <slot />
+  <NConfigProvider :theme="themeStore.darkMode ? darkTheme : null" :theme-overrides="naiveThemeOverrides" :locale="zhCN"
+    :date-locale="dateZhCN" :hljs="hljs">
+    <NGlobalStyle />
+    <template v-if="useThemeEdit == 'true'">
+      <NThemeEditor>
+        <slot />
+      </NThemeEditor>
+    </template>
+    <template v-else>
+      <slot />
+    </template>
   </NConfigProvider>
 </template>

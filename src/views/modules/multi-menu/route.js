@@ -4,6 +4,7 @@ export default {
   name: 'MultipleMenu',
   path: '/multi-menu',
   component: Layout,
+  isHidden: true,
   meta: {
     title: '多级菜单',
     icon: 'ic:baseline-menu',

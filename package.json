@@ -6,7 +6,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "vite",
-    "dev:server": "json-server --watch ./server/db.json",
+    "dev:server": "json-server ./server/db.json",
     "build": "vite build",
     "build:test": "vite build --mode test",
     "lint": "eslint --ext .js,.vue .",

@@ -1,82 +1,47 @@
 <template>
-  <AppPage :show-footer="true" bg-cover :style="{ backgroundImage: `url(${bgImg})` }">
-    <!-- logo -->
+  <AppPage :show-footer="true">
+    <!-- bg-cover :style="{ backgroundImage: `url(${bgImg})` }" -->
+    <!-- logo 
     <div flex items-center justify-start>
-      <img src="@/assets/images/logo.svg" alt="logo" mr-10 h-38 w-38 />
+      <Logo mr-10 h-38 w-38></Logo>
       <div text="black opacity-90 38" font="normal sans">{{ title }}</div>
-    </div>
+    </div>-->
     <!-- 表单 -->
-    <div
-      m-auto
-      max-w-700
-      min-w-428
-      flex
-      items-center
-      justify-center
-      rounded-10
-      bg="white opacity-60"
-      p-15
-      card-shadow
-      dark:bg-dark
-    >
+    <div m-auto max-w-700 min-w-428 flex items-center justify-center rounded-10 p-15 card-shadow relative z-2
+      class="bg-white/50 dark:bg-black/50 backdrop-blur-xl">
       <div w="100%" flex="~ col" p="x-20 y-20" relative>
-        <div absolute right-24 top-10>
-          <img src="@/assets/images/logo.svg" alt="logo" h-32 w-32 />
+        <div absolute top-10 class="left-1/2 -translate-x-1/2">
+          <Logo h-32 w-32></Logo>
         </div>
-        <div
-          relative
-          m-t-50
-          text="24 black"
-          font="normal semibold"
-          p="b-10"
-          un-after="absolute content-empty bottom-6 left-0 w-22 h-4 bg-gradient-line"
-          style="
+        <div relative m-t-50 text="24 black" font="normal semibold" p="b-10"
+          un-after="absolute content-empty bottom-6 left-0 w-22 h-4 bg-gradient-line" style="
             --un-gradient: var(--primary-color);
             --un-gradient-stops: var(--primary-color-hover);
-          "
-          dark:text-white
-        >
+          " dark:text-white>
           登录
         </div>
         <div text="14 black" line-height-normal mb-20 dark:text-white>欢迎登录{{ title }}</div>
 
         <div mt-30>
-          <NInput
-            v-model:value="loginInfo.username"
-            class="autofocus h-50 items-center pl-10 text-16"
-            placeholder="请输入您的用户名"
-            :maxlength="20"
-          />
+          <NInput v-model:value="loginInfo.username" class="autofocus h-50 items-center pl-10 text-16"
+            placeholder="请输入您的用户名" :maxlength="20" />
         </div>
         <div mt-30>
-          <NInput
-            v-model:value="loginInfo.password"
-            class="h-50 items-center pl-10 text-16"
-            type="password"
-            show-password-on="mousedown"
-            placeholder="请输入您的密码"
-            :maxlength="20"
-            @keydown.enter="handleLogin"
-          />
+          <NInput v-model:value="loginInfo.password" class="h-50 items-center pl-10 text-16" type="password"
+            show-password-on="mousedown" placeholder="请输入您的密码" :maxlength="20" @keydown.enter="handleLogin" />
         </div>
         <div mt-20>
-          <NCheckbox
-            :checked="isRemember"
-            label="记住我"
-            :on-update:checked="(val) => (isRemember = val)"
-          />
+          <NCheckbox :checked="isRemember" label="记住我" :on-update:checked="(val) => (isRemember = val)" />
         </div>
         <div mt-20>
-          <NButton
-            class="h-50 w-full rounded-5 text-16"
-            type="primary"
-            :loading="loading"
-            @click="handleLogin"
-          >
+          <NButton class="h-50 w-full rounded-5 text-16" type="primary" :loading="loading" @click="handleLogin">
             登录
           </NButton>
         </div>
       </div>
+    </div>
+    <div absolute inset-0 z-0 overflow-hidden pointer-events-none>
+      <img src="//api.paugram.com/bing" alt="bg" wh-full object-cover />
     </div>
   </AppPage>
 </template>
@@ -90,7 +55,7 @@ import AppPage from '@/components/page/AppPage.vue';
 import { lStorage, setToken } from '@/utils';
 import { addDynamicRoutes } from '@/router';
 import { useAppStore, useUserStore } from '@/store';
-import bgImg from '@/assets/images/login_bg.webp';
+// import bgImg from '@/assets/images/login_bg.webp';
 import config from '@/constant/config';
 import api from '@/api';
 
@@ -148,7 +113,13 @@ const loginByUserNameToToken = async (username, password) => {
   // 登录接口
   try {
     const res = await api.login({ username, password });
-    setToken(res.data.token); // 持久化 token
+    // 如果是json-server
+    if (JSON.parse(import.meta.env.VITE_USE_JSONSERVER)) {
+      setToken(res.data[0].token);// jsonserver token
+    } else {
+      setToken(res.data.token) // 持久化 token
+    }
+
     $message.success('登录成功');
 
     await userStore.getUserInfo(); // 获取用户信息

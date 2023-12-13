@@ -2,7 +2,8 @@ import { computed } from 'vue'
 import * as NaiveUI from 'naive-ui'
 import { naiveThemeOverrides as themeOverrides } from '~/settings'
 import { isNullOrUndef } from '@/utils'
-import { useAppStore } from '@/store/modules/app'
+// import { useAppStore } from '@/store/modules/app'
+import { useThemeStore } from '@/store';
 
 export function setupMessage(NMessage) {
   let loadingMessage = null
@@ -86,9 +87,9 @@ export function setupDialog(NDialog) {
  * 挂载 NaiveUI API
  */
 export function setupNaiveDiscreteApi() {
-  const appStore = useAppStore()
+  const themeStore = useThemeStore();
   const configProviderProps = computed(() => ({
-    theme: appStore.isDark ? NaiveUI.darkTheme : undefined,
+    theme: themeStore.darkMode ? NaiveUI.darkTheme : null,
     themeOverrides,
   }))
   const { message, dialog, notification, loadingBar } = NaiveUI.createDiscreteApi(

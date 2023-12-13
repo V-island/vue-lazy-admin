@@ -110,7 +110,7 @@ export function validateResult(results) {
   const { get } = xeUtils;
   let info = null;
   results.some((data) => {
-    if (get(data, 'code') !== 0) {
+    if (get(data, 'code') !== 200) {
       info = Promise.resolve(getResult(false, data.msg));
       return true;
     }

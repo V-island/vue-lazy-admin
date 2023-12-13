@@ -6,7 +6,7 @@ const { blogConfig } = storeToRefs(useAppStore())
 </script>
 
 <template>
-  <footer flex="~ col" items-center justify-center text="14 gray-700 dark:gray-4">
+  <footer flex="~ col" items-center justify-center text="14 gray-700 dark:white" relative z-0>
     <p>
       Copyright©2020~2023
       <a href="http://lazymeta.cn" target="__blank" hover="decoration-underline color-primary">

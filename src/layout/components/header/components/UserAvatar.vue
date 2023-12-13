@@ -33,7 +33,7 @@ function handleSelect(key) {
     })
   }
   else if (key === 'profile') {
-    router.push('/profile')
+    router.push('/profile/profile')
   }
 }
 </script>

@@ -136,6 +136,10 @@ export class HttpRequest {
 export const request = new HttpRequest({
   baseURL: import.meta.env.VITE_BASE_API,
 })
+// JSON_SERVER请求
+export const jsrequest = new HttpRequest({
+  baseURL: import.meta.env.VITE_JSON_API,
+})
 
 // 如果还有其他请求, 可以再创建一个 axios 实例
 // export const request_xxx = new HttpRequest({

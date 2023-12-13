@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { resetRouter } from '@/router'
-import { convertImgUrl, removeToken, toLogin } from '@/utils'
+import { convertImgUrl, removeToken, toLogin} from '@/utils'
 import { usePermissionStore, useTagsStore } from '@/store'
 import api from '@/api'
 
@@ -12,23 +12,28 @@ export const useUserStore = defineStore('user', {
     }
   },
   getters: {
-    userId: state => state.userInfo.id,
-    nickname: state => state.userInfo.nickname,
-    avatar: state => convertImgUrl(state.userInfo.avatar),
-    role: state => state.userInfo?.role || [],
-    intro: state => state.userInfo.intro,
-    website: state => state.userInfo.website,
+    userId: (state) => state.userInfo.id,
+    nickname: (state) => state.userInfo.nickname,
+    avatar: (state) => convertImgUrl(state.userInfo.avatar),
+    role: (state) => state.userInfo?.role || [],
+    intro: (state) => state.userInfo.intro,
+    website: (state) => state.userInfo.website,
   },
   actions: {
     // 获取用户信息
     async getUserInfo() {
       try {
         const res = await api.getUser()
-        const { id, nickname, avatar, role, intro, website } = res.data
+        let data
+        if (JSON.parse(import.meta.env.VITE_USE_JSONSERVER)) {
+          data = res.data[0]
+        } else {
+          data = res.data
+        }
+        const { id, nickname, avatar, role, intro, website } = data
         this.userInfo = { id, nickname, avatar, role, intro, website }
-        return Promise.resolve(res.data)
-      }
-      catch (err) {
+        return Promise.resolve(data)
+      } catch (err) {
         return Promise.reject(err)
       }
     },

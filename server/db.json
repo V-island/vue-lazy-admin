@@ -2,11 +2,125 @@
   "user": [
     {
       "id": 1,
-      "username": "admin",
-      "password": "123456",
-      "orgName": "测试集团小组",
-      "realName": "小明同学",
-      "token": "token_admin_1"
+      "name": "admin",
+      "nickname": "管理员(admin)",
+      "avatar": "https://www.bing.com/rp/ar_9isCNU2Q-VG1yEDDHnx8HAFQ.png",
+      "email": "Ronnie@123.com",
+      "role": [
+        "Administrator"
+      ],
+      "isDisabled": false,
+      "token": "admin"
+    },
+    {
+      "id": 2,
+      "name": "test",
+      "nickname": "测试(test)",
+      "avatar": "https://www.bing.com/rp/ar_9isCNU2Q-VG1yEDDHnx8HAFQ.png",
+      "role": [
+        "Test"
+      ],
+      "isDisabled": false,
+      "token": "test",
+      "email": "test@lazymeta.cn",
+      "description": "说明测试"
+    },
+    {
+      "id": 3,
+      "name": "guest",
+      "nickname": "访客(guest)",
+      "avatar": "https://www.bing.com/rp/ar_9isCNU2Q-VG1yEDDHnx8HAFQ.png",
+      "role": [
+        "Visitor"
+      ],
+      "isDisabled": false,
+      "token": "guest"
+    },
+    {
+      "name": "牛",
+      "nickname": "fix",
+      "role": [
+        "Test"
+      ],
+      "email": "fix@lazymeta.cn",
+      "description": "貌似",
+      "id": 4
+    },
+    {
+      "name": "侦探",
+      "nickname": "zt",
+      "role": [
+        "Teacher"
+      ],
+      "description": "探探",
+      "mark": "不要看",
+      "id": 5
+    },
+    {
+      "nickname": "韩明",
+      "name": "hanm",
+      "role": [
+        "Student"
+      ],
+      "description": "韩明",
+      "id": 6
+    },
+    {
+      "name": "hanmeimei",
+      "nickname": "韩梅梅",
+      "role": [
+        "Visitor"
+      ],
+      "description": "韩梅梅",
+      "mark": "EN",
+      "id": 7
+    }
+  ],
+  "role": [
+    {
+      "id": 1,
+      "key": "Administrator",
+      "name": "超级管理员",
+      "description": "我乃超级外挂",
+      "create_time": "2022-12-05T22:29:28.000Z",
+      "update_time": "2022-12-05T22:29:28.000Z",
+      "deleted_time": "2022-12-05T22:29:28.000Z"
+    },
+    {
+      "id": 2,
+      "key": "Student",
+      "name": "学员",
+      "description": null,
+      "create_time": "2022-12-05T22:29:28.000Z",
+      "update_time": "2022-12-05T22:29:28.000Z",
+      "deleted_time": "2022-12-05T22:29:28.000Z"
+    },
+    {
+      "id": 3,
+      "key": "Teacher",
+      "name": "导师",
+      "description": null,
+      "create_time": "2022-12-05T22:29:28.000Z",
+      "update_time": "2022-12-05T22:29:28.000Z",
+      "deleted_time": "2022-12-05T22:29:28.000Z"
+    },
+    {
+      "id": 4,
+      "key": "Visitor",
+      "name": "访客",
+      "description": null,
+      "create_time": "2022-12-05T22:29:28.000Z",
+      "update_time": "2022-12-05T22:29:28.000Z",
+      "deleted_time": "2022-12-05T22:29:28.000Z"
+    },
+    {
+      "id": 5,
+      "key": "Test",
+      "name": "测试人员",
+      "description": null,
+      "create_time": "2022-12-05T22:29:28.000Z",
+      "update_time": "2022-12-05T22:29:28.000Z",
+      "deleted_time": "2022-12-05T22:29:28.000Z"
     }
   ],
   "setting": {
@@ -31,5 +145,42 @@
     "is_reward": 0,
     "wechat_qrcode": "http://dummyimage.com/100x100",
     "alipay_ode": "http://dummyimage.com/100x100"
-  }
+  },
+  "logout": {
+    "data": {}
+  },
+  "post": [
+    {
+      "author": "admin",
+      "content": "<p>根据发表在 PNAS 期刊上的一项研究，科学家发现细菌能像记忆那样储存信息并传递数代。细菌没有神经元、突触或神经系统，它的记忆更接近计算机的信息储存。研究结果有助于对抗细菌耐药性。德州奥斯丁研究人员发现，大肠杆菌能利用铁含量（iron levels）存储不同行为的信息，这些信息可以响应特定刺激而被激活。铁是地球最丰富的元素之一。研究人员发现铁的记忆能传递至少四代，到第七代消失。研究人员认为铁含量可作为对抗细菌耐药性的一个目标。</p><p><br></p><p>https://news.utexas.edu/2023/11/21/bacteria-store-memories-and-pass-them-on-for-generations/</p>",
+      "category": "news",
+      "title": "细菌能储存记忆并传递数代",
+      "description": "根据发表在 PNAS 期刊上的一项研究，科学家发现细菌能像记忆那样储存信息并传递数代。",
+      "id": 1
+    },
+    {
+      "author": "admin",
+      "content": "<p>发表在 PNAS 期刊上的一项研究显示，欧洲的植物在周末进行的光合作用更多，这是由于周末空气中的污染较少。研究人员分析了 2018 年至 2021 年间欧洲植物叶片中叶绿素发出的光量的卫星测量结果，这代表着光合作用的发生量。通过与同期空气污染的卫星测量结果进行比较，他们发现，当气溶胶含量较低时，光合作用率就会提高。气溶胶是一种污染，包括灰尘以及由野火和人类活动产生的烟雾。气溶胶会阻止阳光照射到地球表面，从而影响植物的光合作用能力。当大气中的气溶胶污染较少时，更多的阳光可以照射到植物的叶子上。研究人员发现，在欧洲 64% 的地区，周末的光合作用率较高。研究表明，降低气溶胶含量，尤其是运输或工业生产过程中产生的气溶胶含量，可以让植物捕获并储存更多的碳。</p><p><br></p><p>https://news.sciencenet.cn/htmlnews/2023/11/512809.shtm</p><p>https://doi.org/10.1073/pnas.2306507120</p>",
+      "title": " 研究发现植物周末的光合作用率更高",
+      "category": "news",
+      "description": "发表在 PNAS 期刊上的一项研究显示，欧洲的植物在周末进行的光合作用更多，这是由于周末空气中的污染较少。",
+      "id": 2
+    },
+    {
+      "author": "admin",
+      "content": "<p>波兰媒体报道，警方在今年 9 月奉命拆除了安装在最高行政法院地板和通风管道中的秘密矿机。矿机盗用了法院的电力，每月用掉了大约上千美元的电费。目前不清楚矿机秘密运行了多长时间。嫌疑人被认为是法院雇佣的 IT 公司的员工。法院已经解除了这家维护 IT 设施的公司合同，而这家公司则解雇了两名被指负有责任的员工。波兰最高行政法院表示没有任何数据被盗取，矿机没有危及到法庭储存的数据。这不是第一次有人利用公共机构的电力挖掘加密货币。</p><p><br></p><p>https://arstechnica.com/tech-policy/2023/11/secret-cryptomining-rig-found-hidden-in-the-floors-of-a-polish-court/</p>",
+      "title": "波兰 IT 员工在最高行政法庭下面秘密安装矿机挖加密货币",
+      "category": "news",
+      "description": "波兰媒体报道，警方在今年 9 月奉命拆除了安装在最高行政法院地板和通风管道中的秘密矿机。",
+      "id": 3
+    }
+  ],
+  "cag": [
+    {
+      "parent": "root",
+      "title": "新闻",
+      "name": "news",
+      "id": 1
+    }
+  ]
 }

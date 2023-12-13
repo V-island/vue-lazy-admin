@@ -83,7 +83,7 @@ function handleRefresh() {
 </script>
 
 <template>
-  <ScrollX ref="scrollXRef" class="bg-white dark:bg-dark!">
+  <ScrollX ref="scrollXRef" bg="[var(--n-color)]">
     <NTag
       v-for="tag in tagsStore.tags" :key="tag.path"
       ref="tabRefs"

@@ -4,15 +4,15 @@ export default {
   name: 'Profile',
   path: '/profile',
   component: Layout,
-  redirect: '/profile',
+  redirect: '/profile/user',
   isHidden: true,
   meta: {
     order: 8,
   },
   children: [
     {
-      name: 'Profile',
-      path: 'profile',
+      name: 'user',
+      path: 'user',
       component: () => import('./index.vue'),
       meta: {
         title: '个人中心',

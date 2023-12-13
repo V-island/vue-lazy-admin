@@ -1,21 +1,32 @@
 <script setup>
-import { NButton, NSpace } from 'naive-ui'
+import { NButton, NSpace, NTooltip } from 'naive-ui'
 
 const emit = defineEmits(['search', 'reset'])
 </script>
 
 <template>
-  <div class="min-h-60 flex items-start justify-between border border-gray-200 border-gray-400 rounded-8 border-solid bg-gray-50 p-15 dark:bg-black">
+  <div
+    class="min-h-60 flex items-start justify-between border-b  border-b-solid border-gray-200 dark:border-white/5  p-15">
     <NSpace wrap :size="[35, 15]">
       <slot />
     </NSpace>
-    <div class="flex-shrink-0 space-x-20">
-      <NButton secondary type="primary" @click="emit('reset')">
+    <NSpace>
+      <NTooltip>
+        <template #trigger>
+          <NButton secondary type="primary" @click="emit('reset')">
+            <TheIcon icon="carbon:filter-reset" :size="18" />
+          </NButton>
+        </template>
         重置
-      </NButton>
-      <NButton type="primary" @click="emit('search')">
+      </NTooltip>
+      <NTooltip>
+        <template #trigger>
+          <NButton type="primary" @click="emit('search')">
+            <TheIcon icon="carbon:search" :size="18" />
+          </NButton>
+        </template>
         搜索
-      </NButton>
-    </div>
+      </NTooltip>
+    </NSpace>
   </div>
 </template>

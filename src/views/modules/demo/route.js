@@ -5,6 +5,7 @@ export default {
   path: '/demo',
   component: Layout,
   redirect: '/demo/crud',
+  isHidden:true,
   meta: {
     title: '示例页面',
     icon: 'uil:pagelines',

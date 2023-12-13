@@ -11,6 +11,11 @@ export const PROXY_CONFIG = {
     changeOrigin: true,
     rewrite: (path) => path.replace(new RegExp('^/api'), ''),
   },
+  '/jsonsever': {
+    target: 'http://localhost:3000',
+    changeOrigin: true,
+    rewrite: (path) => path.replace(new RegExp('^/jsonsever'), ''),
+  },
   /**
    * @desc    不替换匹配值
    * @请求路径  http://localhost:3100/api/v2/user
@@ -23,7 +28,7 @@ export const PROXY_CONFIG = {
   /**
    * @desc    替换部分匹配值
    * @请求路径  http://localhost:3100/api/v3/user
-   * @转发路径  http://localhost:8080/user
+   * @转发路径  http://localhost:8080/v3/user
    */
   '/api/v3': {
     target: 'http://localhost:8080',

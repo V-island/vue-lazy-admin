@@ -5,6 +5,7 @@ export default {
   path: '/base',
   component: Layout,
   redirect: '/base/index',
+  isHidden: true,
   meta: {
     title: '基础功能',
     icon: 'majesticons:compass-line',
